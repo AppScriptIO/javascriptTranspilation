@@ -11,17 +11,17 @@ let presets = {
 let plugins = {
   "plugins": [
     /* Syntax */
-    path.normalize(`${__dirname}/../node_modules/@babel/plugin-syntax-dynamic-import`),
-    path.normalize(`${__dirname}/../node_modules/@babel/plugin-syntax-import-meta`),
-    // path.normalize(`${__dirname}/../node_modules/@babel/plugin-syntax-decorators`),
+    require.resolve(`@babel/plugin-syntax-dynamic-import`),
+    require.resolve(`@babel/plugin-syntax-import-meta`),
+    // require.resolve(`@babel/plugin-syntax-decorators`),
     /* Transform */
-    [ path.normalize(`${__dirname}/../node_modules/@babel/plugin-proposal-decorators`), { "legacy": true } ], // https://github.com/babel/babel/issues/7786
-    [ path.normalize(`${__dirname}/../node_modules/@babel/plugin-proposal-class-properties`), { "loose" : true } ],
+    [ require.resolve(`@babel/plugin-proposal-decorators`), { "legacy": true } ], // https://github.com/babel/babel/issues/7786
+    [ require.resolve(`@babel/plugin-proposal-class-properties`), { "loose" : true } ],
     transformNamedModuleToPath,
     // minifyHtmlTemplateLiterals // TODO: transform tagged template literals in js files (minify).
 
     // test transforming commonjs clientside library to native es modules (adding exports and removing encapsulating scope.)
-    // path.normalize(`${__dirname}/../node_modules/babel-plugin-transform-commonjs-es2015-modules`),
+    // require.resolve(`babel-plugin-transform-commonjs-es2015-modules`),
   ],
 }
 

@@ -6,19 +6,19 @@ import babelPresetMinifyConfig from './babelPresetMinifyModuleConfig.js'
 
 let presets = {
   "presets": [
-    path.normalize(`${__dirname}/../node_modules/@babel/preset-es2015`),  
+    require.resolve(`@babel/preset-es2015`),  
     babelPresetMinifyConfig,
-    // path.normalize(`${__dirname}/../node_modules/@babel/preset-stage-0`),
+    // require.resolve(`@babel/preset-stage-0`),
   ],
 }
 
 let plugins = {
   "plugins": [
-    path.normalize(`${__dirname}/../node_modules/@babel/plugin-syntax-dynamic-import`),
-    path.normalize(`${__dirname}/../node_modules/@babel/plugin-syntax-import-meta`),
-    // path.normalize(`${__dirname}/../node_modules/@babel/plugin-syntax-decorators`),
-    [ path.normalize(`${__dirname}/../node_modules/@babel/plugin-proposal-decorators`), { "legacy": true } ], // https://github.com/babel/babel/issues/7786
-    [ path.normalize(`${__dirname}/../node_modules/@babel/plugin-proposal-class-properties`) ,{ "loose" : true } ],
+    require.resolve(`@babel/plugin-syntax-dynamic-import`),
+    require.resolve(`@babel/plugin-syntax-import-meta`),
+    // require.resolve(`@babel/plugin-syntax-decorators`),
+    [ require.resolve(`@babel/plugin-proposal-decorators`), { "legacy": true } ], // https://github.com/babel/babel/issues/7786
+    [ require.resolve(`@babel/plugin-proposal-class-properties`) ,{ "loose" : true } ],
     transformNamedModuleToPath,
     // minifyHtmlTemplateLiterals // TODO: transform tagged template literals in js files (minify).
   ],

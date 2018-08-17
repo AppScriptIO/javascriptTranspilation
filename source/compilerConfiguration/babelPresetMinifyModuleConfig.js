@@ -1,5 +1,5 @@
 const path = require('path')
-module.exports = [ path.normalize(`${__dirname}/../node_modules/babel-preset-minify`), {
+module.exports = [ require.resolve(`babel-preset-minify`), {
     // options - https://github.com/babel/minify/tree/master/packages/babel-preset-minify
     booleans: true, 
     builtIns: true, 
