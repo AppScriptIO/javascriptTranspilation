@@ -14,7 +14,7 @@ const   path = require('path'),
 function babelJSCompiler({
     babelConfigurationFile // {string} file containing bable configurations to be used.
 }) {
-    const babelModulesPath = path.normalize(`${__dirname}/../node_modules`)
+    const babelModulesPath = path.dirname(path.dirname(path.dirname( require.resolve('@babel/core/package.json') ))) // get the node_modules folder where Babel plugins are installed. Could be own package root or parent packages root (when this modules is installed as a pacakge)
     addModuleResolutionPathMultiple({ pathArray: [ babelModulesPath ] }) // Add babel node_modules to module resolving paths
     
     const babelConfiguration = require(`./compilerConfiguration/${babelConfigurationFile}`); // load configuration equivalent to .babelrc options.
