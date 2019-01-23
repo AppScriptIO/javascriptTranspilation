@@ -1,0 +1,8 @@
+{
+    "main": "./entrypoint.js",
+    "version": "1.0.0",
+    "meta": {
+      "description": "this file defines the entrypoint and package information only."
+    }
+}
+  
