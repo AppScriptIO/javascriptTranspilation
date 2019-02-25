@@ -31,4 +31,9 @@ function shouldCompile() {
     return true
 }
 
+// export babel configuratio sets as well
+babelJSCompiler.getBabelConfig = (babelConfigFilename) => {
+    return require(`./compilerConfiguration/${babelConfigFilename}`)
+}
+
 module.exports = babelJSCompiler
