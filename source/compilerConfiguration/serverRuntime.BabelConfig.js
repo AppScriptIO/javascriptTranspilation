@@ -18,6 +18,8 @@ let plugins = {
     [ require.resolve(`@babel/plugin-proposal-decorators`), { "legacy": true } ], // transform decorators - // https://github.com/babel/babel/issues/7786
     [ require.resolve(`@babel/plugin-proposal-class-properties`), { "loose" : true } ], // transform static class parameter
     require.resolve(`babel-plugin-transform-function-parameter-decorators`), // function parameter decorator
+    require.resolve(`@babel/plugin-proposal-function-bind`), // Bind shorthand replaces `.call` & `.bind`
+    require.resolve(`@babel/plugin-proposal-function-sent`), // Adds `function.sent` meta propety in generators
   ],
 }
 
