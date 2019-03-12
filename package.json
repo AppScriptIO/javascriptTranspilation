@@ -5,6 +5,7 @@
   "scripts": {},
   "dependencies": {
     "@babel/core": "*",
+    "@babel/helper-plugin-utils": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "*",
     "@babel/plugin-proposal-decorators": "*",
     "@babel/plugin-proposal-function-bind": "*",
@@ -15,6 +16,7 @@
     "@babel/plugin-transform-modules-commonjs": "*",
     "@babel/plugin-transform-runtime": "*",
     "@babel/preset-env": "*",
+    "@babel/preset-typescript": "^7.3.3",
     "@babel/register": "*",
     "@babel/runtime": "*",
     "@dependency/addModuleResolutionPath": "https://github.com/AppScriptIO/addModuleResolutionPath",
@@ -28,12 +30,8 @@
     "babel-preset-minify": "*"
   },
   "devDependencies": {
-    "eslint": "^5.15.1",
     "babel-eslint": "^10.0.1",
-    "chai": "*",
-    "mocha": ">6.0.0",
-    "should": "*",
-    "sinon": "*"
+    "eslint": "^5.15.1"
   },
   "workspaces": [],
   "private": true
