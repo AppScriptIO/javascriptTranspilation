@@ -19,9 +19,11 @@ function babelJSCompiler({
     addModuleResolutionPathMultiple({ pathArray: [ babelModulesPath ] }) // Add babel node_modules to module resolving paths
     
     const babelConfiguration = require(`./compilerConfiguration/${babelConfigurationFile}`); // load configuration equivalent to .babelrc options.
+    // add babel register configuration to the babel config object.
+    const babelRegisterConfiguration = Object.assign(babelConfiguration.babelConfig, babelConfiguration.registerConfig)
     // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
     // The require hook will bind itself to node's require and automatically compile files on the fly
-    babelRegister(babelConfiguration) // Compile code on runtime.
+    babelRegister(babelRegisterConfiguration) // Compile code on runtime.
     // console.groupEnd()
 }
 
