@@ -10,6 +10,8 @@ module.exports = {
       /* Syntax */
       require.resolve(`@babel/plugin-syntax-dynamic-import`),
       // require.resolve(`@babel/plugin-syntax-decorators`),
+      /* Typescript - conditionally transforms only typescript files. */
+      [ require.resolve('@babel/plugin-transform-typescript'), {}], 
       /* Transform */
       require.resolve(`@babel/plugin-transform-modules-commonjs`),  // transform static import
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import

@@ -4,8 +4,6 @@ module.exports = {
 
   babelConfig: {
     presets: [
-      /* Typescript */
-      [ require.resolve('@babel/preset-typescript'), {}], // TODO: conditionally transform typescript ts only.
     ],
 
     // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47
@@ -15,6 +13,8 @@ module.exports = {
       // require.resolve(`@babel/plugin-syntax-decorators`),
       /* Runtime */
       require.resolve(`@babel/plugin-transform-runtime`), // runtime required
+      /* Typescript - conditionally transforms only typescript files. */
+      [ require.resolve('@babel/plugin-transform-typescript'), {}], 
       /* Transform */
       require.resolve(`@babel/plugin-transform-modules-commonjs`),  // transform static import
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
