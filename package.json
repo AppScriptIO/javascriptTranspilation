@@ -10,6 +10,7 @@
     "@babel/plugin-proposal-decorators": "*",
     "@babel/plugin-proposal-function-bind": "*",
     "@babel/plugin-proposal-function-sent": "*",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/plugin-syntax-decorators": "*",
     "@babel/plugin-syntax-dynamic-import": "*",

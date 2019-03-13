@@ -24,6 +24,7 @@ module.exports = {
       require.resolve(`@babel/plugin-proposal-function-bind`), // Bind shorthand replaces `.call` & `.bind`
       require.resolve(`@babel/plugin-proposal-function-sent`), // Adds `function.sent` meta propety in generators
       require.resolve(`@babel/plugin-proposal-optional-chaining`), // Optional chaining operator e.g. `obj.key1?.key2?.key3`
+      require.resolve(`@babel/proposal-object-rest-spread`), // rest operators `const {x,y, ...z} = {x:1,y:2, a:3, b:4, c:5}` => `z == {a:3, b:4, c:5}`
     ]
   },
 
