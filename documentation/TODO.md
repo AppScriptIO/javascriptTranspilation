@@ -1,4 +1,4 @@
-- 
+- Intergrate flow type with Babel plugin flow runtime, which allows runtime type checking.
 
 ___
 
