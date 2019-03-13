@@ -8,14 +8,18 @@ module.exports = {
 
     // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47
     plugins: [
+
       /* Syntax */
       require.resolve('@babel/plugin-syntax-dynamic-import'),
+      require.resolve('@babel/plugin-syntax-typescript'),
       // require.resolve(`@babel/plugin-syntax-decorators`),
-      /* Runtime */
+
+      /* Babel Runtime */
       require.resolve(`@babel/plugin-transform-runtime`), // runtime required
-      /* Typescript - conditionally transforms only typescript files. */
-      [ require.resolve('@babel/plugin-transform-typescript'), {}], 
+
       /* Transform */
+      /* Typescript - conditionally transforms only typescript files. */
+      [ require.resolve('@babel/plugin-transform-typescript'), {}],  // unsupported features - https://babeljs.io/docs/en/babel-plugin-transform-typescript
       require.resolve(`@babel/plugin-transform-modules-commonjs`),  // transform static import
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
       [ require.resolve(`@babel/plugin-proposal-decorators`), { "legacy": true } ], // transform decorators - // https://github.com/babel/babel/issues/7786
@@ -32,9 +36,6 @@ module.exports = {
       require.resolve('@babel/plugin-proposal-optional-catch-binding'), // It allows the binding to be omitted from a catch clause `try{} catch {}` instead of `try{} catch(_unused){}`
       require.resolve('@babel/plugin-proposal-export-namespace-from'),
       require.resolve('@babel/plugin-proposal-export-default-from'),
-      
-
-
     ]
   },
 
