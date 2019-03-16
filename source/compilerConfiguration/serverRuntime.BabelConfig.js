@@ -28,7 +28,7 @@ module.exports = {
       require.resolve(`@babel/plugin-proposal-function-bind`), // Bind shorthand replaces `.call` & `.bind`
       require.resolve(`@babel/plugin-proposal-function-sent`), // Adds `function.sent` meta propety in generators
       require.resolve(`@babel/plugin-proposal-optional-chaining`), // Optional chaining operator e.g. `obj.key1?.key2?.key3`
-      require.resolve(`@babel/proposal-object-rest-spread`), // rest operators `const {x,y, ...z} = {x:1,y:2, a:3, b:4, c:5}` => `z == {a:3, b:4, c:5}`
+      require.resolve(`@babel/plugin-proposal-object-rest-spread`), // rest operators `const {x,y, ...z} = {x:1,y:2, a:3, b:4, c:5}` => `z == {a:3, b:4, c:5}`
       [require.resolve("@babel/plugin-proposal-logical-assignment-operators")], // `a ||= b` or `a &&= b` --> `a || (a = b)` assignment operator is called only when needed, unlike `a = a || b`
       [require.resolve("@babel/plugin-proposal-throw-expressions")],  // allows to throw in expressions `() => throw new Error('')`.
       require.resolve("@babel/plugin-proposal-nullish-coalescing-operator"), // `let x = object.y ?? "default"` --> `let x = object.y != null ? object.y : 'default'`
