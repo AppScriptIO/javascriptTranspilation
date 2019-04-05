@@ -50,5 +50,5 @@
         "enable": true
     },
     "typescript.check.npmIsInstalled": false,
-    "eslint.enable": false
+    "eslint.enable": true
 }
