@@ -5,13 +5,15 @@ const   path = require('path'),
         filesystem = require('fs'),
         moduleSystem = require('module'),
         { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
-        babelRegister = require(`@babel/register`)
+        babelRegister = require(`@babel/register`),
+        { filesystemTranspiledOutput } = require('./transpiledOutput.js')
 
 /**
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js
  */
 function babelJSCompiler({
-    babelConfigurationFile // {string} file containing bable configurations to be used.
+    babelConfigurationFile, // {string} file containing bable configurations to be used.
+    outputTranspilation = false
 }) {
     if(!shouldCompile()) return;
 
@@ -19,8 +21,10 @@ function babelJSCompiler({
     addModuleResolutionPathMultiple({ pathArray: [ babelModulesPath ] }) // Add babel node_modules to module resolving paths
     
     const babelConfiguration = require(`./compilerConfiguration/${babelConfigurationFile}`); // load configuration equivalent to .babelrc options.
+    // output transpilation result into filesystem files
+    if(outputTranspilation) filesystemTranspiledOutput({babelConfig: babelConfiguration.babelConfig, extension: babelConfiguration.registerConfig.extensions })
     // add babel register configuration to the babel config object.
-    const babelRegisterConfiguration = Object.assign(babelConfiguration.babelConfig, babelConfiguration.registerConfig)
+    const babelRegisterConfiguration = Object.assign({}, babelConfiguration.registerConfig, babelConfiguration.babelConfig)
     // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
     // The require hook will bind itself to node's require and automatically compile files on the fly
     babelRegister(babelRegisterConfiguration) // Compile code on runtime.
