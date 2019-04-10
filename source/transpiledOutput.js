@@ -9,8 +9,9 @@ function filesystemTranspiledOutput({ babelConfig, extension }) {
         // .then(result => {
         //     console.log(filename) 
         //     if(filename.includes('testGenerator.js'))
-        //     console.log(result.code)})
-        return transformed.code
+        filename = transformed.options.filename
+        // if(filename == '/c/Users/Entrepreneur/Projects/Dependency/nodeRelationshipGraph/test/generators.test.js') console.log(transformed.code)
+        return code
     }, 
     { exts: extension, ignoreNodeModules: true }
   )

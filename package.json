@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {},
   "dependencies": {
+    "@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation",
     "@babel/core": "*",
     "@babel/helper-plugin-utils": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "*",
