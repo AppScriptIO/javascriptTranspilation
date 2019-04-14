@@ -38,8 +38,21 @@ function shouldCompile() {
 }
 
 // export babel configuratio sets as well
-babelJSCompiler.getBabelConfig = (babelConfigFilename) => {
-    return require(`./compilerConfiguration/${babelConfigFilename}`)
+babelJSCompiler.getBabelConfig = (babelConfigFilename, { configType = 'json' } = {}) => {
+    const jsonConfig = require(`./compilerConfiguration/${babelConfigFilename}`)
+    switch (configType) {
+        case 'functionApi':
+            return (api) => {
+                api.cache.forever()
+                return jsonConfig.babelConfig
+            }
+            break;
+        case 'json':
+        default:
+            return jsonConfig.babelConfig
+            break;
+    }
+    return 
 }
 
 module.exports = babelJSCompiler
