@@ -2,7 +2,9 @@
   "name": "@dependency/javascriptTranspilation",
   "main": "./source/entrypoint.js",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "preinstall": "ln -s . ./node_modules/@dependency/javascriptTranspilation"
+  },
   "dependencies": {
     "@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation",
     "@babel/core": "*",
