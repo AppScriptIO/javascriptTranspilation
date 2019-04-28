@@ -1,8 +1,10 @@
-- Add option for outputing transpilation results to filesystem or console during runtime.
+TODO:
+-
 
 ___
 
 ### Done: 
+- ~~Add option for outputing transpilation results to filesystem or console during runtime.~~
 - ~~Install only necessary files from https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation without source code and other.~~
 - ~~Intergrate flow type with Babel plugin flow runtime, which allows runtime type checking.~~
   

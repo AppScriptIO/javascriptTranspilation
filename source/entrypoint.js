@@ -6,12 +6,8 @@ const path = require('path'),
   moduleSystem = require('module'),
   { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
   babelRegister = require(`@babel/register`),
-  { filesystemTranspiledOutput } = require('./transpiledOutput.js')
-
-// retrieve the root path to the project where the target javascript files to be transpiled belong to.
-function findTargetProjectRoot(nestedProjectPath = module.parent.filename) {
-  // lookup
-}
+  { filesystemTranspiledOutput } = require('./transpiledOutput.js'),
+  assert = require('assert')
 
 /**
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js
@@ -32,8 +28,9 @@ function babelJSCompiler({
       babelConfig: babelConfiguration.babelConfig,
       extension: babelConfiguration.registerConfig.extensions,
       ignoreFilenamePattern: babelConfiguration.registerConfig.ignore,
-      outputPath: findTargetProjectRoot(),
+      pathRequiredFrom: [process.cwd(), module.parent.filename],
     })
+
   // add babel register configuration to the babel config object.
   const babelRegisterConfiguration = Object.assign({}, babelConfiguration.registerConfig, babelConfiguration.babelConfig)
   // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)

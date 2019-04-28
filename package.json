@@ -3,7 +3,7 @@
   "main": "./source/entrypoint.js",
   "version": "1.0.0",
   "scripts": {
-    "preinstall": "ln -s . ./node_modules/@dependency/javascriptTranspilation"
+    "postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true"
   },
   "dependencies": {
     "@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation",
@@ -36,6 +36,7 @@
     "@babel/register": "*",
     "@babel/runtime": "*",
     "@dependency/addModuleResolutionPath": "https://github.com/AppScriptIO/addModuleResolutionPath",
+    "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement",
     "babel-minify": "*",
     "babel-plugin-dynamic-import-node": "*",
     "babel-plugin-dynamic-import-node-babel-7": "*",
