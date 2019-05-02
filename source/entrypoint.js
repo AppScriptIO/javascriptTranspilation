@@ -22,14 +22,6 @@ function babelJSCompiler({
   addModuleResolutionPathMultiple({ pathArray: [babelModulesPath] }) // Add babel node_modules to module resolving paths
 
   const babelConfiguration = require(`./compilerConfiguration/${babelConfigurationFile}`) // load configuration equivalent to .babelrc options.
-  // output transpilation result into filesystem files
-  if (outputTranspilation)
-    filesystemTranspiledOutput({
-      babelConfig: babelConfiguration.babelConfig,
-      extension: babelConfiguration.registerConfig.extensions,
-      ignoreFilenamePattern: babelConfiguration.registerConfig.ignore,
-      pathRequiredFrom: [process.cwd(), module.parent.filename],
-    })
 
   // add babel register configuration to the babel config object.
   const babelRegisterConfiguration = Object.assign({}, babelConfiguration.registerConfig, babelConfiguration.babelConfig)
@@ -37,6 +29,16 @@ function babelJSCompiler({
   // The require hook will bind itself to node's require and automatically compile files on the fly
   babelRegister(babelRegisterConfiguration) // Compile code on runtime.
   // console.groupEnd()
+
+  // output transpilation result into filesystem files
+  if (outputTranspilation)
+    filesystemTranspiledOutput({
+      babelConfig: babelConfiguration.babelConfig,
+      extension: babelConfiguration.registerConfig.extensions,
+      ignoreFilenamePattern: babelConfiguration.registerConfig.ignore,
+      pathRequiredFrom: [process.cwd(), module.parent.filename],
+      shouldTransform: false,
+    })
 }
 
 function shouldCompile() {

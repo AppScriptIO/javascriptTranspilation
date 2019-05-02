@@ -2,6 +2,12 @@ const path = require('path')
 
 module.exports = {
   babelConfig: {
+    cache: true,
+    sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
+    retainLines: false,
+    minified: true,
+    comments: false,
+
     presets: [],
 
     // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47

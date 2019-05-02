@@ -47,20 +47,45 @@ function filesystemTranspiledOutput({
   ignoreFilenamePattern = [] /* Array of Regex type */,
   outputRelativePath = './distribution',
   pathRequiredFrom = [],
+  shouldTransform = false,
 }) {
   let targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: pathRequiredFrom })
   outputRelativePath = (targetProjectConfig.transpilation && targetProjectConfig.transpilation.outputDirectory) || outputRelativePath
   addHook(
     (code, filename) => {
-      let transformed = transformFileSync(filename, Object.assign({ sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true, ast: false }, babelConfig))
-      // transformed.code transformed.map
+      let content
+
+      if (shouldTransform) {
+        let transformed = transformFileSync(
+          filename,
+          Object.assign(
+            {
+              // https://babeljs.io/docs/en/options
+              sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
+              ast: false,
+            },
+            babelConfig,
+          ),
+        )
+        // transformed.code transformed.map
+        content = transformed.code
+      } else {
+        content = code
+      }
+
+      if (!filename.includes('node_modules') && filename.includes('commandLine.js')) {
+        console.log(filename)
+        console.log(content)
+      }
+
+      // wrtie to filesystem
       let outputPath = path.join(targetProjectConfig.rootPath, outputRelativePath)
       let relativeFilePath = removeMatchingStringFromBeginning({ basePath: targetProjectConfig.rootPath, targetPath: filename })
       traspiledFilePath = path.join(outputPath, relativeFilePath)
       // create directory
       filesystem.mkdirSync(path.dirname(traspiledFilePath), { recursive: true })
       // write file
-      filesystem.writeFileSync(traspiledFilePath, transformed.code, { encoding: 'utf8' })
+      filesystem.writeFileSync(traspiledFilePath, content, { encoding: 'utf8' })
       return code
     },
     {
