@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   babelConfig: {
-    cache: true,
+    cache: false,
     sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
     retainLines: false,
     minified: true,
@@ -10,7 +10,6 @@ module.exports = {
 
     presets: [],
 
-    // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47
     plugins: [
       /* Syntax */
       require.resolve('@babel/plugin-syntax-dynamic-import'),
@@ -30,6 +29,7 @@ module.exports = {
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
       [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // transform decorators - // https://github.com/babel/babel/issues/7786
       [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }], // transform static class parameter
+      // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47
       require.resolve(`babel-plugin-transform-function-parameter-decorators`), // function parameter decorator
       require.resolve(`@babel/plugin-proposal-function-bind`), // Bind shorthand replaces `.call` & `.bind`
       require.resolve(`@babel/plugin-proposal-optional-chaining`), // Optional chaining operator e.g. `obj.key1?.key2?.key3`
@@ -44,13 +44,5 @@ module.exports = {
       require.resolve('@babel/plugin-proposal-export-namespace-from'),
       require.resolve('@babel/plugin-proposal-export-default-from'),
     ],
-  },
-
-  registerConfig: {
-    // When a file path matches this regex then it is **not** compiled
-    ignore: [/node_modules\/(?!@dependency)/], // ignore everythng in node_modules except internal modules.
-    // Setting this will remove the currently hooked extensions of `.es6`, `.es`, `.jsx`, `.mjs`
-    // and .js so you'll have to add them back if you want them to be used again.
-    extensions: ['.js', '.mjs', '.ts'], // default is ".es6", ".es", ".jsx", ".js", ".mjs"
   },
 }
