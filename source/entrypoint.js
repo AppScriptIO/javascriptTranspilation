@@ -7,9 +7,10 @@ const path = require('path'),
   moduleSystem = require('module'),
   { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
   babelRegister = require(`@babel/register`),
-  { filesystemTranspiledOutput } = require('./transpiledOutput.js'),
-  { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js')
-
+  { filesystemTranspiledOutput, generateHookCallback } = require('./transpiledOutput.js'),
+  { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
+  { addHook: addRequireHook } = require('pirates'),
+  EventEmitter = require('events')
 let findTargetProjectRoot // possible circular dependency.
 
 function registerNodeModuleResolution() {
@@ -72,11 +73,39 @@ class Compiler {
     this.babelRegisterConfig = babelRegisterConfig
   }
   requireHook() {
-    return requireHook({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
+    let returnValue = {}
+    returnValue.revertHook = requireHook({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
+    return returnValue
+  }
+  trackLoadedFile() {
+    this.loadedFiles = this.loadedFiles || []
+    let ignoreFilenamePattern = []
+    let eventEmitter = new EventEmitter()
+    addRequireHook(
+      (code, filename) => {
+        eventEmitter.emit('fileLoaded', { filename, code })
+        return code // pass to next registered hook without changes.
+      },
+      {
+        exts: this.babelRegisterConfig.extensions,
+        ignoreNodeModules: true,
+        matcher: filename => (ignoreFilenamePattern.some(regex => filename.match(regex)) ? false : true),
+      },
+    )
+    eventEmitter.on('fileLoaded', fileObject => this.loadedFiles.push({ ...fileObject }))
+    return eventEmitter
   }
   outputTranspilation() {
     this.setTargetProject()
     return outputTranspilation({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig, targetProjectConfig: this.targetProjectConfig })
+  }
+  outputTranspilationFromFileArray({ fileArray }) {
+    this.setTargetProject()
+    let hookCallback = generateHookCallback({ babelConfig: this.babelTransformConfig, targetProjectConfig: this.targetProjectConfig })
+    for (let fileObject of fileArray) {
+      const { filename, code } = fileObject
+      hookCallback(code, filename)
+    }
   }
   setTargetProject() {
     if (!this.targetProjectConfig) this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [process.cwd(), module.parent.filename /* The place where the module was required from */] })
@@ -90,4 +119,5 @@ registerNodeModuleResolution()
  * export ecmascript specification complient modules allow circular module dependencyز
  */
 Object.assign(module.exports, { Compiler, getBabelConfig, getCompilerConfig })
+debugger
 ;({ findTargetProjectRoot } = require('@dependency/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
