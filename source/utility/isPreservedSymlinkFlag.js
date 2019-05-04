@@ -1,4 +1,4 @@
-function isPreservedSymlinkFlag({ shouldThrow = false }) {
+function isPreservedSymlinkFlag({ shouldThrow = false } = {}) {
   /**
    * Check that preserve symlink is enabled.
    * Node process must be run with `preseve symlink` option (flag or env variable), by Node's default it is off. https://nodejs.org/api/cli.html#cli_node_preserve_symlinks_1
@@ -6,10 +6,11 @@ function isPreservedSymlinkFlag({ shouldThrow = false }) {
    * This implementation checks only for environment variable (not flag).
    */
   const preserveSymlinkOption = 'NODE_PRESERVE_SYMLINKS'
-  if (process.env[preserveSymlinkOption]) {
+  debugger
+  if (process.env[preserveSymlinkOption] || process.execArgv.includes('--preserve-symlinks')) {
+    if (shouldThrow) throw new Error("Node's preserve symlink option must be turned on (NODE_PRESERVE_SYMLINKS)")
     return true
   } else {
-    if (shouldThrow) throw new Error("Node's preserve symlink option must be turned on (NODE_PRESERVE_SYMLINKS)")
     return false
   }
 }
