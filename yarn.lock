@@ -859,9 +859,9 @@
   version "1.0.0"
   resolved "https://github.com/AppScriptIO/addModuleResolutionPath#d1d7e14f79f6c0b0168b7f133a2124f4e17d3560"
 
-"@dependency/configurationManagement@https://github.com/AppScriptIO/configurationManagement":
+"@dependency/configurationManagement@https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/configurationManagement#41c63add0252c3d86174135b9f9b640a28177f4d"
+  resolved "https://github.com/AppScriptIO/configurationManagement#b299f5eb174a73f78e4f77cb69a9055c55855c0a"
 
 "@dependency/javascriptStaticAnalysis@https://github.com/AppScriptIO/javascriptStaticAnalysis":
   version "1.0.0"
