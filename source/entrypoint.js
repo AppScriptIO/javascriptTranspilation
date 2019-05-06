@@ -12,7 +12,7 @@ const path = require('path'),
   { filesystemTranspiledOutput } = require('./additionalRequireHook.js'),
   { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
   { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
-let findTargetProjectRoot // possible circular dependency.
+// let findTargetProjectRoot // possible circular dependency.
 
 // Compiler configuration includes `babel transform` options & `@babel/register` configuration.
 function getCompilerConfig(configKey) {
@@ -94,6 +94,7 @@ class Compiler {
     })
   }
   setTargetProject() {
+    const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
     if (!this.targetProjectConfig) this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [process.cwd(), module.parent.filename /* The place where the module was required from */] })
   }
 }
@@ -112,4 +113,4 @@ if (isPreservedSymlinkFlag())
   throw new Error(
     '• Using `preserve symlink` node runtime flag will cause infinite circular dependency, where each will load the module with different accumulative path when symlinking node_modules to each other.',
   )
-;({ findTargetProjectRoot } = require('@dependency/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
+// ;({ findTargetProjectRoot } = require('@dependency/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).

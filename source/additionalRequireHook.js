@@ -4,7 +4,7 @@ const { transformFileSync } = require('@babel/core'),
   filesystem = require('fs'),
   assert = require('assert'),
   { removeMatchingStringFromBeginning } = require('./utility/removeMatchingStringFromBeginning.js'),
-  defaultOutputRelativePath = './distribution',
+  defaultOutputRelativePath = './temporary/transpiled',
   isPreservedSymlink = require('./utility/isPreservedSymlinkFlag.js')
 
 function filesystemTranspiledOutput({
