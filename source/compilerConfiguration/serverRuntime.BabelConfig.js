@@ -2,10 +2,10 @@ const path = require('path')
 
 module.exports = {
   babelConfig: {
-    cache: false,
+    // cache: false,
     sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
-    retainLines: false,
-    minified: true,
+    retainLines: true,
+    minified: false,
     comments: false,
 
     presets: [],

@@ -1,6 +1,6 @@
 {
   "name": "@dependency/javascriptTranspilation",
-  "main": "./source/entrypoint.js",
+  "main": "./entrypiont/programmaticAPI",
   "version": "1.0.0",
   "scripts": {
     "postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true"
@@ -36,7 +36,7 @@
     "@babel/register": "*",
     "@babel/runtime": "*",
     "@dependency/addModuleResolutionPath": "https://github.com/AppScriptIO/addModuleResolutionPath",
-    "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement",
+    "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
     "babel-minify": "*",
     "babel-plugin-dynamic-import-node": "*",
     "babel-plugin-dynamic-import-node-babel-7": "*",

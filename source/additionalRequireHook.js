@@ -4,7 +4,7 @@ const { transformFileSync } = require('@babel/core'),
   filesystem = require('fs'),
   assert = require('assert'),
   { removeMatchingStringFromBeginning } = require('./utility/removeMatchingStringFromBeginning.js'),
-  defaultOutputRelativePath = './distribution',
+  defaultOutputRelativePath = './temporary/transpiled',
   isPreservedSymlink = require('./utility/isPreservedSymlinkFlag.js')
 
 function filesystemTranspiledOutput({
@@ -30,7 +30,7 @@ function filesystemTranspiledOutput({
       // wrtie to filesystem
       let outputPath = path.join(targetProjectConfig.rootPath, outputRelativePath)
       let relativeFilePath = removeMatchingStringFromBeginning({ basePath: targetProjectConfig.rootPath, targetPath: filename })
-      traspiledFilePath = path.join(outputPath, relativeFilePath)
+      let traspiledFilePath = path.join(outputPath, relativeFilePath)
       // create directory
       filesystem.mkdirSync(path.dirname(traspiledFilePath), { recursive: true })
       // write file
