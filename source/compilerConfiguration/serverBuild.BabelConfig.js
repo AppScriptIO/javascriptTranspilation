@@ -1,21 +1,19 @@
-const path = require('path')
+"use strict";const path=require("path");
 
-module.exports = {
-  babelConfig: {
-    presets: [],
-    // babel-runtime transform plugin is not needed for production/published code.
-    plugins: [
-      /* Syntax */
-      require.resolve(`@babel/plugin-syntax-dynamic-import`),
-      // require.resolve(`@babel/plugin-syntax-decorators`),
-      /* Typescript - conditionally transforms only typescript files. */
-      [require.resolve('@babel/plugin-transform-typescript'), {}],
-      /* Transform */
-      require.resolve(`@babel/plugin-transform-modules-commonjs`), // transform static import
-      require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
-      [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // https://github.com/babel/babel/issues/7786
-      [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }], // static class parameter
-      require.resolve(`babel-plugin-transform-function-parameter-decorators`), // function parameter decorator
-    ],
-  },
-}
+module.exports={
+babelConfig:{
+presets:[],
+
+plugins:[
+
+require.resolve(`@babel/plugin-syntax-dynamic-import`),
+
+
+[require.resolve("@babel/plugin-transform-typescript"),{}],
+
+require.resolve(`@babel/plugin-transform-modules-commonjs`),
+require.resolve(`babel-plugin-dynamic-import-node`),
+[require.resolve(`@babel/plugin-proposal-decorators`),{legacy:true}],
+[require.resolve(`@babel/plugin-proposal-class-properties`),{loose:true}],
+require.resolve(`babel-plugin-transform-function-parameter-decorators`)]}};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vc2VydmVyQnVpbGQuQmFiZWxDb25maWcuanMiXSwibmFtZXMiOlsicGF0aCIsInJlcXVpcmUiLCJtb2R1bGUiLCJleHBvcnRzIiwiYmFiZWxDb25maWciLCJwcmVzZXRzIiwicGx1Z2lucyIsInJlc29sdmUiLCJsZWdhY3kiLCJsb29zZSJdLCJtYXBwaW5ncyI6ImFBQUEsS0FBTUEsQ0FBQUEsSUFBSSxDQUFHQyxPQUFPLENBQUMsTUFBRCxDQUFwQjs7QUFFQUMsTUFBTSxDQUFDQyxPQUFQLENBQWlCO0FBQ2ZDLFdBQVcsQ0FBRTtBQUNYQyxPQUFPLENBQUUsRUFERTs7QUFHWEMsT0FBTyxDQUFFOztBQUVQTCxPQUFPLENBQUNNLE9BQVIsQ0FBaUIscUNBQWpCLENBRk87OztBQUtQLENBQUNOLE9BQU8sQ0FBQ00sT0FBUixDQUFnQixvQ0FBaEIsQ0FBRCxDQUF3RCxFQUF4RCxDQUxPOztBQU9QTixPQUFPLENBQUNNLE9BQVIsQ0FBaUIsMENBQWpCLENBUE87QUFRUE4sT0FBTyxDQUFDTSxPQUFSLENBQWlCLGtDQUFqQixDQVJPO0FBU1AsQ0FBQ04sT0FBTyxDQUFDTSxPQUFSLENBQWlCLG1DQUFqQixDQUFELENBQXVELENBQUVDLE1BQU0sQ0FBRSxJQUFWLENBQXZELENBVE87QUFVUCxDQUFDUCxPQUFPLENBQUNNLE9BQVIsQ0FBaUIseUNBQWpCLENBQUQsQ0FBNkQsQ0FBRUUsS0FBSyxDQUFFLElBQVQsQ0FBN0QsQ0FWTztBQVdQUixPQUFPLENBQUNNLE9BQVIsQ0FBaUIsc0RBQWpCLENBWE8sQ0FIRSxDQURFLENBQWpCIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgcGF0aCA9IHJlcXVpcmUoJ3BhdGgnKVxuXG5tb2R1bGUuZXhwb3J0cyA9IHtcbiAgYmFiZWxDb25maWc6IHtcbiAgICBwcmVzZXRzOiBbXSxcbiAgICAvLyBiYWJlbC1ydW50aW1lIHRyYW5zZm9ybSBwbHVnaW4gaXMgbm90IG5lZWRlZCBmb3IgcHJvZHVjdGlvbi9wdWJsaXNoZWQgY29kZS5cbiAgICBwbHVnaW5zOiBbXG4gICAgICAvKiBTeW50YXggKi9cbiAgICAgIHJlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1zeW50YXgtZHluYW1pYy1pbXBvcnRgKSxcbiAgICAgIC8vIHJlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1zeW50YXgtZGVjb3JhdG9yc2ApLFxuICAgICAgLyogVHlwZXNjcmlwdCAtIGNvbmRpdGlvbmFsbHkgdHJhbnNmb3JtcyBvbmx5IHR5cGVzY3JpcHQgZmlsZXMuICovXG4gICAgICBbcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXRyYW5zZm9ybS10eXBlc2NyaXB0JyksIHt9XSxcbiAgICAgIC8qIFRyYW5zZm9ybSAqL1xuICAgICAgcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXRyYW5zZm9ybS1tb2R1bGVzLWNvbW1vbmpzYCksIC8vIHRyYW5zZm9ybSBzdGF0aWMgaW1wb3J0XG4gICAgICByZXF1aXJlLnJlc29sdmUoYGJhYmVsLXBsdWdpbi1keW5hbWljLWltcG9ydC1ub2RlYCksIC8vIHRyYW5zZm9ybSBkeW5hbWljIGltcG9ydFxuICAgICAgW3JlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1kZWNvcmF0b3JzYCksIHsgbGVnYWN5OiB0cnVlIH1dLCAvLyBodHRwczovL2dpdGh1Yi5jb20vYmFiZWwvYmFiZWwvaXNzdWVzLzc3ODZcbiAgICAgIFtyZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tcHJvcG9zYWwtY2xhc3MtcHJvcGVydGllc2ApLCB7IGxvb3NlOiB0cnVlIH1dLCAvLyBzdGF0aWMgY2xhc3MgcGFyYW1ldGVyXG4gICAgICByZXF1aXJlLnJlc29sdmUoYGJhYmVsLXBsdWdpbi10cmFuc2Zvcm0tZnVuY3Rpb24tcGFyYW1ldGVyLWRlY29yYXRvcnNgKSwgLy8gZnVuY3Rpb24gcGFyYW1ldGVyIGRlY29yYXRvclxuICAgIF0sXG4gIH0sXG59XG4iXX0=

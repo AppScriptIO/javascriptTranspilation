@@ -1,23 +1,17 @@
-import path from 'path'
-import { transformNamedModuleToPath, minifyHtmlTemplateLiterals } from '../utility/transformPlugin.babel.js'
-import babelPresetMinifyConfig from './babelPresetMinifyModuleConfig.preset.js'
+"use strict";var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");
+var _transformPluginBabel=require("../utility/transformPlugin.babel.js");
+var _babelPresetMinifyModuleConfigPreset=_interopRequireDefault(require("./babelPresetMinifyModuleConfig.preset.js"));
 
-module.exports = {
-  babelConfig: {
-    presets: [babelPresetMinifyConfig],
-    plugins: [
-      /* Syntax */
-      require.resolve(`@babel/plugin-syntax-dynamic-import`),
-      require.resolve(`@babel/plugin-syntax-import-meta`),
-      // require.resolve(`@babel/plugin-syntax-decorators`),
-      /* Transform */
-      [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // https://github.com/babel/babel/issues/7786
-      [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }],
-      transformNamedModuleToPath,
-      // minifyHtmlTemplateLiterals // TODO: transform tagged template literals in js files (minify).
+module.exports={
+babelConfig:{
+presets:[_babelPresetMinifyModuleConfigPreset.default],
+plugins:[
 
-      // test transforming commonjs clientside library to native es modules (adding exports and removing encapsulating scope.)
-      // require.resolve(`babel-plugin-transform-commonjs-es2015-modules`),
-    ],
-  },
-}
+require.resolve(`@babel/plugin-syntax-dynamic-import`),
+require.resolve(`@babel/plugin-syntax-import-meta`),
+
+
+[require.resolve(`@babel/plugin-proposal-decorators`),{legacy:true}],
+[require.resolve(`@babel/plugin-proposal-class-properties`),{loose:true}],
+_transformPluginBabel.transformNamedModuleToPath]}};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vbmF0aXZlQ2xpZW50U2lkZUJ1aWxkLkJhYmVsQ29uZmlnLmpzIl0sIm5hbWVzIjpbIm1vZHVsZSIsImV4cG9ydHMiLCJiYWJlbENvbmZpZyIsInByZXNldHMiLCJiYWJlbFByZXNldE1pbmlmeUNvbmZpZyIsInBsdWdpbnMiLCJyZXF1aXJlIiwicmVzb2x2ZSIsImxlZ2FjeSIsImxvb3NlIiwidHJhbnNmb3JtTmFtZWRNb2R1bGVUb1BhdGgiXSwibWFwcGluZ3MiOiI7QUFDQTtBQUNBOztBQUVBQSxNQUFNLENBQUNDLE9BQVAsQ0FBaUI7QUFDZkMsV0FBVyxDQUFFO0FBQ1hDLE9BQU8sQ0FBRSxDQUFDQyw0Q0FBRCxDQURFO0FBRVhDLE9BQU8sQ0FBRTs7QUFFUEMsT0FBTyxDQUFDQyxPQUFSLENBQWlCLHFDQUFqQixDQUZPO0FBR1BELE9BQU8sQ0FBQ0MsT0FBUixDQUFpQixrQ0FBakIsQ0FITzs7O0FBTVAsQ0FBQ0QsT0FBTyxDQUFDQyxPQUFSLENBQWlCLG1DQUFqQixDQUFELENBQXVELENBQUVDLE1BQU0sQ0FBRSxJQUFWLENBQXZELENBTk87QUFPUCxDQUFDRixPQUFPLENBQUNDLE9BQVIsQ0FBaUIseUNBQWpCLENBQUQsQ0FBNkQsQ0FBRUUsS0FBSyxDQUFFLElBQVQsQ0FBN0QsQ0FQTztBQVFQQyxnREFSTyxDQUZFLENBREUsQ0FBakIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcGF0aCBmcm9tICdwYXRoJ1xuaW1wb3J0IHsgdHJhbnNmb3JtTmFtZWRNb2R1bGVUb1BhdGgsIG1pbmlmeUh0bWxUZW1wbGF0ZUxpdGVyYWxzIH0gZnJvbSAnLi4vdXRpbGl0eS90cmFuc2Zvcm1QbHVnaW4uYmFiZWwuanMnXG5pbXBvcnQgYmFiZWxQcmVzZXRNaW5pZnlDb25maWcgZnJvbSAnLi9iYWJlbFByZXNldE1pbmlmeU1vZHVsZUNvbmZpZy5wcmVzZXQuanMnXG5cbm1vZHVsZS5leHBvcnRzID0ge1xuICBiYWJlbENvbmZpZzoge1xuICAgIHByZXNldHM6IFtiYWJlbFByZXNldE1pbmlmeUNvbmZpZ10sXG4gICAgcGx1Z2luczogW1xuICAgICAgLyogU3ludGF4ICovXG4gICAgICByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWR5bmFtaWMtaW1wb3J0YCksXG4gICAgICByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWltcG9ydC1tZXRhYCksXG4gICAgICAvLyByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWRlY29yYXRvcnNgKSxcbiAgICAgIC8qIFRyYW5zZm9ybSAqL1xuICAgICAgW3JlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1kZWNvcmF0b3JzYCksIHsgbGVnYWN5OiB0cnVlIH1dLCAvLyBodHRwczovL2dpdGh1Yi5jb20vYmFiZWwvYmFiZWwvaXNzdWVzLzc3ODZcbiAgICAgIFtyZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tcHJvcG9zYWwtY2xhc3MtcHJvcGVydGllc2ApLCB7IGxvb3NlOiB0cnVlIH1dLFxuICAgICAgdHJhbnNmb3JtTmFtZWRNb2R1bGVUb1BhdGgsXG4gICAgICAvLyBtaW5pZnlIdG1sVGVtcGxhdGVMaXRlcmFscyAvLyBUT0RPOiB0cmFuc2Zvcm0gdGFnZ2VkIHRlbXBsYXRlIGxpdGVyYWxzIGluIGpzIGZpbGVzIChtaW5pZnkpLlxuXG4gICAgICAvLyB0ZXN0IHRyYW5zZm9ybWluZyBjb21tb25qcyBjbGllbnRzaWRlIGxpYnJhcnkgdG8gbmF0aXZlIGVzIG1vZHVsZXMgKGFkZGluZyBleHBvcnRzIGFuZCByZW1vdmluZyBlbmNhcHN1bGF0aW5nIHNjb3BlLilcbiAgICAgIC8vIHJlcXVpcmUucmVzb2x2ZShgYmFiZWwtcGx1Z2luLXRyYW5zZm9ybS1jb21tb25qcy1lczIwMTUtbW9kdWxlc2ApLFxuICAgIF0sXG4gIH0sXG59XG4iXX0=

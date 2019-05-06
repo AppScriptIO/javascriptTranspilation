@@ -1,10 +1,10 @@
-// example usage - 
-//      const babelDefaultConfig = requireJSON(`${__dirname}/.babelrc`) // load babelrc json.
-//      babelDefaultConfig.babelrc = false; // don't search for babelrc in transpiled file location.
+"use strict";
 
-// load non json extension as json.
-function requireAsJSON(filePath) { return JSON.parse(filesystem.readFileSync(filePath, "utf8")) }
 
-module.exports = {
-    requireAsJSON
-}
+
+
+function requireAsJSON(filePath){return JSON.parse(filesystem.readFileSync(filePath,"utf8"))}
+
+module.exports={
+requireAsJSON};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS91dGlsaXR5L3JlcXVpcmVBc0pzb24uanMiXSwibmFtZXMiOlsicmVxdWlyZUFzSlNPTiIsImZpbGVQYXRoIiwiSlNPTiIsInBhcnNlIiwiZmlsZXN5c3RlbSIsInJlYWRGaWxlU3luYyIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiI7Ozs7O0FBS0EsUUFBU0EsQ0FBQUEsYUFBVCxDQUF1QkMsUUFBdkIsQ0FBaUMsQ0FBRSxNQUFPQyxDQUFBQSxJQUFJLENBQUNDLEtBQUwsQ0FBV0MsVUFBVSxDQUFDQyxZQUFYLENBQXdCSixRQUF4QixDQUFrQyxNQUFsQyxDQUFYLENBQXVEOztBQUVqR0ssTUFBTSxDQUFDQyxPQUFQLENBQWlCO0FBQ2JQLGFBRGEsQ0FBakIiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBleGFtcGxlIHVzYWdlIC0gXG4vLyAgICAgIGNvbnN0IGJhYmVsRGVmYXVsdENvbmZpZyA9IHJlcXVpcmVKU09OKGAke19fZGlybmFtZX0vLmJhYmVscmNgKSAvLyBsb2FkIGJhYmVscmMganNvbi5cbi8vICAgICAgYmFiZWxEZWZhdWx0Q29uZmlnLmJhYmVscmMgPSBmYWxzZTsgLy8gZG9uJ3Qgc2VhcmNoIGZvciBiYWJlbHJjIGluIHRyYW5zcGlsZWQgZmlsZSBsb2NhdGlvbi5cblxuLy8gbG9hZCBub24ganNvbiBleHRlbnNpb24gYXMganNvbi5cbmZ1bmN0aW9uIHJlcXVpcmVBc0pTT04oZmlsZVBhdGgpIHsgcmV0dXJuIEpTT04ucGFyc2UoZmlsZXN5c3RlbS5yZWFkRmlsZVN5bmMoZmlsZVBhdGgsIFwidXRmOFwiKSkgfVxuXG5tb2R1bGUuZXhwb3J0cyA9IHtcbiAgICByZXF1aXJlQXNKU09OXG59Il19
