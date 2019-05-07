@@ -7,11 +7,7 @@ const path = require('path'),
   moduleSystem = require('module'),
   EventEmitter = require('events'),
   babelRegister = require(`@babel/register`),
-  { addHook: addRequireHook } = require('pirates'),
-  { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
-  { filesystemTranspiledOutput } = require('./additionalRequireHook.js'),
-  { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
-  { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
+  { addHook: addRequireHook } = require('pirates')
 // let findTargetProjectRoot // possible circular dependency.
 
 // Compiler configuration includes `babel transform` options & `@babel/register` configuration.
@@ -36,6 +32,14 @@ function getBabelConfig(babelConfigFilename, { configType = 'json' } = {}) {
   }
   return
 }
+
+// Early export of necessary modules to allow nested dependencies or circular dependencies to use the independent exports.
+module.exports.getBabelConfig = getBabelConfig
+module.exports.getCompilerConfig = getCompilerConfig
+const { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
+      { filesystemTranspiledOutput } = require('./additionalRequireHook.js'),
+      { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
+      { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
 
 /**
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js
@@ -108,7 +112,7 @@ class Compiler {
  * export before importing possible circular dependencies.
  * export ecmascript specification complient modules allow circular module dependencyز
  */
-Object.assign(module.exports, { Compiler, getBabelConfig, getCompilerConfig })
+Object.assign(module.exports, { Compiler })
 if (isPreservedSymlinkFlag())
   throw new Error(
     '• Using `preserve symlink` node runtime flag will cause infinite circular dependency, where each will load the module with different accumulative path when symlinking node_modules to each other.',

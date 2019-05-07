@@ -1,12 +1,12 @@
 {
   "name": "@dependency/javascriptTranspilation",
   "main": "./entrypoint/programmaticAPI",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "scripts": {
     "postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true"
   },
   "dependencies": {
-    "@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation",
+    "@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x",
     "@babel/core": "*",
     "@babel/helper-plugin-utils": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "*",
@@ -35,7 +35,7 @@
     "@babel/preset-env": "*",
     "@babel/register": "*",
     "@babel/runtime": "*",
-    "@dependency/addModuleResolutionPath": "https://github.com/AppScriptIO/addModuleResolutionPath",
+    "@dependency/addModuleResolutionPath": "https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x",
     "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
     "babel-minify": "*",
     "babel-plugin-dynamic-import-node": "*",
@@ -48,7 +48,7 @@
     "pirates": "^4.0.1"
   },
   "devDependencies": {
-    "@dependency/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis",
+    "@dependency/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x",
     "typescript": "^3.3.3333"
   },
   "workspaces": [],

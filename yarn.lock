@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@babel/babel-plugin-functionSentProxyImplementation@https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation":
-  version "0.0.0"
-  resolved "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#9fa715e6ba3141b6d6ddb13ba1fed79dc943ee64"
+"@babel/babel-plugin-functionSentProxyImplementation@https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x":
+  version "1.0.0"
+  resolved "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#9e2e17af2b8dd2e49804a7dfb3ed6427a41bc8a6"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-function-sent" "^7.2.0"
@@ -859,13 +859,17 @@
   version "1.0.0"
   resolved "https://github.com/AppScriptIO/addModuleResolutionPath#d1d7e14f79f6c0b0168b7f133a2124f4e17d3560"
 
+"@dependency/addModuleResolutionPath@https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x":
+  version "1.0.0"
+  resolved "https://github.com/AppScriptIO/addModuleResolutionPath#7d93ec94414fb9da98a24385cf06ad86fab71982"
+
 "@dependency/configurationManagement@https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x":
   version "1.0.0"
   resolved "https://github.com/AppScriptIO/configurationManagement#b299f5eb174a73f78e4f77cb69a9055c55855c0a"
 
-"@dependency/javascriptStaticAnalysis@https://github.com/AppScriptIO/javascriptStaticAnalysis":
+"@dependency/javascriptStaticAnalysis@https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/javascriptStaticAnalysis#ddf798d7734cc71770295a24870871d39bcbe8bb"
+  resolved "https://github.com/AppScriptIO/javascriptStaticAnalysis#e4934b2cd1778cc4b1ef3ebff2b47753c34a86d8"
   dependencies:
     "@dependency/addModuleResolutionPath" "https://github.com/AppScriptIO/addModuleResolutionPath"
     "@typescript-eslint/eslint-plugin" "^1.4.2"
