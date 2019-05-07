@@ -1,18 +1,19 @@
-function isPreservedSymlinkFlag({ shouldThrow = false } = {}) {
-  /**
-   * Check that preserve symlink is enabled.
-   * Node process must be run with `preseve symlink` option (flag or env variable), by Node's default it is off. https://nodejs.org/api/cli.html#cli_node_preserve_symlinks_1
-   * As this module relies on node_modules being resolved from the symlink location in case the module is symlinks from outside of the application root path (for development purposes).
-   * This implementation checks only for environment variable (not flag).
-   */
-  const preserveSymlinkOption = 'NODE_PRESERVE_SYMLINKS'
-  debugger
+"use strict";function isPreservedSymlinkFlag({ shouldThrow = false } = {}) {
+
+
+
+
+
+
+  const preserveSymlinkOption = 'NODE_PRESERVE_SYMLINKS';
+  debugger;
   if (process.env[preserveSymlinkOption] || process.execArgv.includes('--preserve-symlinks')) {
-    if (shouldThrow) throw new Error("Node's preserve symlink option must be turned on (NODE_PRESERVE_SYMLINKS)")
-    return true
+    if (shouldThrow) throw new Error("Node's preserve symlink option must be turned on (NODE_PRESERVE_SYMLINKS)");
+    return true;
   } else {
-    return false
+    return false;
   }
 }
 
-module.exports = { isPreservedSymlinkFlag }
+module.exports = { isPreservedSymlinkFlag };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS91dGlsaXR5L2lzUHJlc2VydmVkU3ltbGlua0ZsYWcuanMiXSwibmFtZXMiOlsiaXNQcmVzZXJ2ZWRTeW1saW5rRmxhZyIsInNob3VsZFRocm93IiwicHJlc2VydmVTeW1saW5rT3B0aW9uIiwicHJvY2VzcyIsImVudiIsImV4ZWNBcmd2IiwiaW5jbHVkZXMiLCJFcnJvciIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJhQUFBLFNBQVNBLHNCQUFULENBQWdDLEVBQUVDLFdBQVcsR0FBRyxLQUFoQixLQUEwQixFQUExRCxFQUE4RDs7Ozs7OztBQU81RCxRQUFNQyxxQkFBcUIsR0FBRyx3QkFBOUI7QUFDQTtBQUNBLE1BQUlDLE9BQU8sQ0FBQ0MsR0FBUixDQUFZRixxQkFBWixLQUFzQ0MsT0FBTyxDQUFDRSxRQUFSLENBQWlCQyxRQUFqQixDQUEwQixxQkFBMUIsQ0FBMUMsRUFBNEY7QUFDMUYsUUFBSUwsV0FBSixFQUFpQixNQUFNLElBQUlNLEtBQUosQ0FBVSwyRUFBVixDQUFOO0FBQ2pCLFdBQU8sSUFBUDtBQUNELEdBSEQsTUFHTztBQUNMLFdBQU8sS0FBUDtBQUNEO0FBQ0Y7O0FBRURDLE1BQU0sQ0FBQ0MsT0FBUCxHQUFpQixFQUFFVCxzQkFBRixFQUFqQiIsInNvdXJjZXNDb250ZW50IjpbImZ1bmN0aW9uIGlzUHJlc2VydmVkU3ltbGlua0ZsYWcoeyBzaG91bGRUaHJvdyA9IGZhbHNlIH0gPSB7fSkge1xuICAvKipcbiAgICogQ2hlY2sgdGhhdCBwcmVzZXJ2ZSBzeW1saW5rIGlzIGVuYWJsZWQuXG4gICAqIE5vZGUgcHJvY2VzcyBtdXN0IGJlIHJ1biB3aXRoIGBwcmVzZXZlIHN5bWxpbmtgIG9wdGlvbiAoZmxhZyBvciBlbnYgdmFyaWFibGUpLCBieSBOb2RlJ3MgZGVmYXVsdCBpdCBpcyBvZmYuIGh0dHBzOi8vbm9kZWpzLm9yZy9hcGkvY2xpLmh0bWwjY2xpX25vZGVfcHJlc2VydmVfc3ltbGlua3NfMVxuICAgKiBBcyB0aGlzIG1vZHVsZSByZWxpZXMgb24gbm9kZV9tb2R1bGVzIGJlaW5nIHJlc29sdmVkIGZyb20gdGhlIHN5bWxpbmsgbG9jYXRpb24gaW4gY2FzZSB0aGUgbW9kdWxlIGlzIHN5bWxpbmtzIGZyb20gb3V0c2lkZSBvZiB0aGUgYXBwbGljYXRpb24gcm9vdCBwYXRoIChmb3IgZGV2ZWxvcG1lbnQgcHVycG9zZXMpLlxuICAgKiBUaGlzIGltcGxlbWVudGF0aW9uIGNoZWNrcyBvbmx5IGZvciBlbnZpcm9ubWVudCB2YXJpYWJsZSAobm90IGZsYWcpLlxuICAgKi9cbiAgY29uc3QgcHJlc2VydmVTeW1saW5rT3B0aW9uID0gJ05PREVfUFJFU0VSVkVfU1lNTElOS1MnXG4gIGRlYnVnZ2VyXG4gIGlmIChwcm9jZXNzLmVudltwcmVzZXJ2ZVN5bWxpbmtPcHRpb25dIHx8IHByb2Nlc3MuZXhlY0FyZ3YuaW5jbHVkZXMoJy0tcHJlc2VydmUtc3ltbGlua3MnKSkge1xuICAgIGlmIChzaG91bGRUaHJvdykgdGhyb3cgbmV3IEVycm9yKFwiTm9kZSdzIHByZXNlcnZlIHN5bWxpbmsgb3B0aW9uIG11c3QgYmUgdHVybmVkIG9uIChOT0RFX1BSRVNFUlZFX1NZTUxJTktTKVwiKVxuICAgIHJldHVybiB0cnVlXG4gIH0gZWxzZSB7XG4gICAgcmV0dXJuIGZhbHNlXG4gIH1cbn1cblxubW9kdWxlLmV4cG9ydHMgPSB7IGlzUHJlc2VydmVkU3ltbGlua0ZsYWcgfVxuIl19
