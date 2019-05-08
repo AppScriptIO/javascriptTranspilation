@@ -68,7 +68,6 @@ class Compiler {
     }
   }
   trackLoadedFile() {
-    debugger
     this.loadedFiles = this.loadedFiles || []
     let ignoreFilenamePattern = []
     let eventEmitter = new EventEmitter()
