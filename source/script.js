@@ -37,9 +37,9 @@ function getBabelConfig(babelConfigFilename, { configType = 'json' } = {}) {
 module.exports.getBabelConfig = getBabelConfig
 module.exports.getCompilerConfig = getCompilerConfig
 const { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
-      { filesystemTranspiledOutput } = require('./additionalRequireHook.js'),
-      { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
-      { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
+  { filesystemTranspiledOutput } = require('./additionalRequireHook.js'),
+  { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
+  { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
 
 /**
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js

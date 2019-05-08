@@ -11,7 +11,7 @@ const ownConfiguration = {
     },
   },
   entrypoint: {
-    programmaticAPI: './entrypoint.js',
+    programmaticAPI: './script.js',
   },
   transpilation: {
     babelConfigKey: 'serverRuntime.BabelConfig.js',
