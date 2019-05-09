@@ -69,7 +69,7 @@ class Compiler {
   }
   trackLoadedFile() {
     this.loadedFiles = this.loadedFiles || []
-    let ignoreFilenamePattern = []
+    let ignoreFilenamePattern = this.babelRegisterConfig.ignore
     let eventEmitter = new EventEmitter()
     addRequireHook(
       (code, filename) => {
@@ -78,7 +78,7 @@ class Compiler {
       },
       {
         exts: this.babelRegisterConfig.extensions,
-        ignoreNodeModules: true,
+        ignoreNodeModules: false,
         matcher: filename => (ignoreFilenamePattern.some(regex => filename.match(regex)) ? false : true),
       },
     )
