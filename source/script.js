@@ -10,6 +10,9 @@ const path = require('path'),
   { addHook: addRequireHook } = require('pirates')
 // let findTargetProjectRoot // possible circular dependency.
 
+// Requiring module's path.
+const targetProjectCallerPath = module.parent.parent.filename // first parent module is the entrypoint `index.js`, second is the module that calls the require hook.
+
 // Compiler configuration includes `babel transform` options & `@babel/register` configuration.
 function getCompilerConfig(configKey) {
   return require(`./compilerConfiguration/${configKey}`) // load configuration equivalent to .babelrc options
@@ -54,14 +57,22 @@ class Compiler {
     this.babelTransformConfig = babelTransformConfig
     this.babelRegisterConfig = babelRegisterConfig
   }
-  requireHook() {
+  requireHook({
+    restrictToTargetProject = true, // this option when false allows circular dependency `configurationManagement` to use transpilation.
+  } = {}) {
     function requireHook({ babelTransformConfig, babelRegisterConfig }) {
       // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
       // The require hook will bind itself to node's require and automatically compile files on the fly
       babelRegister(Object.assign({}, babelTransformConfig, babelRegisterConfig)) // Compile code on runtime.
       // console.groupEnd()
     }
+    if (restrictToTargetProject) {
+      this.setTargetProject()
+      const targetProjectFilesRegex = new RegExp(`${this.targetProjectConfig.rootPath}`)
+      this.babelRegisterConfig.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
+    }
     let revertHook = requireHook({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
+    Compiler.trackRegisteredHook() // keep track of all projects that initiated a require hook registration.
     this.trackLoadedFile()
     return {
       revertHook: revertHook,
@@ -100,6 +111,12 @@ class Compiler {
     const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
     if (!this.targetProjectConfig) this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [process.cwd(), module.parent.filename /* The place where the module was required from */] })
   }
+}
+
+// register the modules that registered a require hook for compilation.
+Compiler.registeredHook = [] // initialize property.
+Compiler.trackRegisteredHook = function() {
+  Compiler.registeredHook.push(targetProjectCallerPath)
 }
 
 // initialize - register Node Module Resolution Path
