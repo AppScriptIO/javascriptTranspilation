@@ -41,19 +41,21 @@ module.exports.getBabelConfig = getBabelConfig
 module.exports.getCompilerConfig = getCompilerConfig
 const { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`),
   { filesystemTranspiledOutput } = require('./additionalRequireHook.js'),
-  { requireHook: defaultRequireHookConfig } = require('./compilerConfiguration/requireHookConfig.js'),
+  defaultRequireHookConfig = require('./compilerConfiguration/requireHookConfig.js'),
   { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
 
 /**
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js
  */
 class Compiler {
-  constructor({ babelTransformConfig, babelRegisterConfig } = {}) {
-    if (!babelRegisterConfig) babelRegisterConfig = defaultRequireHookConfig
+  constructor({ babelTransformConfig, babelRegisterConfig, callerPath } = {}) {
+    if (!babelRegisterConfig) babelRegisterConfig = defaultRequireHookConfig()
     if (!babelTransformConfig) {
-      this.setTargetProject()
+      assert(callerPath, '• callerPath should be passed in case babel configuration was not provided')
+      this.setTargetProject({ nestedProjectPath: [callerPath] })
       babelTransformConfig = this.targetProjectConfig.configuration.transpilation.babelConfig
     }
+    this.callerPath = callerPath
     this.babelTransformConfig = babelTransformConfig
     this.babelRegisterConfig = babelRegisterConfig
   }
@@ -67,8 +69,9 @@ class Compiler {
       // console.groupEnd()
     }
     if (restrictToTargetProject) {
-      this.setTargetProject()
-      const targetProjectFilesRegex = new RegExp(`${this.targetProjectConfig.rootPath}`)
+      assert(this.callerPath, '• callerPath should be passed in order to lookup for project configuration.')
+      this.setTargetProject({ nestedProjectPath: [this.callerPath] })
+      const targetProjectFilesRegex = new RegExp(`^((?!${this.targetProjectConfig.rootPath}).)*$`) // negation - paths that don't include the path i.e. outside the directory.
       this.babelRegisterConfig.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
     }
     let revertHook = requireHook({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
@@ -97,19 +100,26 @@ class Compiler {
     return eventEmitter
   }
   outputTranspilation() {
-    this.setTargetProject()
+    this.setPrimaryTargetProject()
     // output transpilation result into filesystem files
     return filesystemTranspiledOutput({
       babelConfig: this.babelTransformConfig,
       extension: this.babelRegisterConfig.extensions,
       ignoreFilenamePattern: this.babelRegisterConfig.ignore,
       shouldTransform: false,
-      targetProjectConfig: this.targetProjectConfig,
+      targetProjectConfig: this.primaryTargetProjectConfig,
     })
   }
-  setTargetProject() {
+  setTargetProject({ nestedProjectPath = [] }) {
+    if (this.targetProjectConfig) return
     const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
-    if (!this.targetProjectConfig) this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [process.cwd(), module.parent.filename /* The place where the module was required from */] })
+    this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath })
+  }
+  // main target project that initiated the node process from cli or require the module before being cached, in cases where node_modules are also transpiled.
+  setPrimaryTargetProject({ nestedProjectPath = [process.cwd(), module.parent.filename /* The place where the module was required from */] } = {}) {
+    if (this.primaryTargetProjectConfig) return
+    const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
+    this.primaryTargetProjectConfig = findTargetProjectRoot({ nestedProjectPath })
   }
 }
 
