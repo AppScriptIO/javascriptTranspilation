@@ -1,9 +1,9 @@
-const path = require('path')
+"use strict";const path = require('path');
 
 module.exports = {
   babelConfig: {
-    // cache: false,
-    sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
+
+    sourceMaps: 'both' || 'inline' || true,
     retainLines: true,
     minified: false,
     comments: false,
@@ -11,38 +11,36 @@ module.exports = {
     presets: [],
 
     plugins: [
-      /* Syntax */
-      require.resolve('@babel/plugin-syntax-dynamic-import'),
-      require.resolve('@babel/plugin-syntax-typescript'),
-      // require.resolve(`@babel/plugin-syntax-decorators`),
-      // require.resolve('@babel/plugin-syntax-logical-assignment-operators'),
-      // require.resolve('@babel/plugin-syntax-function-bind'),
-      // require.resolve('@babel/plugin-syntax-function-sent'),
 
-      /* Babel Runtime */
-      require.resolve(`@babel/plugin-transform-runtime`), // runtime required
+    require.resolve('@babel/plugin-syntax-dynamic-import'),
+    require.resolve('@babel/plugin-syntax-typescript'),
 
-      /* Transform */
-      /* Typescript - conditionally transforms only typescript files. */
-      [require.resolve('@babel/plugin-transform-typescript'), {}], // unsupported features - https://babeljs.io/docs/en/babel-plugin-transform-typescript
-      require.resolve(`@babel/plugin-transform-modules-commonjs`), // transform static import
-      require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
-      [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // transform decorators - // https://github.com/babel/babel/issues/7786
-      [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }], // transform static class parameter
-      // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47
-      require.resolve(`babel-plugin-transform-function-parameter-decorators`), // function parameter decorator
-      require.resolve(`@babel/plugin-proposal-function-bind`), // Bind shorthand replaces `.call` & `.bind`
-      require.resolve(`@babel/plugin-proposal-optional-chaining`), // Optional chaining operator e.g. `obj.key1?.key2?.key3`
-      require.resolve(`@babel/plugin-proposal-object-rest-spread`), // rest operators `const {x,y, ...z} = {x:1,y:2, a:3, b:4, c:5}` => `z == {a:3, b:4, c:5}`
-      [require.resolve('@babel/plugin-proposal-logical-assignment-operators')], // `a ||= b` or `a &&= b` --> `a || (a = b)` assignment operator is called only when needed, unlike `a = a || b`
-      require.resolve(`@babel/babel-plugin-functionSentProxyImplementation`), // [option 1] Proxy implementation - Adds `function.sent` meta propety in generators
-      // require.resolve(`@babel/plugin-proposal-function-sent`), // [option 2] Official implementation - Adds `function.sent` meta propety in generators
-      [require.resolve('@babel/plugin-proposal-throw-expressions')], // allows to throw in expressions `() => throw new Error('')`.
-      require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'), // `let x = object.y ?? "default"` --> `let x = object.y != null ? object.y : 'default'`
-      [require.resolve('@babel/plugin-proposal-pipeline-operator'), { proposal: 'minimal' }], // `"hello" |> doubleSay |> capitalize |> exclaim` --> `exclaim(capitalize(doubleSay("hello")))`
-      require.resolve('@babel/plugin-proposal-optional-catch-binding'), // It allows the binding to be omitted from a catch clause `try{} catch {}` instead of `try{} catch(_unused){}`
-      require.resolve('@babel/plugin-proposal-export-namespace-from'),
-      require.resolve('@babel/plugin-proposal-export-default-from'),
-    ],
-  },
-}
+
+
+
+
+
+    require.resolve(`@babel/plugin-transform-runtime`),
+
+
+
+    [require.resolve('@babel/plugin-transform-typescript'), {}],
+    require.resolve(`@babel/plugin-transform-modules-commonjs`),
+    require.resolve(`babel-plugin-dynamic-import-node`),
+    [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }],
+    [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }],
+
+    require.resolve(`babel-plugin-transform-function-parameter-decorators`),
+    require.resolve(`@babel/plugin-proposal-function-bind`),
+    require.resolve(`@babel/plugin-proposal-optional-chaining`),
+    require.resolve(`@babel/plugin-proposal-object-rest-spread`),
+    [require.resolve('@babel/plugin-proposal-logical-assignment-operators')],
+    require.resolve(`@babel/babel-plugin-functionSentProxyImplementation`),
+
+    [require.resolve('@babel/plugin-proposal-throw-expressions')],
+    require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
+    [require.resolve('@babel/plugin-proposal-pipeline-operator'), { proposal: 'minimal' }],
+    require.resolve('@babel/plugin-proposal-optional-catch-binding'),
+    require.resolve('@babel/plugin-proposal-export-namespace-from'),
+    require.resolve('@babel/plugin-proposal-export-default-from')] } };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vc2VydmVyUnVudGltZS5CYWJlbENvbmZpZy5qcyJdLCJuYW1lcyI6WyJwYXRoIiwicmVxdWlyZSIsIm1vZHVsZSIsImV4cG9ydHMiLCJiYWJlbENvbmZpZyIsInNvdXJjZU1hcHMiLCJyZXRhaW5MaW5lcyIsIm1pbmlmaWVkIiwiY29tbWVudHMiLCJwcmVzZXRzIiwicGx1Z2lucyIsInJlc29sdmUiLCJsZWdhY3kiLCJsb29zZSIsInByb3Bvc2FsIl0sIm1hcHBpbmdzIjoiYUFBQSxNQUFNQSxJQUFJLEdBQUdDLE9BQU8sQ0FBQyxNQUFELENBQXBCOztBQUVBQyxNQUFNLENBQUNDLE9BQVAsR0FBaUI7QUFDZkMsRUFBQUEsV0FBVyxFQUFFOztBQUVYQyxJQUFBQSxVQUFVLEVBQUUsVUFBZ0QsUUFBaEQsSUFBNEQsSUFGN0Q7QUFHWEMsSUFBQUEsV0FBVyxFQUFFLElBSEY7QUFJWEMsSUFBQUEsUUFBUSxFQUFFLEtBSkM7QUFLWEMsSUFBQUEsUUFBUSxFQUFFLEtBTEM7O0FBT1hDLElBQUFBLE9BQU8sRUFBRSxFQVBFOztBQVNYQyxJQUFBQSxPQUFPLEVBQUU7O0FBRVBULElBQUFBLE9BQU8sQ0FBQ1UsT0FBUixDQUFnQixxQ0FBaEIsQ0FGTztBQUdQVixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBZ0IsaUNBQWhCLENBSE87Ozs7Ozs7QUFVUFYsSUFBQUEsT0FBTyxDQUFDVSxPQUFSLENBQWlCLGlDQUFqQixDQVZPOzs7O0FBY1AsS0FBQ1YsT0FBTyxDQUFDVSxPQUFSLENBQWdCLG9DQUFoQixDQUFELEVBQXdELEVBQXhELENBZE87QUFlUFYsSUFBQUEsT0FBTyxDQUFDVSxPQUFSLENBQWlCLDBDQUFqQixDQWZPO0FBZ0JQVixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBaUIsa0NBQWpCLENBaEJPO0FBaUJQLEtBQUNWLE9BQU8sQ0FBQ1UsT0FBUixDQUFpQixtQ0FBakIsQ0FBRCxFQUF1RCxFQUFFQyxNQUFNLEVBQUUsSUFBVixFQUF2RCxDQWpCTztBQWtCUCxLQUFDWCxPQUFPLENBQUNVLE9BQVIsQ0FBaUIseUNBQWpCLENBQUQsRUFBNkQsRUFBRUUsS0FBSyxFQUFFLElBQVQsRUFBN0QsQ0FsQk87O0FBb0JQWixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBaUIsc0RBQWpCLENBcEJPO0FBcUJQVixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBaUIsc0NBQWpCLENBckJPO0FBc0JQVixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBaUIsMENBQWpCLENBdEJPO0FBdUJQVixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBaUIsMkNBQWpCLENBdkJPO0FBd0JQLEtBQUNWLE9BQU8sQ0FBQ1UsT0FBUixDQUFnQixxREFBaEIsQ0FBRCxDQXhCTztBQXlCUFYsSUFBQUEsT0FBTyxDQUFDVSxPQUFSLENBQWlCLHFEQUFqQixDQXpCTzs7QUEyQlAsS0FBQ1YsT0FBTyxDQUFDVSxPQUFSLENBQWdCLDBDQUFoQixDQUFELENBM0JPO0FBNEJQVixJQUFBQSxPQUFPLENBQUNVLE9BQVIsQ0FBZ0Isb0RBQWhCLENBNUJPO0FBNkJQLEtBQUNWLE9BQU8sQ0FBQ1UsT0FBUixDQUFnQiwwQ0FBaEIsQ0FBRCxFQUE4RCxFQUFFRyxRQUFRLEVBQUUsU0FBWixFQUE5RCxDQTdCTztBQThCUGIsSUFBQUEsT0FBTyxDQUFDVSxPQUFSLENBQWdCLCtDQUFoQixDQTlCTztBQStCUFYsSUFBQUEsT0FBTyxDQUFDVSxPQUFSLENBQWdCLDhDQUFoQixDQS9CTztBQWdDUFYsSUFBQUEsT0FBTyxDQUFDVSxPQUFSLENBQWdCLDRDQUFoQixDQWhDTyxDQVRFLEVBREUsRUFBakIiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpXG5cbm1vZHVsZS5leHBvcnRzID0ge1xuICBiYWJlbENvbmZpZzoge1xuICAgIC8vIGNhY2hlOiBmYWxzZSxcbiAgICBzb3VyY2VNYXBzOiAnYm90aCcgLyppbmxpbmUgJiBpbmNsdWRlIGluIHJlc3VsdCBvYmplY3QqLyB8fCAnaW5saW5lJyB8fCB0cnVlLFxuICAgIHJldGFpbkxpbmVzOiB0cnVlLFxuICAgIG1pbmlmaWVkOiBmYWxzZSxcbiAgICBjb21tZW50czogZmFsc2UsXG5cbiAgICBwcmVzZXRzOiBbXSxcblxuICAgIHBsdWdpbnM6IFtcbiAgICAgIC8qIFN5bnRheCAqL1xuICAgICAgcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXN5bnRheC1keW5hbWljLWltcG9ydCcpLFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXN5bnRheC10eXBlc2NyaXB0JyksXG4gICAgICAvLyByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWRlY29yYXRvcnNgKSxcbiAgICAgIC8vIHJlcXVpcmUucmVzb2x2ZSgnQGJhYmVsL3BsdWdpbi1zeW50YXgtbG9naWNhbC1hc3NpZ25tZW50LW9wZXJhdG9ycycpLFxuICAgICAgLy8gcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXN5bnRheC1mdW5jdGlvbi1iaW5kJyksXG4gICAgICAvLyByZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tc3ludGF4LWZ1bmN0aW9uLXNlbnQnKSxcblxuICAgICAgLyogQmFiZWwgUnVudGltZSAqL1xuICAgICAgcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXRyYW5zZm9ybS1ydW50aW1lYCksIC8vIHJ1bnRpbWUgcmVxdWlyZWRcblxuICAgICAgLyogVHJhbnNmb3JtICovXG4gICAgICAvKiBUeXBlc2NyaXB0IC0gY29uZGl0aW9uYWxseSB0cmFuc2Zvcm1zIG9ubHkgdHlwZXNjcmlwdCBmaWxlcy4gKi9cbiAgICAgIFtyZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tdHJhbnNmb3JtLXR5cGVzY3JpcHQnKSwge31dLCAvLyB1bnN1cHBvcnRlZCBmZWF0dXJlcyAtIGh0dHBzOi8vYmFiZWxqcy5pby9kb2NzL2VuL2JhYmVsLXBsdWdpbi10cmFuc2Zvcm0tdHlwZXNjcmlwdFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXRyYW5zZm9ybS1tb2R1bGVzLWNvbW1vbmpzYCksIC8vIHRyYW5zZm9ybSBzdGF0aWMgaW1wb3J0XG4gICAgICByZXF1aXJlLnJlc29sdmUoYGJhYmVsLXBsdWdpbi1keW5hbWljLWltcG9ydC1ub2RlYCksIC8vIHRyYW5zZm9ybSBkeW5hbWljIGltcG9ydFxuICAgICAgW3JlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1kZWNvcmF0b3JzYCksIHsgbGVnYWN5OiB0cnVlIH1dLCAvLyB0cmFuc2Zvcm0gZGVjb3JhdG9ycyAtIC8vIGh0dHBzOi8vZ2l0aHViLmNvbS9iYWJlbC9iYWJlbC9pc3N1ZXMvNzc4NlxuICAgICAgW3JlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1jbGFzcy1wcm9wZXJ0aWVzYCksIHsgbG9vc2U6IHRydWUgfV0sIC8vIHRyYW5zZm9ybSBzdGF0aWMgY2xhc3MgcGFyYW1ldGVyXG4gICAgICAvLyBUT0RPOiBjYW5ub3QgdXNlIFwicGx1Z2luLXN5bnRheC1kZWNvcmF0b3JzXCIgd2l0aCBcInBsdWdpbi10cmFuc2Zvcm0tZnVuY3Rpb24tcGFyYW1ldGVyLWRlY29yYXRvcnNcIiAtIGluIGNvbXBhdGlibGUgd2l0aCBiYWJlbCA3IGJldGEgNDdcbiAgICAgIHJlcXVpcmUucmVzb2x2ZShgYmFiZWwtcGx1Z2luLXRyYW5zZm9ybS1mdW5jdGlvbi1wYXJhbWV0ZXItZGVjb3JhdG9yc2ApLCAvLyBmdW5jdGlvbiBwYXJhbWV0ZXIgZGVjb3JhdG9yXG4gICAgICByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tcHJvcG9zYWwtZnVuY3Rpb24tYmluZGApLCAvLyBCaW5kIHNob3J0aGFuZCByZXBsYWNlcyBgLmNhbGxgICYgYC5iaW5kYFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLW9wdGlvbmFsLWNoYWluaW5nYCksIC8vIE9wdGlvbmFsIGNoYWluaW5nIG9wZXJhdG9yIGUuZy4gYG9iai5rZXkxPy5rZXkyPy5rZXkzYFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLW9iamVjdC1yZXN0LXNwcmVhZGApLCAvLyByZXN0IG9wZXJhdG9ycyBgY29uc3Qge3gseSwgLi4uen0gPSB7eDoxLHk6MiwgYTozLCBiOjQsIGM6NX1gID0+IGB6ID09IHthOjMsIGI6NCwgYzo1fWBcbiAgICAgIFtyZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tcHJvcG9zYWwtbG9naWNhbC1hc3NpZ25tZW50LW9wZXJhdG9ycycpXSwgLy8gYGEgfHw9IGJgIG9yIGBhICYmPSBiYCAtLT4gYGEgfHwgKGEgPSBiKWAgYXNzaWdubWVudCBvcGVyYXRvciBpcyBjYWxsZWQgb25seSB3aGVuIG5lZWRlZCwgdW5saWtlIGBhID0gYSB8fCBiYFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvYmFiZWwtcGx1Z2luLWZ1bmN0aW9uU2VudFByb3h5SW1wbGVtZW50YXRpb25gKSwgLy8gW29wdGlvbiAxXSBQcm94eSBpbXBsZW1lbnRhdGlvbiAtIEFkZHMgYGZ1bmN0aW9uLnNlbnRgIG1ldGEgcHJvcGV0eSBpbiBnZW5lcmF0b3JzXG4gICAgICAvLyByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tcHJvcG9zYWwtZnVuY3Rpb24tc2VudGApLCAvLyBbb3B0aW9uIDJdIE9mZmljaWFsIGltcGxlbWVudGF0aW9uIC0gQWRkcyBgZnVuY3Rpb24uc2VudGAgbWV0YSBwcm9wZXR5IGluIGdlbmVyYXRvcnNcbiAgICAgIFtyZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tcHJvcG9zYWwtdGhyb3ctZXhwcmVzc2lvbnMnKV0sIC8vIGFsbG93cyB0byB0aHJvdyBpbiBleHByZXNzaW9ucyBgKCkgPT4gdGhyb3cgbmV3IEVycm9yKCcnKWAuXG4gICAgICByZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tcHJvcG9zYWwtbnVsbGlzaC1jb2FsZXNjaW5nLW9wZXJhdG9yJyksIC8vIGBsZXQgeCA9IG9iamVjdC55ID8/IFwiZGVmYXVsdFwiYCAtLT4gYGxldCB4ID0gb2JqZWN0LnkgIT0gbnVsbCA/IG9iamVjdC55IDogJ2RlZmF1bHQnYFxuICAgICAgW3JlcXVpcmUucmVzb2x2ZSgnQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1waXBlbGluZS1vcGVyYXRvcicpLCB7IHByb3Bvc2FsOiAnbWluaW1hbCcgfV0sIC8vIGBcImhlbGxvXCIgfD4gZG91YmxlU2F5IHw+IGNhcGl0YWxpemUgfD4gZXhjbGFpbWAgLS0+IGBleGNsYWltKGNhcGl0YWxpemUoZG91YmxlU2F5KFwiaGVsbG9cIikpKWBcbiAgICAgIHJlcXVpcmUucmVzb2x2ZSgnQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1vcHRpb25hbC1jYXRjaC1iaW5kaW5nJyksIC8vIEl0IGFsbG93cyB0aGUgYmluZGluZyB0byBiZSBvbWl0dGVkIGZyb20gYSBjYXRjaCBjbGF1c2UgYHRyeXt9IGNhdGNoIHt9YCBpbnN0ZWFkIG9mIGB0cnl7fSBjYXRjaChfdW51c2VkKXt9YFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLWV4cG9ydC1uYW1lc3BhY2UtZnJvbScpLFxuICAgICAgcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLWV4cG9ydC1kZWZhdWx0LWZyb20nKSxcbiAgICBdLFxuICB9LFxufVxuIl19
