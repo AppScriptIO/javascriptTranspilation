@@ -29,8 +29,7 @@ module.exports = {
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
       [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // transform decorators - // https://github.com/babel/babel/issues/7786
       [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }], // transform static class parameter
-      // TODO: cannot use "plugin-syntax-decorators" with "plugin-transform-function-parameter-decorators" - in compatible with babel 7 beta 47
-      require.resolve(`babel-plugin-transform-function-parameter-decorators`), // function parameter decorator
+      require.resolve(`babel-plugin-parameter-decorator`), // function parameter decorator
       require.resolve(`@babel/plugin-proposal-function-bind`), // Bind shorthand replaces `.call` & `.bind`
       require.resolve(`@babel/plugin-proposal-optional-chaining`), // Optional chaining operator e.g. `obj.key1?.key2?.key3`
       require.resolve(`@babel/plugin-proposal-object-rest-spread`), // rest operators `const {x,y, ...z} = {x:1,y:2, a:3, b:4, c:5}` => `z == {a:3, b:4, c:5}`

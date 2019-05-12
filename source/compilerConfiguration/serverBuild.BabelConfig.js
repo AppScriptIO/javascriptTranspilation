@@ -15,7 +15,7 @@ module.exports = {
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
       [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // https://github.com/babel/babel/issues/7786
       [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }], // static class parameter
-      require.resolve(`babel-plugin-transform-function-parameter-decorators`), // function parameter decorator
+      require.resolve(`babel-plugin-parameter-decorator`), // function parameter decorator
     ],
   },
 }
