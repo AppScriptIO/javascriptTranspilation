@@ -6,7 +6,7 @@ function isPreservedSymlinkFlag({ shouldThrow = false } = {}) {
    * This implementation checks only for environment variable (not flag).
    */
   const preserveSymlinkOption = 'NODE_PRESERVE_SYMLINKS'
-  debugger
+
   if (process.env[preserveSymlinkOption] || process.execArgv.includes('--preserve-symlinks')) {
     if (shouldThrow) throw new Error("Node's preserve symlink option must be turned on (NODE_PRESERVE_SYMLINKS)")
     return true
