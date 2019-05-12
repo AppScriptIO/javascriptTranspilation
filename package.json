@@ -8,6 +8,7 @@
   "dependencies": {
     "@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x",
     "@babel/core": "*",
+    "@babel/cli": "*",
     "@babel/helper-plugin-utils": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "*",
     "@babel/plugin-proposal-decorators": "*",
@@ -40,7 +41,7 @@
     "babel-minify": "*",
     "babel-plugin-dynamic-import-node": "*",
     "babel-plugin-dynamic-import-node-babel-7": "*",
-    "babel-plugin-macros": "^2.4.3",
+    "babel-plugin-macros": "*",
     "babel-plugin-transform-commonjs-es2015-modules": "*",
     "babel-plugin-transform-custom-element-classes": "*",
     "babel-plugin-transform-function-parameter-decorators": "*",
