@@ -24,6 +24,9 @@ module.exports = {
 
       /* Transform */
       /* Typescript - conditionally transforms only typescript files. */
+      require.resolve('@babel/plugin-proposal-export-namespace-from'), // export * as ns from './script.js'
+      require.resolve('@babel/plugin-proposal-export-default-from'), // export v from './script.js';
+      //* `plugin-transform-typescript` must come after `proposal-export` plugins, as a conflict is produced.
       [require.resolve('@babel/plugin-transform-typescript'), {}], // unsupported features - https://babeljs.io/docs/en/babel-plugin-transform-typescript
       require.resolve(`@babel/plugin-transform-modules-commonjs`), // transform static import
       require.resolve(`babel-plugin-dynamic-import-node`), // transform dynamic import
@@ -40,8 +43,6 @@ module.exports = {
       require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'), // `let x = object.y ?? "default"` --> `let x = object.y != null ? object.y : 'default'`
       [require.resolve('@babel/plugin-proposal-pipeline-operator'), { proposal: 'minimal' }], // `"hello" |> doubleSay |> capitalize |> exclaim` --> `exclaim(capitalize(doubleSay("hello")))`
       require.resolve('@babel/plugin-proposal-optional-catch-binding'), // It allows the binding to be omitted from a catch clause `try{} catch {}` instead of `try{} catch(_unused){}`
-      require.resolve('@babel/plugin-proposal-export-namespace-from'),
-      require.resolve('@babel/plugin-proposal-export-default-from'),
     ],
   },
 }
