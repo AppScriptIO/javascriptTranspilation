@@ -45,7 +45,7 @@ const { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolu
   { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js')
 
 /**
- * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js
+ * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js after registering the transpilation require hooks.
  */
 class Compiler {
   constructor({ babelTransformConfig, babelRegisterConfig, callerPath } = {}) {
