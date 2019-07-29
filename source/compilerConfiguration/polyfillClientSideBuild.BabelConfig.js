@@ -6,7 +6,20 @@ module.exports = {
   babelConfig: {
     // TODO: fix polyfill - add polyfill for native import, es2015 currently causes errors, etc.
     presets: [
-      require.resolve(`@babel/preset-es2015`),
+      [
+        require.resolve(`@babel/preset-env`), // https://babeljs.io/docs/en/usage  // https://babeljs.io/docs/en/babel-preset-env
+        {
+          targets: {
+            chrome: '49',
+            opera: '36',
+            ie: '11',
+            edge: '15',
+            firefox: '51',
+            safari: '10',
+          },
+          // useBuiltIns: 'usage',
+        },
+      ],
       babelPresetMinifyConfig,
       // require.resolve(`@babel/preset-stage-0`),
     ],
