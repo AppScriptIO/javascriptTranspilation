@@ -48,13 +48,15 @@ const { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolu
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js after registering the transpilation require hooks.
  */
 class Compiler {
-  constructor({ babelTransformConfig, babelRegisterConfig, callerPath } = {}) {
+  constructor({ babelTransformConfig, babelRegisterConfig, callerPath, debugKey } = {}) {
     if (!babelRegisterConfig) babelRegisterConfig = defaultRequireHookConfig()
     if (!babelTransformConfig) {
       assert(callerPath, '• callerPath should be passed in case babel configuration was not provided')
       this.setTargetProject({ nestedProjectPath: [callerPath] })
       babelTransformConfig = this.targetProjectConfig.configuration.transpilation.babelConfig
     }
+    if (!debugKey) debugKey = callerPath
+    this.debugKey = debugKey
     this.callerPath = callerPath
     this.babelTransformConfig = babelTransformConfig
     this.babelRegisterConfig = babelRegisterConfig
@@ -77,10 +79,17 @@ class Compiler {
     let revertHook = requireHook({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
     Compiler.trackRegisteredHook() // keep track of all projects that initiated a require hook registration.
     this.trackLoadedFile()
-    return {
-      revertHook: revertHook,
-    }
+    this.outputTranspilation()
+    return { revertHook: revertHook }
   }
+  /** Usage: 
+     ```
+      process.on('exit', () => {
+        console.log(compiler.loadedFiles.map(value => value.filename))
+        console.log(compiler.babelRegisterConfig.ignore)
+      })
+    ```
+   */
   trackLoadedFile() {
     this.loadedFiles = this.loadedFiles || []
     let ignoreFilenamePattern = this.babelRegisterConfig.ignore

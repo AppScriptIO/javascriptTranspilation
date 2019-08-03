@@ -34,6 +34,7 @@ function filesystemTranspiledOutput({
       // create directory
       filesystem.mkdirSync(path.dirname(traspiledFilePath), { recursive: true })
       // write file
+      // console.log(`📢 Writing runtime transpilation files to ${traspiledFilePath}`)
       filesystem.writeFileSync(traspiledFilePath, content, { encoding: 'utf8' })
       return code
     },
