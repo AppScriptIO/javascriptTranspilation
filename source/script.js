@@ -7,7 +7,8 @@ const path = require('path'),
   moduleSystem = require('module'),
   EventEmitter = require('events'),
   babelRegister = require(`@babel/register`),
-  { addHook: addRequireHook } = require('pirates')
+  { addHook: addRequireHook } = require('pirates'),
+  { transpileSourcePath } = require('./transpileSourcePath.js')
 // let findTargetProjectRoot // possible circular dependency.
 
 // Requiring module's path.
@@ -134,15 +135,14 @@ class Compiler {
 
 // register the modules that registered a require hook for compilation.
 Compiler.registeredHook = [] // initialize property.
-Compiler.trackRegisteredHook = function() {
-  Compiler.registeredHook.push(targetProjectCallerPath)
-}
+Compiler.trackRegisteredHook = () => Compiler.registeredHook.push(targetProjectCallerPath)
 
 // initialize - register Node Module Resolution Path
 ;(function() {
   const babelModulesPath = path.dirname(path.dirname(path.dirname(require.resolve('@babel/core/package.json')))) // get the node_modules folder where Babel plugins are installed. Could be own package root or parent packages root (when this modules is installed as a pacakge)
   addModuleResolutionPathMultiple({ pathArray: [babelModulesPath] }) // Add babel node_modules to module resolving paths
 })()
+
 /**
  * export before importing possible circular dependencies.
  * export ecmascript specification complient modules allow circular module dependencyز
@@ -153,3 +153,6 @@ if (isPreservedSymlinkFlag())
     '• Using `preserve symlink` node runtime flag will cause infinite circular dependency, where each will load the module with different accumulative path when symlinking node_modules to each other.',
   )
 // ;({ findTargetProjectRoot } = require('@dependency/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
+
+// export additional modules
+Object.assign(module.exports, { transpileSourcePath })
