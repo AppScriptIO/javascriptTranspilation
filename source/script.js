@@ -64,7 +64,9 @@ class Compiler {
   }
   requireHook({
     restrictToTargetProject = true, // this option when false allows circular dependency `configurationManagement` to use transpilation.
+    matchTargetFile = true, // use passed babel config ignore globs and regex to match files and filter the files to transpile.
   } = {}) {
+    if (!matchTargetFile) this.babelRegisterConfig.ignore = []
     function requireHook({ babelTransformConfig, babelRegisterConfig }) {
       // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
       // The require hook will bind itself to node's require and automatically compile files on the fly
@@ -78,9 +80,12 @@ class Compiler {
       this.babelRegisterConfig.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
     }
     let revertHook = requireHook({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
+
+    // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `babelRegisterConfig.ignore`
     Compiler.trackRegisteredHook() // keep track of all projects that initiated a require hook registration.
     this.trackLoadedFile()
     this.outputTranspilation()
+
     return { revertHook: revertHook }
   }
   /** Usage: 
