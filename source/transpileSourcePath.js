@@ -32,7 +32,18 @@ async function transpileSourcePath({ source, destination, basePath }) {
   // execute babel cli
   let cp = childProcess.spawnSync(
     'yarn',
-    ['run', 'babel', '--out-dir', `"${destination}"`, '--config-file', '"./configuration/babel.config.js"', '--copy-files', `"${path.relative(basePath, source)}"`],
+    [
+      'run',
+      'babel',
+      '--out-dir',
+      `"${destination}"`,
+      '--config-file',
+      '"./configuration/babel.config.js"',
+      '--copy-files',
+      `"${path.relative(basePath, source)}"`,
+      '--ignore',
+      '"**/node_modules/**/*","node_modules/**/*"',
+    ],
     {
       cwd: basePath,
       shell: true,
