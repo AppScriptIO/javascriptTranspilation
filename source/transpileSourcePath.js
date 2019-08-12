@@ -39,10 +39,10 @@ async function transpileSourcePath({ source, destination, basePath }) {
       `"${destination}"`,
       '--config-file',
       '"./configuration/babel.config.js"',
-      '--copy-files',
-      `"${path.relative(basePath, source)}"`,
       '--ignore',
-      '"**/node_modules/**/*","node_modules/**/*"',
+      '"**/node_modules/**/*"',
+      '--copy-files', // TODO: Notes: copy-files flag does not respect "ignore" flag. The build will complete only that the process takes more time.
+      `"${path.relative(basePath, source)}"`,
     ],
     {
       cwd: basePath,
