@@ -1,57 +1,58 @@
-const util = require('util'),
-  babel = require('@babel/core'),
-  childProcess = require('child_process'),
-  path = require('path'),
-  { promises: filesystem } = require('fs')
-// instead of reimplementing babel transform for directories using programmatic api, the cli that has this feature will be used.
+"use strict";const util = require('util'),
+babel = require('@babel/core'),
+childProcess = require('child_process'),
+path = require('path'),
+{ promises: filesystem } = require('fs');
+
 const babelTransformFile = util.promisify(babel.transformFile),
-  childProcessSpawn = util.promisify(childProcess.spawn)
+childProcessSpawn = util.promisify(childProcess.spawn);
 
-/**
- * cli tool will be used instead of the babel programmatic api.
- * https://github.com/babel/babel/blob/master/packages/babel-cli/src/babel/dir.js#L13
- * https://github.com/babel/babel/tree/master/packages/babel-cli/src/babel
- * https://babeljs.io/docs/en/babel-cli
- * 
- * Similar to: 
- ```
-  yarn run babel --out-dir ./distribution/ "./package.json" --config-file "./configuration/babel.config.js" --copy-files
- ```
- */
+
+
+
+
+
+
+
+
+
+
+
 async function transpileSourcePath({ source, destination, basePath }) {
-  // relative to root.
-  if (!path.isAbsolute(source)) source = path.join(basePath, source)
 
-  let fileStat = await filesystem.lstat(source).catch(error => (error.code == 'ENOENT' ? false : console.error(error)))
-  // destination should include directory
+  if (!path.isAbsolute(source)) source = path.join(basePath, source);
+
+  let fileStat = await filesystem.lstat(source).catch(error => error.code == 'ENOENT' ? false : console.error(error));
+
   if (fileStat) {
-    if (fileStat.isFile()) destination = destination
-    else if (fileStat.isDirectory()) destination = path.join(destination, path.relative(basePath, source))
-  } else return // return if source doesn't exist
+    if (fileStat.isFile()) destination = destination;else
+    if (fileStat.isDirectory()) destination = path.join(destination, path.relative(basePath, source));
+  } else return;
 
-  // execute babel cli
+
   let cp = childProcess.spawnSync(
-    'yarn',
-    [
-      'run',
-      'babel',
-      '--out-dir',
-      `"${destination}"`,
-      '--config-file',
-      '"./configuration/babel.config.js"',
-      '--ignore',
-      '"**/node_modules/**/*"',
-      '--copy-files', // TODO: Notes: copy-files flag does not respect "ignore" flag. The build will complete only that the process takes more time.
-      `"${path.relative(basePath, source)}"`,
-    ],
-    {
-      cwd: basePath,
-      shell: true,
-      stdio: ['inherit', 'inherit', 'inherit'],
-    },
-  )
+  'yarn',
+  [
+  'run',
+  'babel',
+  '--out-dir',
+  `"${destination}"`,
+  '--config-file',
+  '"./configuration/babel.config.js"',
+  '--ignore',
+  '"**/node_modules/**/*"',
+  '--copy-files',
+  `"${path.relative(basePath, source)}"`],
+
+  {
+    cwd: basePath,
+    shell: true,
+    stdio: ['inherit', 'inherit', 'inherit'] });
+
+
 }
 
-// yarn run babel --our-dir "./distribution" --config-file "./configuration/babel.config.js" --copy-files "./source"
 
-module.exports = { transpileSourcePath }
+
+module.exports = { transpileSourcePath };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS90cmFuc3BpbGVTb3VyY2VQYXRoLmpzIl0sIm5hbWVzIjpbInV0aWwiLCJyZXF1aXJlIiwiYmFiZWwiLCJjaGlsZFByb2Nlc3MiLCJwYXRoIiwicHJvbWlzZXMiLCJmaWxlc3lzdGVtIiwiYmFiZWxUcmFuc2Zvcm1GaWxlIiwicHJvbWlzaWZ5IiwidHJhbnNmb3JtRmlsZSIsImNoaWxkUHJvY2Vzc1NwYXduIiwic3Bhd24iLCJ0cmFuc3BpbGVTb3VyY2VQYXRoIiwic291cmNlIiwiZGVzdGluYXRpb24iLCJiYXNlUGF0aCIsImlzQWJzb2x1dGUiLCJqb2luIiwiZmlsZVN0YXQiLCJsc3RhdCIsImNhdGNoIiwiZXJyb3IiLCJjb2RlIiwiY29uc29sZSIsImlzRmlsZSIsImlzRGlyZWN0b3J5IiwicmVsYXRpdmUiLCJjcCIsInNwYXduU3luYyIsImN3ZCIsInNoZWxsIiwic3RkaW8iLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiYUFBQSxNQUFNQSxJQUFJLEdBQUdDLE9BQU8sQ0FBQyxNQUFELENBQXBCO0FBQ0VDLEtBQUssR0FBR0QsT0FBTyxDQUFDLGFBQUQsQ0FEakI7QUFFRUUsWUFBWSxHQUFHRixPQUFPLENBQUMsZUFBRCxDQUZ4QjtBQUdFRyxJQUFJLEdBQUdILE9BQU8sQ0FBQyxNQUFELENBSGhCO0FBSUUsRUFBRUksUUFBUSxFQUFFQyxVQUFaLEtBQTJCTCxPQUFPLENBQUMsSUFBRCxDQUpwQzs7QUFNQSxNQUFNTSxrQkFBa0IsR0FBR1AsSUFBSSxDQUFDUSxTQUFMLENBQWVOLEtBQUssQ0FBQ08sYUFBckIsQ0FBM0I7QUFDRUMsaUJBQWlCLEdBQUdWLElBQUksQ0FBQ1EsU0FBTCxDQUFlTCxZQUFZLENBQUNRLEtBQTVCLENBRHRCOzs7Ozs7Ozs7Ozs7O0FBY0EsZUFBZUMsbUJBQWYsQ0FBbUMsRUFBRUMsTUFBRixFQUFVQyxXQUFWLEVBQXVCQyxRQUF2QixFQUFuQyxFQUFzRTs7QUFFcEUsTUFBSSxDQUFDWCxJQUFJLENBQUNZLFVBQUwsQ0FBZ0JILE1BQWhCLENBQUwsRUFBOEJBLE1BQU0sR0FBR1QsSUFBSSxDQUFDYSxJQUFMLENBQVVGLFFBQVYsRUFBb0JGLE1BQXBCLENBQVQ7O0FBRTlCLE1BQUlLLFFBQVEsR0FBRyxNQUFNWixVQUFVLENBQUNhLEtBQVgsQ0FBaUJOLE1BQWpCLEVBQXlCTyxLQUF6QixDQUErQkMsS0FBSyxJQUFLQSxLQUFLLENBQUNDLElBQU4sSUFBYyxRQUFkLEdBQXlCLEtBQXpCLEdBQWlDQyxPQUFPLENBQUNGLEtBQVIsQ0FBY0EsS0FBZCxDQUExRSxDQUFyQjs7QUFFQSxNQUFJSCxRQUFKLEVBQWM7QUFDWixRQUFJQSxRQUFRLENBQUNNLE1BQVQsRUFBSixFQUF1QlYsV0FBVyxHQUFHQSxXQUFkLENBQXZCO0FBQ0ssUUFBSUksUUFBUSxDQUFDTyxXQUFULEVBQUosRUFBNEJYLFdBQVcsR0FBR1YsSUFBSSxDQUFDYSxJQUFMLENBQVVILFdBQVYsRUFBdUJWLElBQUksQ0FBQ3NCLFFBQUwsQ0FBY1gsUUFBZCxFQUF3QkYsTUFBeEIsQ0FBdkIsQ0FBZDtBQUNsQyxHQUhELE1BR087OztBQUdQLE1BQUljLEVBQUUsR0FBR3hCLFlBQVksQ0FBQ3lCLFNBQWI7QUFDUCxRQURPO0FBRVA7QUFDRSxPQURGO0FBRUUsU0FGRjtBQUdFLGFBSEY7QUFJRyxNQUFHZCxXQUFZLEdBSmxCO0FBS0UsaUJBTEY7QUFNRSxxQ0FORjtBQU9FLFlBUEY7QUFRRSwwQkFSRjtBQVNFLGdCQVRGO0FBVUcsTUFBR1YsSUFBSSxDQUFDc0IsUUFBTCxDQUFjWCxRQUFkLEVBQXdCRixNQUF4QixDQUFnQyxHQVZ0QyxDQUZPOztBQWNQO0FBQ0VnQixJQUFBQSxHQUFHLEVBQUVkLFFBRFA7QUFFRWUsSUFBQUEsS0FBSyxFQUFFLElBRlQ7QUFHRUMsSUFBQUEsS0FBSyxFQUFFLENBQUMsU0FBRCxFQUFZLFNBQVosRUFBdUIsU0FBdkIsQ0FIVCxFQWRPLENBQVQ7OztBQW9CRDs7OztBQUlEQyxNQUFNLENBQUNDLE9BQVAsR0FBaUIsRUFBRXJCLG1CQUFGLEVBQWpCIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgdXRpbCA9IHJlcXVpcmUoJ3V0aWwnKSxcbiAgYmFiZWwgPSByZXF1aXJlKCdAYmFiZWwvY29yZScpLFxuICBjaGlsZFByb2Nlc3MgPSByZXF1aXJlKCdjaGlsZF9wcm9jZXNzJyksXG4gIHBhdGggPSByZXF1aXJlKCdwYXRoJyksXG4gIHsgcHJvbWlzZXM6IGZpbGVzeXN0ZW0gfSA9IHJlcXVpcmUoJ2ZzJylcbi8vIGluc3RlYWQgb2YgcmVpbXBsZW1lbnRpbmcgYmFiZWwgdHJhbnNmb3JtIGZvciBkaXJlY3RvcmllcyB1c2luZyBwcm9ncmFtbWF0aWMgYXBpLCB0aGUgY2xpIHRoYXQgaGFzIHRoaXMgZmVhdHVyZSB3aWxsIGJlIHVzZWQuXG5jb25zdCBiYWJlbFRyYW5zZm9ybUZpbGUgPSB1dGlsLnByb21pc2lmeShiYWJlbC50cmFuc2Zvcm1GaWxlKSxcbiAgY2hpbGRQcm9jZXNzU3Bhd24gPSB1dGlsLnByb21pc2lmeShjaGlsZFByb2Nlc3Muc3Bhd24pXG5cbi8qKlxuICogY2xpIHRvb2wgd2lsbCBiZSB1c2VkIGluc3RlYWQgb2YgdGhlIGJhYmVsIHByb2dyYW1tYXRpYyBhcGkuXG4gKiBodHRwczovL2dpdGh1Yi5jb20vYmFiZWwvYmFiZWwvYmxvYi9tYXN0ZXIvcGFja2FnZXMvYmFiZWwtY2xpL3NyYy9iYWJlbC9kaXIuanMjTDEzXG4gKiBodHRwczovL2dpdGh1Yi5jb20vYmFiZWwvYmFiZWwvdHJlZS9tYXN0ZXIvcGFja2FnZXMvYmFiZWwtY2xpL3NyYy9iYWJlbFxuICogaHR0cHM6Ly9iYWJlbGpzLmlvL2RvY3MvZW4vYmFiZWwtY2xpXG4gKiBcbiAqIFNpbWlsYXIgdG86IFxuIGBgYFxuICB5YXJuIHJ1biBiYWJlbCAtLW91dC1kaXIgLi9kaXN0cmlidXRpb24vIFwiLi9wYWNrYWdlLmpzb25cIiAtLWNvbmZpZy1maWxlIFwiLi9jb25maWd1cmF0aW9uL2JhYmVsLmNvbmZpZy5qc1wiIC0tY29weS1maWxlc1xuIGBgYFxuICovXG5hc3luYyBmdW5jdGlvbiB0cmFuc3BpbGVTb3VyY2VQYXRoKHsgc291cmNlLCBkZXN0aW5hdGlvbiwgYmFzZVBhdGggfSkge1xuICAvLyByZWxhdGl2ZSB0byByb290LlxuICBpZiAoIXBhdGguaXNBYnNvbHV0ZShzb3VyY2UpKSBzb3VyY2UgPSBwYXRoLmpvaW4oYmFzZVBhdGgsIHNvdXJjZSlcblxuICBsZXQgZmlsZVN0YXQgPSBhd2FpdCBmaWxlc3lzdGVtLmxzdGF0KHNvdXJjZSkuY2F0Y2goZXJyb3IgPT4gKGVycm9yLmNvZGUgPT0gJ0VOT0VOVCcgPyBmYWxzZSA6IGNvbnNvbGUuZXJyb3IoZXJyb3IpKSlcbiAgLy8gZGVzdGluYXRpb24gc2hvdWxkIGluY2x1ZGUgZGlyZWN0b3J5XG4gIGlmIChmaWxlU3RhdCkge1xuICAgIGlmIChmaWxlU3RhdC5pc0ZpbGUoKSkgZGVzdGluYXRpb24gPSBkZXN0aW5hdGlvblxuICAgIGVsc2UgaWYgKGZpbGVTdGF0LmlzRGlyZWN0b3J5KCkpIGRlc3RpbmF0aW9uID0gcGF0aC5qb2luKGRlc3RpbmF0aW9uLCBwYXRoLnJlbGF0aXZlKGJhc2VQYXRoLCBzb3VyY2UpKVxuICB9IGVsc2UgcmV0dXJuIC8vIHJldHVybiBpZiBzb3VyY2UgZG9lc24ndCBleGlzdFxuXG4gIC8vIGV4ZWN1dGUgYmFiZWwgY2xpXG4gIGxldCBjcCA9IGNoaWxkUHJvY2Vzcy5zcGF3blN5bmMoXG4gICAgJ3lhcm4nLFxuICAgIFtcbiAgICAgICdydW4nLFxuICAgICAgJ2JhYmVsJyxcbiAgICAgICctLW91dC1kaXInLFxuICAgICAgYFwiJHtkZXN0aW5hdGlvbn1cImAsXG4gICAgICAnLS1jb25maWctZmlsZScsXG4gICAgICAnXCIuL2NvbmZpZ3VyYXRpb24vYmFiZWwuY29uZmlnLmpzXCInLFxuICAgICAgJy0taWdub3JlJyxcbiAgICAgICdcIioqL25vZGVfbW9kdWxlcy8qKi8qXCInLFxuICAgICAgJy0tY29weS1maWxlcycsIC8vIFRPRE86IE5vdGVzOiBjb3B5LWZpbGVzIGZsYWcgZG9lcyBub3QgcmVzcGVjdCBcImlnbm9yZVwiIGZsYWcuIFRoZSBidWlsZCB3aWxsIGNvbXBsZXRlIG9ubHkgdGhhdCB0aGUgcHJvY2VzcyB0YWtlcyBtb3JlIHRpbWUuXG4gICAgICBgXCIke3BhdGgucmVsYXRpdmUoYmFzZVBhdGgsIHNvdXJjZSl9XCJgLFxuICAgIF0sXG4gICAge1xuICAgICAgY3dkOiBiYXNlUGF0aCxcbiAgICAgIHNoZWxsOiB0cnVlLFxuICAgICAgc3RkaW86IFsnaW5oZXJpdCcsICdpbmhlcml0JywgJ2luaGVyaXQnXSxcbiAgICB9LFxuICApXG59XG5cbi8vIHlhcm4gcnVuIGJhYmVsIC0tb3VyLWRpciBcIi4vZGlzdHJpYnV0aW9uXCIgLS1jb25maWctZmlsZSBcIi4vY29uZmlndXJhdGlvbi9iYWJlbC5jb25maWcuanNcIiAtLWNvcHktZmlsZXMgXCIuL3NvdXJjZVwiXG5cbm1vZHVsZS5leHBvcnRzID0geyB0cmFuc3BpbGVTb3VyY2VQYXRoIH1cbiJdfQ==
