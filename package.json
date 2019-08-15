@@ -3,7 +3,8 @@
 	"main": "./entrypoint/programmaticAPI",
 	"version": "1.2.4",
 	"scripts": {
-		"postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true"
+		"postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true",
+		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true JSProject/buildAndRelease \".moduleProject({})\""
 	},
 	"dependencies": {
 		"@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x",
@@ -54,7 +55,5 @@
 		"@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x",
 		"@dependency/scriptManager": "https://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
 		"typescript": "^3.3.3333"
-	},
-	"workspaces": [],
-	"private": true
+	}
 }
