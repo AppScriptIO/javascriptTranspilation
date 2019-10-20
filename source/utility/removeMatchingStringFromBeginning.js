@@ -1,3 +1,5 @@
+const path = require('path')
+
 /**
  * Example:
  * basePath = `/x/y/`
@@ -5,16 +7,19 @@
  * --> `/z/t.js`
  */
 function removeMatchingStringFromBeginning({ basePath, targetPath }) {
-  let filenameArray = targetPath.split('/').filter(n => n)
-  let rootPathArray = basePath.split('/').filter(n => n)
-  let beggingMatch = true,
+  let filenameArray = targetPath.split(path.sep).filter(n => n)
+  let rootPathArray = basePath.split(path.sep).filter(n => n)
+  let beginningMatch = true,
     index = 0
-  while (beggingMatch && filenameArray.length >= index && rootPathArray.length >= index) {
+  while (beginningMatch && filenameArray.length >= index && rootPathArray.length >= index) {
     if (filenameArray[index] == rootPathArray[index]) filenameArray[index] = null
-    else beggingMatch = false
+    else beginningMatch = false
     index++
   }
-  return filenameArray.join('/')
+  
+  filenameArray = filenameArray.filter(_ => Boolean(_)) // filter null
+  
+  return filenameArray.join(path.sep)
 }
 
 module.exports = { removeMatchingStringFromBeginning }
