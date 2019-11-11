@@ -5,7 +5,7 @@
 	"scripts": {
 		"postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true",
 		"build": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
-		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\"",
+		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\""
 	},
 	"dependencies": {
 		"@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x",
