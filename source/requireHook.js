@@ -1,11 +1,33 @@
-const { transformFileSync } = require('@babel/core'),
-  { addHook: addRequireHook } = require('pirates'),
-  path = require('path'),
+const path = require('path'),
   filesystem = require('fs'),
   assert = require('assert'),
+  { transformFileSync } = require('@babel/core'),
+  { addHook: addRequireHook } = require('pirates'),
+  babelRegister = require(`@babel/register`),
   { removeMatchingStringFromBeginning } = require('./utility/removeMatchingStringFromBeginning.js'),
   defaultOutputRelativePath = './temporary/transpiled',
   isPreservedSymlink = require('./utility/isPreservedSymlinkFlag.js')
+
+function requireHookUsingBabelRegister({ babelTransformConfig, babelRegisterConfig }) {
+  // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
+  // The require hook will bind itself to node's require and automatically compile files on the fly
+  babelRegister(Object.assign({}, babelTransformConfig, babelRegisterConfig)) // Compile code on runtime.
+  // console.groupEnd()
+}
+
+function runtimeTransformHook({ ignoreFilenamePattern, extension, emit }) {
+  addRequireHook(
+    (code, filename) => {
+      emit(code, filename)
+      return code // pass to next registered hook without changes.
+    },
+    {
+      exts: extension,
+      ignoreNodeModules: false,
+      matcher: filename => (ignoreFilenamePattern.some(regex => filename.match(regex)) ? false : true),
+    },
+  )
+}
 
 function filesystemTranspiledOutput({
   babelConfig,
@@ -74,4 +96,4 @@ function transformHook({ extension, ignoreNodeModules = false, ignoreFilenamePat
   )
 }
 
-module.exports = { transformHook, filesystemTranspiledOutput }
+module.exports = { runtimeTransformHook, transformHook, filesystemTranspiledOutput, requireHookUsingBabelRegister }

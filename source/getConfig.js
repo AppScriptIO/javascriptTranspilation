@@ -21,4 +21,6 @@ function getBabelConfig(babelConfigFilename, { configType = 'json' } = {}) {
   return
 }
 
-module.exports = { getBabelConfig, getCompilerConfig }
+const defaultRequireHookConfig = require('./compilerConfiguration/requireHookConfig.js')
+
+module.exports = { getBabelConfig, getCompilerConfig, defaultRequireHookConfig: defaultRequireHookConfig() }
