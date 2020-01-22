@@ -41,11 +41,11 @@ class Compiler extends EventEmitter {
     mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig) /*clone deep objects to prevent conflicts between instances.*/)
 
     if (!this.config.plugins && !this.config.presets) {
+      this.setTargetProject()
       assert(
         this.targetProjectConfig.configuration.transpilation && this.targetProjectConfig.configuration.transpilation.babelConfig,
         `• Project configuration must have 'transpilation' & nested 'babelConfig' entries.`,
       )
-      this.setTargetProject()
       Object.assign(this.config, this.targetProjectConfig.configuration.transpilation.babelConfig)
     }
   }
