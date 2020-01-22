@@ -11,7 +11,7 @@ const path = require('path'),
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js after registering the transpilation require hooks.
  */
 class Compiler extends EventEmitter {
-  constructor({ babelConfig, callerPath } = {}) {
+  constructor({ babelConfig = {}, callerPath } = {}) {
     super()
     Compiler.instance.push(this) // track instances
 
