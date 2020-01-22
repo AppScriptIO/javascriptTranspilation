@@ -15,7 +15,7 @@ class Compiler extends EventEmitter {
     super()
     Compiler.instance.push(this) // track instances
 
-    this.config = babelConfig    
+    this.config = babelConfig
     this.callerPath = callerPath
 
     /** Usage: 
@@ -38,7 +38,7 @@ class Compiler extends EventEmitter {
     this.config = deepCloneJSNativeType(this.config)
     assert(defaultRequireHookConfig.ignore, `• Must contain at least ignore property, as it is used in the Compiler instance and modified when needed.`)
     // merge only if properties doesn't exist
-    mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig) /*clone deep objects to prevent conflicts between instances.*/) 
+    mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig) /*clone deep objects to prevent conflicts between instances.*/)
 
     if (!this.config.plugins && !this.config.presets) {
       assert(
@@ -50,7 +50,7 @@ class Compiler extends EventEmitter {
     }
   }
 
-  requireHook({ restrictToTargetProject = true, /* this option when false allows circular dependency `configurationManagement` to use transpilation. */  } = {}) {
+  requireHook({ restrictToTargetProject = true /* this option when false allows circular dependency `configurationManagement` to use transpilation. */ } = {}) {
     if (restrictToTargetProject) {
       this.setTargetProject()
       // babel config ignore globs and regex to match files and filter the files to transpile

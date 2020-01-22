@@ -3,7 +3,7 @@ const path = require('path'),
   assert = require('assert'),
   { transformFileSync } = require('@babel/core'),
   { addHook: addRequireHook } = require('pirates'),
-  babelRegister = require(`@babel/register`),
+  _babelRegister = require(`@babel/register`),
   { removeMatchingStringFromBeginning } = require('./utility/removeMatchingStringFromBeginning.js'),
   defaultOutputRelativePath = './temporary/transpiled',
   isPreservedSymlink = require('./utility/isPreservedSymlinkFlag.js')
@@ -11,7 +11,7 @@ const path = require('path'),
 function babelRegister({ babelConfig }) {
   // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
   // The require hook will bind itself to node's require and automatically compile files on the fly
-  babelRegister(babelConfig) // Compile code on runtime.
+  _babelRegister(babelConfig) // Compile code on runtime.
   // console.groupEnd()
 }
 
@@ -29,13 +29,7 @@ function trackFile({ ignoreFilenamePattern, extension, emit }) {
   )
 }
 
-function writeFileToDisk({
-  targetProjectConfig,
-  outputRelativePath,
-  extension,
-  ignoreNodeModules = false,
-  ignoreFilenamePattern = [] /* Array of Regex type */,
-}) {
+function writeFileToDisk({ targetProjectConfig, outputRelativePath, extension, ignoreNodeModules = false, ignoreFilenamePattern = [] /* Array of Regex type */ }) {
   // if (!isPreservedSymlinkFlag()) console.warn('• Not using node runtime preserve symlink flag may will may output symlink folders to distribution folder with path relative to target project ')
   outputRelativePath = (targetProjectConfig.transpilation && targetProjectConfig.transpilation.outputDirectory) || defaultOutputRelativePath
   addRequireHook(
