@@ -2,28 +2,21 @@ const path = require('path'),
   filesystem = require('fs'),
   assert = require('assert'),
   EventEmitter = require('events'),
-  { filesystemTranspiledOutput, runtimeTransformHook, requireHookUsingBabelRegister } = require('./requireHook.js'),
-  { defaultRequireHookConfig } = require('./getConfig.js')
+  requireHook = require('./requireHook.js'),
+  { defaultRequireHookConfig } = require('./getConfig.js'),
+  deepCloneJSNativeType = require('clone-deep'),
+  { mergeNonexistentProperties } = require('@dependency/handleJSNativeDataStructure')
 
 /**
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js after registering the transpilation require hooks.
  */
 class Compiler extends EventEmitter {
-  constructor({ babelTransformConfig, babelRegisterConfig, callerPath, debugKey } = {}) {
+  constructor({ babelConfig, callerPath } = {}) {
     super()
     Compiler.instance.push(this) // track instances
 
-    if (!babelRegisterConfig) babelRegisterConfig = defaultRequireHookConfig
-    if (!babelTransformConfig) {
-      assert(callerPath, '• callerPath should be passed in case babel configuration was not provided')
-      this.setTargetProject({ nestedProjectPath: [callerPath] })
-      babelTransformConfig = this.targetProjectConfig.configuration.transpilation.babelConfig
-    }
-    if (!debugKey) debugKey = callerPath
-    this.debugKey = debugKey
+    this.config = babelConfig    
     this.callerPath = callerPath
-    this.babelTransformConfig = babelTransformConfig
-    this.babelRegisterConfig = babelRegisterConfig
 
     /** Usage: 
       ```
@@ -34,39 +27,55 @@ class Compiler extends EventEmitter {
       ```
       */
     this.loadedFiles = this.loadedFiles || []
+
+    this.initializeTransformConfiguration() // set babel config values
   }
 
-  requireHook({
-    restrictToTargetProject = true, // this option when false allows circular dependency `configurationManagement` to use transpilation.
-    matchTargetFile = true, // use passed babel config ignore globs and regex to match files and filter the files to transpile.
-  } = {}) {
-    if (!matchTargetFile) this.babelRegisterConfig.ignore = []
+  // babel configurations - plugins, presets, ignore, extensions, etc.
+  initializeTransformConfiguration() {
+    // make sure the object passed is unique (prevent conflicts in case configs are used from the same module multiple times)
+    // as the properties of this.config can be modified by the instance (e.g. this.config.ignore)
+    this.config = deepCloneJSNativeType(this.config)
+    assert(defaultRequireHookConfig.ignore, `• Must contain at least ignore property, as it is used in the Compiler instance and modified when needed.`)
+    // merge only if properties doesn't exist
+    mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig) /*clone deep objects to prevent conflicts between instances.*/) 
+
+    if (!this.config.plugins && !this.config.presets) {
+      assert(
+        this.targetProjectConfig.configuration.transpilation && this.targetProjectConfig.configuration.transpilation.babelConfig,
+        `• Project configuration must have 'transpilation' & nested 'babelConfig' entries.`,
+      )
+      this.setTargetProject()
+      Object.assign(this.config, this.targetProjectConfig.configuration.transpilation.babelConfig)
+    }
+  }
+
+  requireHook({ restrictToTargetProject = true, /* this option when false allows circular dependency `configurationManagement` to use transpilation. */  } = {}) {
     if (restrictToTargetProject) {
-      assert(this.callerPath, '• callerPath should be passed in order to lookup for project configuration.')
-      this.setTargetProject({ nestedProjectPath: [this.callerPath] })
+      this.setTargetProject()
+      // babel config ignore globs and regex to match files and filter the files to transpile
       const targetProjectFilesRegex = new RegExp(`^((?!${this.targetProjectConfig.rootPath}).)*$`) // negation - paths that don't include the path i.e. outside the directory.
-      this.babelRegisterConfig.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
+      this.config.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
     }
 
     // Add event listeners
     this.on('fileLoaded', fileObject => this.loadedFiles.push({ ...fileObject }))
 
-    // this.babelRegisterConfig.ignore = [/node_modules/, /^((?!\/d\/code\/App\/gazitengWebapp\/node_modules\/@application\/gazitengWebapp-clientSide).)*$/]
-    let revertHook = requireHookUsingBabelRegister({ babelTransformConfig: this.babelTransformConfig, babelRegisterConfig: this.babelRegisterConfig })
+    // this.config.ignore = [/node_modules/, /^((?!\/d\/code\/App\/gazitengWebapp\/node_modules\/@application\/gazitengWebapp-clientSide).)*$/]
+    let revertHook = requireHook.babelRegister({ babelConfig: this.config })
 
     // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `babelRegisterConfig.ignore`
-    runtimeTransformHook({
+    requireHook.trackFile({
       emit: (code, filename) => this.emit('fileLoaded', { filename, code }),
-      ignoreFilenamePattern: this.babelRegisterConfig.ignore,
-      extension: this.babelRegisterConfig.extensions,
+      ignoreFilenamePattern: this.config.ignore,
+      extension: this.config.extensions,
     })
 
     // output transpilation - output transpilation result into filesystem files
     this.setPrimaryTargetProject()
-    filesystemTranspiledOutput({
-      babelConfig: this.babelTransformConfig,
-      extension: this.babelRegisterConfig.extensions,
-      ignoreFilenamePattern: this.babelRegisterConfig.ignore,
+    requireHook.writeFileToDisk({
+      extension: this.config.extensions,
+      ignoreFilenamePattern: this.config.ignore,
       shouldTransform: false,
       targetProjectConfig: this.primaryTargetProjectConfig,
     })
@@ -74,10 +83,12 @@ class Compiler extends EventEmitter {
     return { revertHook }
   }
 
-  setTargetProject({ nestedProjectPath = [] }) {
+  // lookup the project that instantiated a Compiler instance.
+  setTargetProject() {
     if (this.targetProjectConfig) return
+    assert(this.callerPath, '• callerPath should be passed in case babel configuration was not provided')
     const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
-    this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath })
+    this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [this.callerPath] })
   }
 
   // main target project that initiated the node process from cli or require the module before being cached, in cases where node_modules are also transpiled.

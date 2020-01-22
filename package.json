@@ -38,7 +38,8 @@
 		"@babel/preset-env": "*",
 		"@babel/register": "*",
 		"@babel/runtime": "*",
-		"@dependency/addModuleResolutionPath": "https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x",
+		"@dependency/handleModuleSystem": "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
+		"@dependency/handleJSNativeDataStructure": "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x",
 		"@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
 		"babel-core": "^7.0.0-bridge",
 		"babel-minify": "*",
@@ -48,6 +49,7 @@
 		"babel-plugin-transform-commonjs-es2015-modules": "*",
 		"babel-plugin-transform-custom-element-classes": "*",
 		"babel-preset-minify": "*",
+		"clone-deep": "^4.0.1",
 		"pirates": "^4.0.1"
 	},
 	"devDependencies": {

@@ -5,7 +5,7 @@ const path = require('path'),
   assert = require('assert'),
   moduleSystem = require('module'),
   { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js'),
-  { addModuleResolutionPathMultiple } = require(`@dependency/addModuleResolutionPath`)
+  { addModuleResolutionPathMultiple } = require(`@dependency/handleModuleSystem`)
 // let findTargetProjectRoot // possible circular dependency.
 
 // Using `preserve symlink` node runtime flag will cause infinite circular dependency, where each will load the module with different accumulative path when symlinking node_modules to each other.

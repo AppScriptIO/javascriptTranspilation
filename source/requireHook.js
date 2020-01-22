@@ -8,14 +8,14 @@ const path = require('path'),
   defaultOutputRelativePath = './temporary/transpiled',
   isPreservedSymlink = require('./utility/isPreservedSymlinkFlag.js')
 
-function requireHookUsingBabelRegister({ babelTransformConfig, babelRegisterConfig }) {
+function babelRegister({ babelConfig }) {
   // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
   // The require hook will bind itself to node's require and automatically compile files on the fly
-  babelRegister(Object.assign({}, babelTransformConfig, babelRegisterConfig)) // Compile code on runtime.
+  babelRegister(babelConfig) // Compile code on runtime.
   // console.groupEnd()
 }
 
-function runtimeTransformHook({ ignoreFilenamePattern, extension, emit }) {
+function trackFile({ ignoreFilenamePattern, extension, emit }) {
   addRequireHook(
     (code, filename) => {
       emit(code, filename)
@@ -29,25 +29,19 @@ function runtimeTransformHook({ ignoreFilenamePattern, extension, emit }) {
   )
 }
 
-function filesystemTranspiledOutput({
-  babelConfig,
-  shouldTransform = false,
+function writeFileToDisk({
   targetProjectConfig,
-  outputRelativePath = defaultOutputRelativePath,
+  outputRelativePath,
   extension,
   ignoreNodeModules = false,
   ignoreFilenamePattern = [] /* Array of Regex type */,
 }) {
   // if (!isPreservedSymlinkFlag()) console.warn('• Not using node runtime preserve symlink flag may will may output symlink folders to distribution folder with path relative to target project ')
-  outputRelativePath = (targetProjectConfig.transpilation && targetProjectConfig.transpilation.outputDirectory) || outputRelativePath
+  outputRelativePath = (targetProjectConfig.transpilation && targetProjectConfig.transpilation.outputDirectory) || defaultOutputRelativePath
   addRequireHook(
     (code, filename) => {
       let content
-
-      if (shouldTransform) {
-      } else {
-        content = code
-      }
+      content = code
 
       // wrtie to filesystem
       let outputPath = path.join(targetProjectConfig.rootPath, outputRelativePath)
@@ -68,7 +62,7 @@ function filesystemTranspiledOutput({
   )
 }
 
-function transformHook({ extension, ignoreNodeModules = false, ignoreFilenamePattern = [] /* Array of Regex type */ } = {}) {
+function babelTransformFile({ babelConfig, extension, ignoreNodeModules = false, ignoreFilenamePattern = [] /* Array of Regex type */ } = {}) {
   addRequireHook(
     (code, filename) => {
       let content
@@ -96,4 +90,4 @@ function transformHook({ extension, ignoreNodeModules = false, ignoreFilenamePat
   )
 }
 
-module.exports = { runtimeTransformHook, transformHook, filesystemTranspiledOutput, requireHookUsingBabelRegister }
+module.exports = { trackFile, babelTransformFile, writeFileToDisk, babelRegister }
