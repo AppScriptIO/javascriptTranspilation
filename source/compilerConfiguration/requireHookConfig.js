@@ -1,10 +1,11 @@
-// clone config
+"use strict";
 module.exports = () => {
   return {
-    // When a file path matches this regex then it is **not** compiled
-    ignore: [/node_modules/] || [/node_modules\/(?!@dependency)/], // ignore everythng in node_modules except internal modules.
-    // Setting this will remove the currently hooked extensions of `.es6`, `.es`, `.jsx`, `.mjs`
-    // and .js so you'll have to add them back if you want them to be used again.
-    extensions: ['.js', '.mjs', '.ts'], // default is ".es6", ".es", ".jsx", ".js", ".mjs"
-  }
-}
+
+    ignore: [/node_modules/] || [/node_modules\/(?!@dependency)/],
+
+
+    extensions: ['.js', '.mjs', '.ts'] };
+
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vcmVxdWlyZUhvb2tDb25maWcuanMiXSwibmFtZXMiOlsibW9kdWxlIiwiZXhwb3J0cyIsImlnbm9yZSIsImV4dGVuc2lvbnMiXSwibWFwcGluZ3MiOiI7QUFDQUEsTUFBTSxDQUFDQyxPQUFQLEdBQWlCLE1BQU07QUFDckIsU0FBTzs7QUFFTEMsSUFBQUEsTUFBTSxFQUFFLENBQUMsY0FBRCxLQUFvQixDQUFDLCtCQUFELENBRnZCOzs7QUFLTEMsSUFBQUEsVUFBVSxFQUFFLENBQUMsS0FBRCxFQUFRLE1BQVIsRUFBZ0IsS0FBaEIsQ0FMUCxFQUFQOztBQU9ELENBUkQiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBjbG9uZSBjb25maWdcbm1vZHVsZS5leHBvcnRzID0gKCkgPT4ge1xuICByZXR1cm4ge1xuICAgIC8vIFdoZW4gYSBmaWxlIHBhdGggbWF0Y2hlcyB0aGlzIHJlZ2V4IHRoZW4gaXQgaXMgKipub3QqKiBjb21waWxlZFxuICAgIGlnbm9yZTogWy9ub2RlX21vZHVsZXMvXSB8fCBbL25vZGVfbW9kdWxlc1xcLyg/IUBkZXBlbmRlbmN5KS9dLCAvLyBpZ25vcmUgZXZlcnl0aG5nIGluIG5vZGVfbW9kdWxlcyBleGNlcHQgaW50ZXJuYWwgbW9kdWxlcy5cbiAgICAvLyBTZXR0aW5nIHRoaXMgd2lsbCByZW1vdmUgdGhlIGN1cnJlbnRseSBob29rZWQgZXh0ZW5zaW9ucyBvZiBgLmVzNmAsIGAuZXNgLCBgLmpzeGAsIGAubWpzYFxuICAgIC8vIGFuZCAuanMgc28geW91J2xsIGhhdmUgdG8gYWRkIHRoZW0gYmFjayBpZiB5b3Ugd2FudCB0aGVtIHRvIGJlIHVzZWQgYWdhaW4uXG4gICAgZXh0ZW5zaW9uczogWycuanMnLCAnLm1qcycsICcudHMnXSwgLy8gZGVmYXVsdCBpcyBcIi5lczZcIiwgXCIuZXNcIiwgXCIuanN4XCIsIFwiLmpzXCIsIFwiLm1qc1wiXG4gIH1cbn1cbiJdfQ==

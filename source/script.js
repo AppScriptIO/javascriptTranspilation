@@ -1,37 +1,36 @@
-// babel JS Compiler - This file should be written in native ES
-// .babelrc doesn't have a way to specify path.
+"use strict";
+
 
 const path = require('path'),
-  assert = require('assert'),
-  moduleSystem = require('module'),
-  { isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js'),
-  { addModuleResolutionPathMultiple } = require(`@dependency/handleModuleSystem`)
-// let findTargetProjectRoot // possible circular dependency.
+assert = require('assert'),
+moduleSystem = require('module'),
+{ isPreservedSymlinkFlag } = require('./utility/isPreservedSymlinkFlag.js'),
+{ addModuleResolutionPathMultiple } = require(`@dependency/handleModuleSystem`);
 
-// Using `preserve symlink` node runtime flag will cause infinite circular dependency, where each will load the module with different accumulative path when symlinking node_modules to each other.
-if (isPreservedSymlinkFlag()) throw new Error('• `preserve symlink` node runtime flag will cause circular issues.')
-;(() => {
-  // initialize - register Node Module Resolution Path
-  const babelModulesPath = path.dirname(path.dirname(path.dirname(require.resolve('@babel/core/package.json')))) // get the node_modules folder where Babel plugins are installed. Could be own package root or parent packages root (when this modules is installed as a pacakge)
-  addModuleResolutionPathMultiple({ pathArray: [babelModulesPath] }) // Add babel node_modules to module resolving paths
-})()
 
-/* Requiring module's path: first parent module is the entrypoint `index.js`, second is the module that calls the require hook. 
-  Example-
-  module.filename: 
-    javascriptTranspilation/source/script.js
-  module.parent.filename:
-    javascriptTranspilation/entrypoint/programmaticAPI/index.js
-  module.parent.parent.filename: 
-    webapp/node_modules/@dependency/scriptManager/source/script.js
-*/
-const firstProjectCallerInCurrentProcess = module.parent.parent.filename
 
-/**
- * Early export of necessary modules to allow nested dependencies or circular dependencies to use the independent exports.
- * export before importing possible circular dependencies.
- * export ecmascript specification complient modules allow circular module dependencyز
- */
-Object.assign(module.exports, require('./getConfig.js'), require('./transpileSourcePath.js'), require('./Compiler.class.js'))
+if (isPreservedSymlinkFlag()) throw new Error('• `preserve symlink` node runtime flag will cause circular issues.');
+(() => {
 
-// ;({ findTargetProjectRoot } = require('@dependency/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
+  const babelModulesPath = path.dirname(path.dirname(path.dirname(require.resolve('@babel/core/package.json'))));
+  addModuleResolutionPathMultiple({ pathArray: [babelModulesPath] });
+})();
+
+
+
+
+
+
+
+
+
+
+const firstProjectCallerInCurrentProcess = module.parent.parent.filename;
+
+
+
+
+
+
+Object.assign(module.exports, require('./getConfig.js'), require('./transpileSourcePath.js'), require('./Compiler.class.js'));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS9zY3JpcHQuanMiXSwibmFtZXMiOlsicGF0aCIsInJlcXVpcmUiLCJhc3NlcnQiLCJtb2R1bGVTeXN0ZW0iLCJpc1ByZXNlcnZlZFN5bWxpbmtGbGFnIiwiYWRkTW9kdWxlUmVzb2x1dGlvblBhdGhNdWx0aXBsZSIsIkVycm9yIiwiYmFiZWxNb2R1bGVzUGF0aCIsImRpcm5hbWUiLCJyZXNvbHZlIiwicGF0aEFycmF5IiwiZmlyc3RQcm9qZWN0Q2FsbGVySW5DdXJyZW50UHJvY2VzcyIsIm1vZHVsZSIsInBhcmVudCIsImZpbGVuYW1lIiwiT2JqZWN0IiwiYXNzaWduIiwiZXhwb3J0cyJdLCJtYXBwaW5ncyI6Ijs7O0FBR0EsTUFBTUEsSUFBSSxHQUFHQyxPQUFPLENBQUMsTUFBRCxDQUFwQjtBQUNFQyxNQUFNLEdBQUdELE9BQU8sQ0FBQyxRQUFELENBRGxCO0FBRUVFLFlBQVksR0FBR0YsT0FBTyxDQUFDLFFBQUQsQ0FGeEI7QUFHRSxFQUFFRyxzQkFBRixLQUE2QkgsT0FBTyxDQUFDLHFDQUFELENBSHRDO0FBSUUsRUFBRUksK0JBQUYsS0FBc0NKLE9BQU8sQ0FBRSxnQ0FBRixDQUovQzs7OztBQVFBLElBQUlHLHNCQUFzQixFQUExQixFQUE4QixNQUFNLElBQUlFLEtBQUosQ0FBVSxvRUFBVixDQUFOO0FBQzdCLENBQUMsTUFBTTs7QUFFTixRQUFNQyxnQkFBZ0IsR0FBR1AsSUFBSSxDQUFDUSxPQUFMLENBQWFSLElBQUksQ0FBQ1EsT0FBTCxDQUFhUixJQUFJLENBQUNRLE9BQUwsQ0FBYVAsT0FBTyxDQUFDUSxPQUFSLENBQWdCLDBCQUFoQixDQUFiLENBQWIsQ0FBYixDQUF6QjtBQUNBSixFQUFBQSwrQkFBK0IsQ0FBQyxFQUFFSyxTQUFTLEVBQUUsQ0FBQ0gsZ0JBQUQsQ0FBYixFQUFELENBQS9CO0FBQ0QsQ0FKQTs7Ozs7Ozs7Ozs7QUFlRCxNQUFNSSxrQ0FBa0MsR0FBR0MsTUFBTSxDQUFDQyxNQUFQLENBQWNBLE1BQWQsQ0FBcUJDLFFBQWhFOzs7Ozs7O0FBT0FDLE1BQU0sQ0FBQ0MsTUFBUCxDQUFjSixNQUFNLENBQUNLLE9BQXJCLEVBQThCaEIsT0FBTyxDQUFDLGdCQUFELENBQXJDLEVBQXlEQSxPQUFPLENBQUMsMEJBQUQsQ0FBaEUsRUFBOEZBLE9BQU8sQ0FBQyxxQkFBRCxDQUFyRyIsInNvdXJjZXNDb250ZW50IjpbIi8vIGJhYmVsIEpTIENvbXBpbGVyIC0gVGhpcyBmaWxlIHNob3VsZCBiZSB3cml0dGVuIGluIG5hdGl2ZSBFU1xuLy8gLmJhYmVscmMgZG9lc24ndCBoYXZlIGEgd2F5IHRvIHNwZWNpZnkgcGF0aC5cblxuY29uc3QgcGF0aCA9IHJlcXVpcmUoJ3BhdGgnKSxcbiAgYXNzZXJ0ID0gcmVxdWlyZSgnYXNzZXJ0JyksXG4gIG1vZHVsZVN5c3RlbSA9IHJlcXVpcmUoJ21vZHVsZScpLFxuICB7IGlzUHJlc2VydmVkU3ltbGlua0ZsYWcgfSA9IHJlcXVpcmUoJy4vdXRpbGl0eS9pc1ByZXNlcnZlZFN5bWxpbmtGbGFnLmpzJyksXG4gIHsgYWRkTW9kdWxlUmVzb2x1dGlvblBhdGhNdWx0aXBsZSB9ID0gcmVxdWlyZShgQGRlcGVuZGVuY3kvaGFuZGxlTW9kdWxlU3lzdGVtYClcbi8vIGxldCBmaW5kVGFyZ2V0UHJvamVjdFJvb3QgLy8gcG9zc2libGUgY2lyY3VsYXIgZGVwZW5kZW5jeS5cblxuLy8gVXNpbmcgYHByZXNlcnZlIHN5bWxpbmtgIG5vZGUgcnVudGltZSBmbGFnIHdpbGwgY2F1c2UgaW5maW5pdGUgY2lyY3VsYXIgZGVwZW5kZW5jeSwgd2hlcmUgZWFjaCB3aWxsIGxvYWQgdGhlIG1vZHVsZSB3aXRoIGRpZmZlcmVudCBhY2N1bXVsYXRpdmUgcGF0aCB3aGVuIHN5bWxpbmtpbmcgbm9kZV9tb2R1bGVzIHRvIGVhY2ggb3RoZXIuXG5pZiAoaXNQcmVzZXJ2ZWRTeW1saW5rRmxhZygpKSB0aHJvdyBuZXcgRXJyb3IoJ+KAoiBgcHJlc2VydmUgc3ltbGlua2Agbm9kZSBydW50aW1lIGZsYWcgd2lsbCBjYXVzZSBjaXJjdWxhciBpc3N1ZXMuJylcbjsoKCkgPT4ge1xuICAvLyBpbml0aWFsaXplIC0gcmVnaXN0ZXIgTm9kZSBNb2R1bGUgUmVzb2x1dGlvbiBQYXRoXG4gIGNvbnN0IGJhYmVsTW9kdWxlc1BhdGggPSBwYXRoLmRpcm5hbWUocGF0aC5kaXJuYW1lKHBhdGguZGlybmFtZShyZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9jb3JlL3BhY2thZ2UuanNvbicpKSkpIC8vIGdldCB0aGUgbm9kZV9tb2R1bGVzIGZvbGRlciB3aGVyZSBCYWJlbCBwbHVnaW5zIGFyZSBpbnN0YWxsZWQuIENvdWxkIGJlIG93biBwYWNrYWdlIHJvb3Qgb3IgcGFyZW50IHBhY2thZ2VzIHJvb3QgKHdoZW4gdGhpcyBtb2R1bGVzIGlzIGluc3RhbGxlZCBhcyBhIHBhY2FrZ2UpXG4gIGFkZE1vZHVsZVJlc29sdXRpb25QYXRoTXVsdGlwbGUoeyBwYXRoQXJyYXk6IFtiYWJlbE1vZHVsZXNQYXRoXSB9KSAvLyBBZGQgYmFiZWwgbm9kZV9tb2R1bGVzIHRvIG1vZHVsZSByZXNvbHZpbmcgcGF0aHNcbn0pKClcblxuLyogUmVxdWlyaW5nIG1vZHVsZSdzIHBhdGg6IGZpcnN0IHBhcmVudCBtb2R1bGUgaXMgdGhlIGVudHJ5cG9pbnQgYGluZGV4LmpzYCwgc2Vjb25kIGlzIHRoZSBtb2R1bGUgdGhhdCBjYWxscyB0aGUgcmVxdWlyZSBob29rLiBcbiAgRXhhbXBsZS1cbiAgbW9kdWxlLmZpbGVuYW1lOiBcbiAgICBqYXZhc2NyaXB0VHJhbnNwaWxhdGlvbi9zb3VyY2Uvc2NyaXB0LmpzXG4gIG1vZHVsZS5wYXJlbnQuZmlsZW5hbWU6XG4gICAgamF2YXNjcmlwdFRyYW5zcGlsYXRpb24vZW50cnlwb2ludC9wcm9ncmFtbWF0aWNBUEkvaW5kZXguanNcbiAgbW9kdWxlLnBhcmVudC5wYXJlbnQuZmlsZW5hbWU6IFxuICAgIHdlYmFwcC9ub2RlX21vZHVsZXMvQGRlcGVuZGVuY3kvc2NyaXB0TWFuYWdlci9zb3VyY2Uvc2NyaXB0LmpzXG4qL1xuY29uc3QgZmlyc3RQcm9qZWN0Q2FsbGVySW5DdXJyZW50UHJvY2VzcyA9IG1vZHVsZS5wYXJlbnQucGFyZW50LmZpbGVuYW1lXG5cbi8qKlxuICogRWFybHkgZXhwb3J0IG9mIG5lY2Vzc2FyeSBtb2R1bGVzIHRvIGFsbG93IG5lc3RlZCBkZXBlbmRlbmNpZXMgb3IgY2lyY3VsYXIgZGVwZW5kZW5jaWVzIHRvIHVzZSB0aGUgaW5kZXBlbmRlbnQgZXhwb3J0cy5cbiAqIGV4cG9ydCBiZWZvcmUgaW1wb3J0aW5nIHBvc3NpYmxlIGNpcmN1bGFyIGRlcGVuZGVuY2llcy5cbiAqIGV4cG9ydCBlY21hc2NyaXB0IHNwZWNpZmljYXRpb24gY29tcGxpZW50IG1vZHVsZXMgYWxsb3cgY2lyY3VsYXIgbW9kdWxlIGRlcGVuZGVuY3nYslxuICovXG5PYmplY3QuYXNzaWduKG1vZHVsZS5leHBvcnRzLCByZXF1aXJlKCcuL2dldENvbmZpZy5qcycpLCByZXF1aXJlKCcuL3RyYW5zcGlsZVNvdXJjZVBhdGguanMnKSwgcmVxdWlyZSgnLi9Db21waWxlci5jbGFzcy5qcycpKVxuXG4vLyA7KHsgZmluZFRhcmdldFByb2plY3RSb290IH0gPSByZXF1aXJlKCdAZGVwZW5kZW5jeS9jb25maWd1cmF0aW9uTWFuYWdlbWVudCcpKSAvLyByZXF1aXJlIGhlcmUgdG8gcHJldmVudCBjeWNsaWMgZGVwZW5kZW5jeSB3aXRoIHRoaXMgbW9kdWxlLCBhcyB0aGUgbW9kdWxlIG1heSB1c2UgcnVudGltZSB0cmFuc3BpbGF0aW9uIChpLmUuIHdpbGwgdXNlIGV4cG9ydGVkIGZ1bmN0aW9uYWxpdHkgZnJvbSB0aGlzIG1vZHVsZSkuXG4iXX0=
