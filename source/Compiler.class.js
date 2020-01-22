@@ -22,7 +22,7 @@ class Compiler extends EventEmitter {
       ```
         process.on('exit', () => {
           console.log(compiler.loadedFiles.map(value => value.filename))
-          console.log(compiler.babelRegisterConfig.ignore)
+          console.log(compiler.config.ignore)
         })
       ```
       */
@@ -64,7 +64,7 @@ class Compiler extends EventEmitter {
     // this.config.ignore = [/node_modules/, /^((?!\/d\/code\/App\/gazitengWebapp\/node_modules\/@application\/gazitengWebapp-clientSide).)*$/]
     let revertHook = requireHook.babelRegister({ babelConfig: this.config })
 
-    // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `babelRegisterConfig.ignore`
+    // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `config.ignore`
     requireHook.trackFile({
       emit: (code, filename) => this.emit('fileLoaded', { filename, code }),
       ignoreFilenamePattern: this.config.ignore,
@@ -103,8 +103,8 @@ class Compiler extends EventEmitter {
 Compiler.instance = []
 // // debug created instances in current process
 // process.on('exit', () => {
-//   for (let compiler of Compiler.instance) console.log(compiler.babelRegisterConfig.ignore)
-//   console.log(Compiler.instance[0].babelTransformConfig.ignore === Compiler.instance[1].babelTransformConfig.ignore)
+//   for (let compiler of Compiler.instance) console.log(compiler.config.ignore)
+//   console.log(Compiler.instance[0].babelConfig.ignore === Compiler.instance[1].babelConfig.ignore)
 // })
 
 /* TODO: register the modules that registered a require hook for compilation. keep track of all projects that initiated a require hook registration. 
