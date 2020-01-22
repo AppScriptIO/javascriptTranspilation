@@ -1,7 +1,7 @@
 {
 	"name": "@dependency/javascriptTranspilation",
 	"main": "./entrypoint/programmaticAPI",
-	"version": "1.2.9",
+	"version": "2.0.1",
 	"scripts": {
 		"postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true # preinstall the module directory to its own node_modules dependencies.",
 		"build": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
@@ -38,9 +38,9 @@
 		"@babel/preset-env": "*",
 		"@babel/register": "*",
 		"@babel/runtime": "*",
-		"@dependency/handleModuleSystem": "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
-		"@dependency/handleJSNativeDataStructure": "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x",
 		"@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
+		"@dependency/handleJSNativeDataStructure": "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x",
+		"@dependency/handleModuleSystem": "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
 		"babel-core": "^7.0.0-bridge",
 		"babel-minify": "*",
 		"babel-plugin-dynamic-import-node": "*",
