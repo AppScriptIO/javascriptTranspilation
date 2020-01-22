@@ -1,121 +1,121 @@
-const path = require('path'),
-  filesystem = require('fs'),
-  assert = require('assert'),
-  EventEmitter = require('events'),
-  requireHook = require('./requireHook.js'),
-  { defaultRequireHookConfig } = require('./getConfig.js'),
-  deepCloneJSNativeType = require('clone-deep'),
-  { mergeNonexistentProperties } = require('@dependency/handleJSNativeDataStructure')
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {(0, _defineProperty2.default)(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}const path = require('path'),
+filesystem = require('fs'),
+assert = require('assert'),
+EventEmitter = require('events'),
+requireHook = require('./requireHook.js'),
+{ defaultRequireHookConfig } = require('./getConfig.js'),
+deepCloneJSNativeType = require('clone-deep'),
+{ mergeNonexistentProperties } = require('@dependency/handleJSNativeDataStructure');
 
-/**
- * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js after registering the transpilation require hooks.
- */
+
+
+
 class Compiler extends EventEmitter {
   constructor({ babelConfig = {}, callerPath } = {}) {
-    super()
-    Compiler.instance.push(this) // track instances
+    super();
+    Compiler.instance.push(this);
 
-    this.config = babelConfig
-    this.callerPath = callerPath
+    this.config = babelConfig;
+    this.callerPath = callerPath;
 
-    /** Usage: 
-      ```
-        process.on('exit', () => {
-          console.log(compiler.loadedFiles.map(value => value.filename))
-          console.log(compiler.babelRegisterConfig.ignore)
-        })
-      ```
-      */
-    this.loadedFiles = this.loadedFiles || []
 
-    this.initializeTransformConfiguration() // set babel config values
+
+
+
+
+
+
+
+    this.loadedFiles = this.loadedFiles || [];
+
+    this.initializeTransformConfiguration();
   }
 
-  // babel configurations - plugins, presets, ignore, extensions, etc.
+
   initializeTransformConfiguration() {
-    // make sure the object passed is unique (prevent conflicts in case configs are used from the same module multiple times)
-    // as the properties of this.config can be modified by the instance (e.g. this.config.ignore)
-    this.config = deepCloneJSNativeType(this.config)
-    assert(defaultRequireHookConfig.ignore, `• Must contain at least ignore property, as it is used in the Compiler instance and modified when needed.`)
-    // merge only if properties doesn't exist
-    mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig) /*clone deep objects to prevent conflicts between instances.*/)
+
+
+    this.config = deepCloneJSNativeType(this.config);
+    assert(defaultRequireHookConfig.ignore, `• Must contain at least ignore property, as it is used in the Compiler instance and modified when needed.`);
+
+    mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig));
 
     if (!this.config.plugins && !this.config.presets) {
-      this.setTargetProject()
+      this.setTargetProject();
       assert(
-        this.targetProjectConfig.configuration.transpilation && this.targetProjectConfig.configuration.transpilation.babelConfig,
-        `• Project configuration must have 'transpilation' & nested 'babelConfig' entries.`,
-      )
-      Object.assign(this.config, this.targetProjectConfig.configuration.transpilation.babelConfig)
+      this.targetProjectConfig.configuration.transpilation && this.targetProjectConfig.configuration.transpilation.babelConfig,
+      `• Project configuration must have 'transpilation' & nested 'babelConfig' entries.`);
+
+      Object.assign(this.config, this.targetProjectConfig.configuration.transpilation.babelConfig);
     }
   }
 
-  requireHook({ restrictToTargetProject = true /* this option when false allows circular dependency `configurationManagement` to use transpilation. */ } = {}) {
+  requireHook({ restrictToTargetProject = true } = {}) {
     if (restrictToTargetProject) {
-      this.setTargetProject()
-      // babel config ignore globs and regex to match files and filter the files to transpile
-      const targetProjectFilesRegex = new RegExp(`^((?!${this.targetProjectConfig.rootPath}).)*$`) // negation - paths that don't include the path i.e. outside the directory.
-      this.config.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
+      this.setTargetProject();
+
+      const targetProjectFilesRegex = new RegExp(`^((?!${this.targetProjectConfig.rootPath}).)*$`);
+      this.config.ignore.push(targetProjectFilesRegex);
     }
 
-    // Add event listeners
-    this.on('fileLoaded', fileObject => this.loadedFiles.push({ ...fileObject }))
 
-    // this.config.ignore = [/node_modules/, /^((?!\/d\/code\/App\/gazitengWebapp\/node_modules\/@application\/gazitengWebapp-clientSide).)*$/]
-    let revertHook = requireHook.babelRegister({ babelConfig: this.config })
+    this.on('fileLoaded', fileObject => this.loadedFiles.push(_objectSpread({}, fileObject)));
 
-    // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `babelRegisterConfig.ignore`
+
+    let revertHook = requireHook.babelRegister({ babelConfig: this.config });
+
+
     requireHook.trackFile({
       emit: (code, filename) => this.emit('fileLoaded', { filename, code }),
       ignoreFilenamePattern: this.config.ignore,
-      extension: this.config.extensions,
-    })
+      extension: this.config.extensions });
 
-    // output transpilation - output transpilation result into filesystem files
-    this.setPrimaryTargetProject()
+
+
+    this.setPrimaryTargetProject();
     requireHook.writeFileToDisk({
       extension: this.config.extensions,
       ignoreFilenamePattern: this.config.ignore,
       shouldTransform: false,
-      targetProjectConfig: this.primaryTargetProjectConfig,
-    })
+      targetProjectConfig: this.primaryTargetProjectConfig });
 
-    return { revertHook }
+
+    return { revertHook };
   }
 
-  // lookup the project that instantiated a Compiler instance.
+
   setTargetProject() {
-    if (this.targetProjectConfig) return
-    assert(this.callerPath, '• callerPath should be passed in case babel configuration was not provided')
-    const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
-    this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [this.callerPath] })
+    if (this.targetProjectConfig) return;
+    assert(this.callerPath, '• callerPath should be passed in case babel configuration was not provided');
+    const { findTargetProjectRoot } = require('@dependency/configurationManagement');
+    this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [this.callerPath] });
   }
 
-  // main target project that initiated the node process from cli or require the module before being cached, in cases where node_modules are also transpiled.
-  setPrimaryTargetProject({ nestedProjectPath = [process.cwd(), module.parent.filename /* The place where the module was required from */] } = {}) {
-    if (this.primaryTargetProjectConfig) return
-    const { findTargetProjectRoot } = require('@dependency/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
-    this.primaryTargetProjectConfig = findTargetProjectRoot({ nestedProjectPath })
-  }
-}
 
-// track instances in current process
-Compiler.instance = []
-// // debug created instances in current process
-// process.on('exit', () => {
-//   for (let compiler of Compiler.instance) console.log(compiler.babelRegisterConfig.ignore)
-//   console.log(Compiler.instance[0].babelTransformConfig.ignore === Compiler.instance[1].babelTransformConfig.ignore)
-// })
+  setPrimaryTargetProject({ nestedProjectPath = [process.cwd(), module.parent.filename] } = {}) {
+    if (this.primaryTargetProjectConfig) return;
+    const { findTargetProjectRoot } = require('@dependency/configurationManagement');
+    this.primaryTargetProjectConfig = findTargetProjectRoot({ nestedProjectPath });
+  }}
 
-/* TODO: register the modules that registered a require hook for compilation. keep track of all projects that initiated a require hook registration. 
-    (How to find out the module path that initiates a Compiler instance without passing in '__dirname' ? 
-      i.e. hackish way to find function caller in ECMAscript)
-    Seems like a workaround - https://stackoverflow.com/questions/13227489/how-can-one-get-the-file-path-of-the-caller-function-in-node-js */
-// Compiler.registeredHook = [] // initialize property.
-// Compiler.trackRegisteredHook = () => Compiler.registeredHook.push(/*Project that created a new instance of Compiler*/)
 
-Compiler.transpilationModulePath = path.join(__dirname, '..') // if multiple modules are installed in different packages rather than using the same module.
+
+Compiler.instance = [];
+
+
+
+
+
+
+
+
+
+
+
+
+
+Compiler.transpilationModulePath = path.join(__dirname, '..');
 
 module.exports = {
-  Compiler,
-}
+  Compiler };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS9Db21waWxlci5jbGFzcy5qcyJdLCJuYW1lcyI6WyJwYXRoIiwicmVxdWlyZSIsImZpbGVzeXN0ZW0iLCJhc3NlcnQiLCJFdmVudEVtaXR0ZXIiLCJyZXF1aXJlSG9vayIsImRlZmF1bHRSZXF1aXJlSG9va0NvbmZpZyIsImRlZXBDbG9uZUpTTmF0aXZlVHlwZSIsIm1lcmdlTm9uZXhpc3RlbnRQcm9wZXJ0aWVzIiwiQ29tcGlsZXIiLCJjb25zdHJ1Y3RvciIsImJhYmVsQ29uZmlnIiwiY2FsbGVyUGF0aCIsImluc3RhbmNlIiwicHVzaCIsImNvbmZpZyIsImxvYWRlZEZpbGVzIiwiaW5pdGlhbGl6ZVRyYW5zZm9ybUNvbmZpZ3VyYXRpb24iLCJpZ25vcmUiLCJwbHVnaW5zIiwicHJlc2V0cyIsInNldFRhcmdldFByb2plY3QiLCJ0YXJnZXRQcm9qZWN0Q29uZmlnIiwiY29uZmlndXJhdGlvbiIsInRyYW5zcGlsYXRpb24iLCJPYmplY3QiLCJhc3NpZ24iLCJyZXN0cmljdFRvVGFyZ2V0UHJvamVjdCIsInRhcmdldFByb2plY3RGaWxlc1JlZ2V4IiwiUmVnRXhwIiwicm9vdFBhdGgiLCJvbiIsImZpbGVPYmplY3QiLCJyZXZlcnRIb29rIiwiYmFiZWxSZWdpc3RlciIsInRyYWNrRmlsZSIsImVtaXQiLCJjb2RlIiwiZmlsZW5hbWUiLCJpZ25vcmVGaWxlbmFtZVBhdHRlcm4iLCJleHRlbnNpb24iLCJleHRlbnNpb25zIiwic2V0UHJpbWFyeVRhcmdldFByb2plY3QiLCJ3cml0ZUZpbGVUb0Rpc2siLCJzaG91bGRUcmFuc2Zvcm0iLCJwcmltYXJ5VGFyZ2V0UHJvamVjdENvbmZpZyIsImZpbmRUYXJnZXRQcm9qZWN0Um9vdCIsIm5lc3RlZFByb2plY3RQYXRoIiwicHJvY2VzcyIsImN3ZCIsIm1vZHVsZSIsInBhcmVudCIsInRyYW5zcGlsYXRpb25Nb2R1bGVQYXRoIiwiam9pbiIsIl9fZGlybmFtZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJpaUNBQUEsTUFBTUEsSUFBSSxHQUFHQyxPQUFPLENBQUMsTUFBRCxDQUFwQjtBQUNFQyxVQUFVLEdBQUdELE9BQU8sQ0FBQyxJQUFELENBRHRCO0FBRUVFLE1BQU0sR0FBR0YsT0FBTyxDQUFDLFFBQUQsQ0FGbEI7QUFHRUcsWUFBWSxHQUFHSCxPQUFPLENBQUMsUUFBRCxDQUh4QjtBQUlFSSxXQUFXLEdBQUdKLE9BQU8sQ0FBQyxrQkFBRCxDQUp2QjtBQUtFLEVBQUVLLHdCQUFGLEtBQStCTCxPQUFPLENBQUMsZ0JBQUQsQ0FMeEM7QUFNRU0scUJBQXFCLEdBQUdOLE9BQU8sQ0FBQyxZQUFELENBTmpDO0FBT0UsRUFBRU8sMEJBQUYsS0FBaUNQLE9BQU8sQ0FBQyx5Q0FBRCxDQVAxQzs7Ozs7QUFZQSxNQUFNUSxRQUFOLFNBQXVCTCxZQUF2QixDQUFvQztBQUNsQ00sRUFBQUEsV0FBVyxDQUFDLEVBQUVDLFdBQVcsR0FBRyxFQUFoQixFQUFvQkMsVUFBcEIsS0FBbUMsRUFBcEMsRUFBd0M7QUFDakQ7QUFDQUgsSUFBQUEsUUFBUSxDQUFDSSxRQUFULENBQWtCQyxJQUFsQixDQUF1QixJQUF2Qjs7QUFFQSxTQUFLQyxNQUFMLEdBQWNKLFdBQWQ7QUFDQSxTQUFLQyxVQUFMLEdBQWtCQSxVQUFsQjs7Ozs7Ozs7OztBQVVBLFNBQUtJLFdBQUwsR0FBbUIsS0FBS0EsV0FBTCxJQUFvQixFQUF2Qzs7QUFFQSxTQUFLQyxnQ0FBTDtBQUNEOzs7QUFHREEsRUFBQUEsZ0NBQWdDLEdBQUc7OztBQUdqQyxTQUFLRixNQUFMLEdBQWNSLHFCQUFxQixDQUFDLEtBQUtRLE1BQU4sQ0FBbkM7QUFDQVosSUFBQUEsTUFBTSxDQUFDRyx3QkFBd0IsQ0FBQ1ksTUFBMUIsRUFBbUMsMkdBQW5DLENBQU47O0FBRUFWLElBQUFBLDBCQUEwQixDQUFDLEtBQUtPLE1BQU4sRUFBY1IscUJBQXFCLENBQUNELHdCQUFELENBQW5DLENBQTFCOztBQUVBLFFBQUksQ0FBQyxLQUFLUyxNQUFMLENBQVlJLE9BQWIsSUFBd0IsQ0FBQyxLQUFLSixNQUFMLENBQVlLLE9BQXpDLEVBQWtEO0FBQ2hELFdBQUtDLGdCQUFMO0FBQ0FsQixNQUFBQSxNQUFNO0FBQ0osV0FBS21CLG1CQUFMLENBQXlCQyxhQUF6QixDQUF1Q0MsYUFBdkMsSUFBd0QsS0FBS0YsbUJBQUwsQ0FBeUJDLGFBQXpCLENBQXVDQyxhQUF2QyxDQUFxRGIsV0FEekc7QUFFSCx5RkFGRyxDQUFOOztBQUlBYyxNQUFBQSxNQUFNLENBQUNDLE1BQVAsQ0FBYyxLQUFLWCxNQUFuQixFQUEyQixLQUFLTyxtQkFBTCxDQUF5QkMsYUFBekIsQ0FBdUNDLGFBQXZDLENBQXFEYixXQUFoRjtBQUNEO0FBQ0Y7O0FBRUROLEVBQUFBLFdBQVcsQ0FBQyxFQUFFc0IsdUJBQXVCLEdBQUcsSUFBNUIsS0FBNkksRUFBOUksRUFBa0o7QUFDM0osUUFBSUEsdUJBQUosRUFBNkI7QUFDM0IsV0FBS04sZ0JBQUw7O0FBRUEsWUFBTU8sdUJBQXVCLEdBQUcsSUFBSUMsTUFBSixDQUFZLFFBQU8sS0FBS1AsbUJBQUwsQ0FBeUJRLFFBQVMsT0FBckQsQ0FBaEM7QUFDQSxXQUFLZixNQUFMLENBQVlHLE1BQVosQ0FBbUJKLElBQW5CLENBQXdCYyx1QkFBeEI7QUFDRDs7O0FBR0QsU0FBS0csRUFBTCxDQUFRLFlBQVIsRUFBc0JDLFVBQVUsSUFBSSxLQUFLaEIsV0FBTCxDQUFpQkYsSUFBakIsbUJBQTJCa0IsVUFBM0IsRUFBcEM7OztBQUdBLFFBQUlDLFVBQVUsR0FBRzVCLFdBQVcsQ0FBQzZCLGFBQVosQ0FBMEIsRUFBRXZCLFdBQVcsRUFBRSxLQUFLSSxNQUFwQixFQUExQixDQUFqQjs7O0FBR0FWLElBQUFBLFdBQVcsQ0FBQzhCLFNBQVosQ0FBc0I7QUFDcEJDLE1BQUFBLElBQUksRUFBRSxDQUFDQyxJQUFELEVBQU9DLFFBQVAsS0FBb0IsS0FBS0YsSUFBTCxDQUFVLFlBQVYsRUFBd0IsRUFBRUUsUUFBRixFQUFZRCxJQUFaLEVBQXhCLENBRE47QUFFcEJFLE1BQUFBLHFCQUFxQixFQUFFLEtBQUt4QixNQUFMLENBQVlHLE1BRmY7QUFHcEJzQixNQUFBQSxTQUFTLEVBQUUsS0FBS3pCLE1BQUwsQ0FBWTBCLFVBSEgsRUFBdEI7Ozs7QUFPQSxTQUFLQyx1QkFBTDtBQUNBckMsSUFBQUEsV0FBVyxDQUFDc0MsZUFBWixDQUE0QjtBQUMxQkgsTUFBQUEsU0FBUyxFQUFFLEtBQUt6QixNQUFMLENBQVkwQixVQURHO0FBRTFCRixNQUFBQSxxQkFBcUIsRUFBRSxLQUFLeEIsTUFBTCxDQUFZRyxNQUZUO0FBRzFCMEIsTUFBQUEsZUFBZSxFQUFFLEtBSFM7QUFJMUJ0QixNQUFBQSxtQkFBbUIsRUFBRSxLQUFLdUIsMEJBSkEsRUFBNUI7OztBQU9BLFdBQU8sRUFBRVosVUFBRixFQUFQO0FBQ0Q7OztBQUdEWixFQUFBQSxnQkFBZ0IsR0FBRztBQUNqQixRQUFJLEtBQUtDLG1CQUFULEVBQThCO0FBQzlCbkIsSUFBQUEsTUFBTSxDQUFDLEtBQUtTLFVBQU4sRUFBa0IsNEVBQWxCLENBQU47QUFDQSxVQUFNLEVBQUVrQyxxQkFBRixLQUE0QjdDLE9BQU8sQ0FBQyxxQ0FBRCxDQUF6QztBQUNBLFNBQUtxQixtQkFBTCxHQUEyQndCLHFCQUFxQixDQUFDLEVBQUVDLGlCQUFpQixFQUFFLENBQUMsS0FBS25DLFVBQU4sQ0FBckIsRUFBRCxDQUFoRDtBQUNEOzs7QUFHRDhCLEVBQUFBLHVCQUF1QixDQUFDLEVBQUVLLGlCQUFpQixHQUFHLENBQUNDLE9BQU8sQ0FBQ0MsR0FBUixFQUFELEVBQWdCQyxNQUFNLENBQUNDLE1BQVAsQ0FBY2IsUUFBOUIsQ0FBdEIsS0FBcUgsRUFBdEgsRUFBMEg7QUFDL0ksUUFBSSxLQUFLTywwQkFBVCxFQUFxQztBQUNyQyxVQUFNLEVBQUVDLHFCQUFGLEtBQTRCN0MsT0FBTyxDQUFDLHFDQUFELENBQXpDO0FBQ0EsU0FBSzRDLDBCQUFMLEdBQWtDQyxxQkFBcUIsQ0FBQyxFQUFFQyxpQkFBRixFQUFELENBQXZEO0FBQ0QsR0F0RmlDOzs7O0FBMEZwQ3RDLFFBQVEsQ0FBQ0ksUUFBVCxHQUFvQixFQUFwQjs7Ozs7Ozs7Ozs7Ozs7QUFjQUosUUFBUSxDQUFDMkMsdUJBQVQsR0FBbUNwRCxJQUFJLENBQUNxRCxJQUFMLENBQVVDLFNBQVYsRUFBcUIsSUFBckIsQ0FBbkM7O0FBRUFKLE1BQU0sQ0FBQ0ssT0FBUCxHQUFpQjtBQUNmOUMsRUFBQUEsUUFEZSxFQUFqQiIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHBhdGggPSByZXF1aXJlKCdwYXRoJyksXG4gIGZpbGVzeXN0ZW0gPSByZXF1aXJlKCdmcycpLFxuICBhc3NlcnQgPSByZXF1aXJlKCdhc3NlcnQnKSxcbiAgRXZlbnRFbWl0dGVyID0gcmVxdWlyZSgnZXZlbnRzJyksXG4gIHJlcXVpcmVIb29rID0gcmVxdWlyZSgnLi9yZXF1aXJlSG9vay5qcycpLFxuICB7IGRlZmF1bHRSZXF1aXJlSG9va0NvbmZpZyB9ID0gcmVxdWlyZSgnLi9nZXRDb25maWcuanMnKSxcbiAgZGVlcENsb25lSlNOYXRpdmVUeXBlID0gcmVxdWlyZSgnY2xvbmUtZGVlcCcpLFxuICB7IG1lcmdlTm9uZXhpc3RlbnRQcm9wZXJ0aWVzIH0gPSByZXF1aXJlKCdAZGVwZW5kZW5jeS9oYW5kbGVKU05hdGl2ZURhdGFTdHJ1Y3R1cmUnKVxuXG4vKipcbiAqIFVzZWQgdG8gaW5pdGlhbGl6ZSBub2RlanMgYXBwIHdpdGggdHJhbnNwaWxlZCBjb2RlIHVzaW5nIEJhYmVsLCB0aHJvdWdoIGFuIGVudHJ5cG9pbnQuanMgd2hpY2ggbG9hZHMgdGhlIGFwcC5qcyBhZnRlciByZWdpc3RlcmluZyB0aGUgdHJhbnNwaWxhdGlvbiByZXF1aXJlIGhvb2tzLlxuICovXG5jbGFzcyBDb21waWxlciBleHRlbmRzIEV2ZW50RW1pdHRlciB7XG4gIGNvbnN0cnVjdG9yKHsgYmFiZWxDb25maWcgPSB7fSwgY2FsbGVyUGF0aCB9ID0ge30pIHtcbiAgICBzdXBlcigpXG4gICAgQ29tcGlsZXIuaW5zdGFuY2UucHVzaCh0aGlzKSAvLyB0cmFjayBpbnN0YW5jZXNcblxuICAgIHRoaXMuY29uZmlnID0gYmFiZWxDb25maWdcbiAgICB0aGlzLmNhbGxlclBhdGggPSBjYWxsZXJQYXRoXG5cbiAgICAvKiogVXNhZ2U6IFxuICAgICAgYGBgXG4gICAgICAgIHByb2Nlc3Mub24oJ2V4aXQnLCAoKSA9PiB7XG4gICAgICAgICAgY29uc29sZS5sb2coY29tcGlsZXIubG9hZGVkRmlsZXMubWFwKHZhbHVlID0+IHZhbHVlLmZpbGVuYW1lKSlcbiAgICAgICAgICBjb25zb2xlLmxvZyhjb21waWxlci5iYWJlbFJlZ2lzdGVyQ29uZmlnLmlnbm9yZSlcbiAgICAgICAgfSlcbiAgICAgIGBgYFxuICAgICAgKi9cbiAgICB0aGlzLmxvYWRlZEZpbGVzID0gdGhpcy5sb2FkZWRGaWxlcyB8fCBbXVxuXG4gICAgdGhpcy5pbml0aWFsaXplVHJhbnNmb3JtQ29uZmlndXJhdGlvbigpIC8vIHNldCBiYWJlbCBjb25maWcgdmFsdWVzXG4gIH1cblxuICAvLyBiYWJlbCBjb25maWd1cmF0aW9ucyAtIHBsdWdpbnMsIHByZXNldHMsIGlnbm9yZSwgZXh0ZW5zaW9ucywgZXRjLlxuICBpbml0aWFsaXplVHJhbnNmb3JtQ29uZmlndXJhdGlvbigpIHtcbiAgICAvLyBtYWtlIHN1cmUgdGhlIG9iamVjdCBwYXNzZWQgaXMgdW5pcXVlIChwcmV2ZW50IGNvbmZsaWN0cyBpbiBjYXNlIGNvbmZpZ3MgYXJlIHVzZWQgZnJvbSB0aGUgc2FtZSBtb2R1bGUgbXVsdGlwbGUgdGltZXMpXG4gICAgLy8gYXMgdGhlIHByb3BlcnRpZXMgb2YgdGhpcy5jb25maWcgY2FuIGJlIG1vZGlmaWVkIGJ5IHRoZSBpbnN0YW5jZSAoZS5nLiB0aGlzLmNvbmZpZy5pZ25vcmUpXG4gICAgdGhpcy5jb25maWcgPSBkZWVwQ2xvbmVKU05hdGl2ZVR5cGUodGhpcy5jb25maWcpXG4gICAgYXNzZXJ0KGRlZmF1bHRSZXF1aXJlSG9va0NvbmZpZy5pZ25vcmUsIGDigKIgTXVzdCBjb250YWluIGF0IGxlYXN0IGlnbm9yZSBwcm9wZXJ0eSwgYXMgaXQgaXMgdXNlZCBpbiB0aGUgQ29tcGlsZXIgaW5zdGFuY2UgYW5kIG1vZGlmaWVkIHdoZW4gbmVlZGVkLmApXG4gICAgLy8gbWVyZ2Ugb25seSBpZiBwcm9wZXJ0aWVzIGRvZXNuJ3QgZXhpc3RcbiAgICBtZXJnZU5vbmV4aXN0ZW50UHJvcGVydGllcyh0aGlzLmNvbmZpZywgZGVlcENsb25lSlNOYXRpdmVUeXBlKGRlZmF1bHRSZXF1aXJlSG9va0NvbmZpZykgLypjbG9uZSBkZWVwIG9iamVjdHMgdG8gcHJldmVudCBjb25mbGljdHMgYmV0d2VlbiBpbnN0YW5jZXMuKi8pXG5cbiAgICBpZiAoIXRoaXMuY29uZmlnLnBsdWdpbnMgJiYgIXRoaXMuY29uZmlnLnByZXNldHMpIHtcbiAgICAgIHRoaXMuc2V0VGFyZ2V0UHJvamVjdCgpXG4gICAgICBhc3NlcnQoXG4gICAgICAgIHRoaXMudGFyZ2V0UHJvamVjdENvbmZpZy5jb25maWd1cmF0aW9uLnRyYW5zcGlsYXRpb24gJiYgdGhpcy50YXJnZXRQcm9qZWN0Q29uZmlnLmNvbmZpZ3VyYXRpb24udHJhbnNwaWxhdGlvbi5iYWJlbENvbmZpZyxcbiAgICAgICAgYOKAoiBQcm9qZWN0IGNvbmZpZ3VyYXRpb24gbXVzdCBoYXZlICd0cmFuc3BpbGF0aW9uJyAmIG5lc3RlZCAnYmFiZWxDb25maWcnIGVudHJpZXMuYCxcbiAgICAgIClcbiAgICAgIE9iamVjdC5hc3NpZ24odGhpcy5jb25maWcsIHRoaXMudGFyZ2V0UHJvamVjdENvbmZpZy5jb25maWd1cmF0aW9uLnRyYW5zcGlsYXRpb24uYmFiZWxDb25maWcpXG4gICAgfVxuICB9XG5cbiAgcmVxdWlyZUhvb2soeyByZXN0cmljdFRvVGFyZ2V0UHJvamVjdCA9IHRydWUgLyogdGhpcyBvcHRpb24gd2hlbiBmYWxzZSBhbGxvd3MgY2lyY3VsYXIgZGVwZW5kZW5jeSBgY29uZmlndXJhdGlvbk1hbmFnZW1lbnRgIHRvIHVzZSB0cmFuc3BpbGF0aW9uLiAqLyB9ID0ge30pIHtcbiAgICBpZiAocmVzdHJpY3RUb1RhcmdldFByb2plY3QpIHtcbiAgICAgIHRoaXMuc2V0VGFyZ2V0UHJvamVjdCgpXG4gICAgICAvLyBiYWJlbCBjb25maWcgaWdub3JlIGdsb2JzIGFuZCByZWdleCB0byBtYXRjaCBmaWxlcyBhbmQgZmlsdGVyIHRoZSBmaWxlcyB0byB0cmFuc3BpbGVcbiAgICAgIGNvbnN0IHRhcmdldFByb2plY3RGaWxlc1JlZ2V4ID0gbmV3IFJlZ0V4cChgXigoPyEke3RoaXMudGFyZ2V0UHJvamVjdENvbmZpZy5yb290UGF0aH0pLikqJGApIC8vIG5lZ2F0aW9uIC0gcGF0aHMgdGhhdCBkb24ndCBpbmNsdWRlIHRoZSBwYXRoIGkuZS4gb3V0c2lkZSB0aGUgZGlyZWN0b3J5LlxuICAgICAgdGhpcy5jb25maWcuaWdub3JlLnB1c2godGFyZ2V0UHJvamVjdEZpbGVzUmVnZXgpIC8vIHRyYW5zcGlsZSBmaWxlcyB0aGF0IGFyZSBuZXN0ZWQgaW4gdGhlIHRhcmdldCBwcm9qZWN0IG9ubHkuXG4gICAgfVxuXG4gICAgLy8gQWRkIGV2ZW50IGxpc3RlbmVyc1xuICAgIHRoaXMub24oJ2ZpbGVMb2FkZWQnLCBmaWxlT2JqZWN0ID0+IHRoaXMubG9hZGVkRmlsZXMucHVzaCh7IC4uLmZpbGVPYmplY3QgfSkpXG5cbiAgICAvLyB0aGlzLmNvbmZpZy5pZ25vcmUgPSBbL25vZGVfbW9kdWxlcy8sIC9eKCg/IVxcL2RcXC9jb2RlXFwvQXBwXFwvZ2F6aXRlbmdXZWJhcHBcXC9ub2RlX21vZHVsZXNcXC9AYXBwbGljYXRpb25cXC9nYXppdGVuZ1dlYmFwcC1jbGllbnRTaWRlKS4pKiQvXVxuICAgIGxldCByZXZlcnRIb29rID0gcmVxdWlyZUhvb2suYmFiZWxSZWdpc3Rlcih7IGJhYmVsQ29uZmlnOiB0aGlzLmNvbmZpZyB9KVxuXG4gICAgLy8gdHJhY2tpbmcgZmlsZXMgaXMgZm9yIGRlYnVnZ2luZyBwdXJwb3NlcyBvbmx5LCB0aGUgYWN0dWFsIHJ1bnRpbWUgdHJhbnNmb3JtYXRpb24gaGFwcGVucyBpbiBiYWJlbCBgcmVxdWlyZUhvb2tgLiBUaGUgdHJhY2tlciB0cmllcyB0byBtaW1pYyB0aGUgZ2xvYiBmaWxlIG1hdGNoaW5nIHVzaW5nIHRoZSBpZ25vcmUgb3B0aW9uIHBhc3NlZCBgYmFiZWxSZWdpc3RlckNvbmZpZy5pZ25vcmVgXG4gICAgcmVxdWlyZUhvb2sudHJhY2tGaWxlKHtcbiAgICAgIGVtaXQ6IChjb2RlLCBmaWxlbmFtZSkgPT4gdGhpcy5lbWl0KCdmaWxlTG9hZGVkJywgeyBmaWxlbmFtZSwgY29kZSB9KSxcbiAgICAgIGlnbm9yZUZpbGVuYW1lUGF0dGVybjogdGhpcy5jb25maWcuaWdub3JlLFxuICAgICAgZXh0ZW5zaW9uOiB0aGlzLmNvbmZpZy5leHRlbnNpb25zLFxuICAgIH0pXG5cbiAgICAvLyBvdXRwdXQgdHJhbnNwaWxhdGlvbiAtIG91dHB1dCB0cmFuc3BpbGF0aW9uIHJlc3VsdCBpbnRvIGZpbGVzeXN0ZW0gZmlsZXNcbiAgICB0aGlzLnNldFByaW1hcnlUYXJnZXRQcm9qZWN0KClcbiAgICByZXF1aXJlSG9vay53cml0ZUZpbGVUb0Rpc2soe1xuICAgICAgZXh0ZW5zaW9uOiB0aGlzLmNvbmZpZy5leHRlbnNpb25zLFxuICAgICAgaWdub3JlRmlsZW5hbWVQYXR0ZXJuOiB0aGlzLmNvbmZpZy5pZ25vcmUsXG4gICAgICBzaG91bGRUcmFuc2Zvcm06IGZhbHNlLFxuICAgICAgdGFyZ2V0UHJvamVjdENvbmZpZzogdGhpcy5wcmltYXJ5VGFyZ2V0UHJvamVjdENvbmZpZyxcbiAgICB9KVxuXG4gICAgcmV0dXJuIHsgcmV2ZXJ0SG9vayB9XG4gIH1cblxuICAvLyBsb29rdXAgdGhlIHByb2plY3QgdGhhdCBpbnN0YW50aWF0ZWQgYSBDb21waWxlciBpbnN0YW5jZS5cbiAgc2V0VGFyZ2V0UHJvamVjdCgpIHtcbiAgICBpZiAodGhpcy50YXJnZXRQcm9qZWN0Q29uZmlnKSByZXR1cm5cbiAgICBhc3NlcnQodGhpcy5jYWxsZXJQYXRoLCAn4oCiIGNhbGxlclBhdGggc2hvdWxkIGJlIHBhc3NlZCBpbiBjYXNlIGJhYmVsIGNvbmZpZ3VyYXRpb24gd2FzIG5vdCBwcm92aWRlZCcpXG4gICAgY29uc3QgeyBmaW5kVGFyZ2V0UHJvamVjdFJvb3QgfSA9IHJlcXVpcmUoJ0BkZXBlbmRlbmN5L2NvbmZpZ3VyYXRpb25NYW5hZ2VtZW50JykgLy8gcmVxdWlyZSBoZXJlIHRvIHByZXZlbnQgY3ljbGljIGRlcGVuZGVuY3kgd2l0aCB0aGlzIG1vZHVsZSwgYXMgdGhlIG1vZHVsZSBtYXkgdXNlIHJ1bnRpbWUgdHJhbnNwaWxhdGlvbiAoaS5lLiB3aWxsIHVzZSBleHBvcnRlZCBmdW5jdGlvbmFsaXR5IGZyb20gdGhpcyBtb2R1bGUpLlxuICAgIHRoaXMudGFyZ2V0UHJvamVjdENvbmZpZyA9IGZpbmRUYXJnZXRQcm9qZWN0Um9vdCh7IG5lc3RlZFByb2plY3RQYXRoOiBbdGhpcy5jYWxsZXJQYXRoXSB9KVxuICB9XG5cbiAgLy8gbWFpbiB0YXJnZXQgcHJvamVjdCB0aGF0IGluaXRpYXRlZCB0aGUgbm9kZSBwcm9jZXNzIGZyb20gY2xpIG9yIHJlcXVpcmUgdGhlIG1vZHVsZSBiZWZvcmUgYmVpbmcgY2FjaGVkLCBpbiBjYXNlcyB3aGVyZSBub2RlX21vZHVsZXMgYXJlIGFsc28gdHJhbnNwaWxlZC5cbiAgc2V0UHJpbWFyeVRhcmdldFByb2plY3QoeyBuZXN0ZWRQcm9qZWN0UGF0aCA9IFtwcm9jZXNzLmN3ZCgpLCBtb2R1bGUucGFyZW50LmZpbGVuYW1lIC8qIFRoZSBwbGFjZSB3aGVyZSB0aGUgbW9kdWxlIHdhcyByZXF1aXJlZCBmcm9tICovXSB9ID0ge30pIHtcbiAgICBpZiAodGhpcy5wcmltYXJ5VGFyZ2V0UHJvamVjdENvbmZpZykgcmV0dXJuXG4gICAgY29uc3QgeyBmaW5kVGFyZ2V0UHJvamVjdFJvb3QgfSA9IHJlcXVpcmUoJ0BkZXBlbmRlbmN5L2NvbmZpZ3VyYXRpb25NYW5hZ2VtZW50JykgLy8gcmVxdWlyZSBoZXJlIHRvIHByZXZlbnQgY3ljbGljIGRlcGVuZGVuY3kgd2l0aCB0aGlzIG1vZHVsZSwgYXMgdGhlIG1vZHVsZSBtYXkgdXNlIHJ1bnRpbWUgdHJhbnNwaWxhdGlvbiAoaS5lLiB3aWxsIHVzZSBleHBvcnRlZCBmdW5jdGlvbmFsaXR5IGZyb20gdGhpcyBtb2R1bGUpLlxuICAgIHRoaXMucHJpbWFyeVRhcmdldFByb2plY3RDb25maWcgPSBmaW5kVGFyZ2V0UHJvamVjdFJvb3QoeyBuZXN0ZWRQcm9qZWN0UGF0aCB9KVxuICB9XG59XG5cbi8vIHRyYWNrIGluc3RhbmNlcyBpbiBjdXJyZW50IHByb2Nlc3NcbkNvbXBpbGVyLmluc3RhbmNlID0gW11cbi8vIC8vIGRlYnVnIGNyZWF0ZWQgaW5zdGFuY2VzIGluIGN1cnJlbnQgcHJvY2Vzc1xuLy8gcHJvY2Vzcy5vbignZXhpdCcsICgpID0+IHtcbi8vICAgZm9yIChsZXQgY29tcGlsZXIgb2YgQ29tcGlsZXIuaW5zdGFuY2UpIGNvbnNvbGUubG9nKGNvbXBpbGVyLmJhYmVsUmVnaXN0ZXJDb25maWcuaWdub3JlKVxuLy8gICBjb25zb2xlLmxvZyhDb21waWxlci5pbnN0YW5jZVswXS5iYWJlbFRyYW5zZm9ybUNvbmZpZy5pZ25vcmUgPT09IENvbXBpbGVyLmluc3RhbmNlWzFdLmJhYmVsVHJhbnNmb3JtQ29uZmlnLmlnbm9yZSlcbi8vIH0pXG5cbi8qIFRPRE86IHJlZ2lzdGVyIHRoZSBtb2R1bGVzIHRoYXQgcmVnaXN0ZXJlZCBhIHJlcXVpcmUgaG9vayBmb3IgY29tcGlsYXRpb24uIGtlZXAgdHJhY2sgb2YgYWxsIHByb2plY3RzIHRoYXQgaW5pdGlhdGVkIGEgcmVxdWlyZSBob29rIHJlZ2lzdHJhdGlvbi4gXG4gICAgKEhvdyB0byBmaW5kIG91dCB0aGUgbW9kdWxlIHBhdGggdGhhdCBpbml0aWF0ZXMgYSBDb21waWxlciBpbnN0YW5jZSB3aXRob3V0IHBhc3NpbmcgaW4gJ19fZGlybmFtZScgPyBcbiAgICAgIGkuZS4gaGFja2lzaCB3YXkgdG8gZmluZCBmdW5jdGlvbiBjYWxsZXIgaW4gRUNNQXNjcmlwdClcbiAgICBTZWVtcyBsaWtlIGEgd29ya2Fyb3VuZCAtIGh0dHBzOi8vc3RhY2tvdmVyZmxvdy5jb20vcXVlc3Rpb25zLzEzMjI3NDg5L2hvdy1jYW4tb25lLWdldC10aGUtZmlsZS1wYXRoLW9mLXRoZS1jYWxsZXItZnVuY3Rpb24taW4tbm9kZS1qcyAqL1xuLy8gQ29tcGlsZXIucmVnaXN0ZXJlZEhvb2sgPSBbXSAvLyBpbml0aWFsaXplIHByb3BlcnR5LlxuLy8gQ29tcGlsZXIudHJhY2tSZWdpc3RlcmVkSG9vayA9ICgpID0+IENvbXBpbGVyLnJlZ2lzdGVyZWRIb29rLnB1c2goLypQcm9qZWN0IHRoYXQgY3JlYXRlZCBhIG5ldyBpbnN0YW5jZSBvZiBDb21waWxlciovKVxuXG5Db21waWxlci50cmFuc3BpbGF0aW9uTW9kdWxlUGF0aCA9IHBhdGguam9pbihfX2Rpcm5hbWUsICcuLicpIC8vIGlmIG11bHRpcGxlIG1vZHVsZXMgYXJlIGluc3RhbGxlZCBpbiBkaWZmZXJlbnQgcGFja2FnZXMgcmF0aGVyIHRoYW4gdXNpbmcgdGhlIHNhbWUgbW9kdWxlLlxuXG5tb2R1bGUuZXhwb3J0cyA9IHtcbiAgQ29tcGlsZXIsXG59XG4iXX0=
