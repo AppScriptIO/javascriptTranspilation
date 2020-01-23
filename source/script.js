@@ -23,7 +23,7 @@ if (isPreservedSymlinkFlag()) throw new Error('• `preserve symlink` node runti
   module.parent.filename:
     javascriptTranspilation/entrypoint/programmaticAPI/index.js
   module.parent.parent.filename: 
-    webapp/node_modules/@dependency/scriptManager/source/script.js
+    webapp/node_modules/@deployment/scriptManager/source/script.js
 */
 const firstProjectCallerInCurrentProcess = module.parent.parent.filename
 
@@ -34,4 +34,4 @@ const firstProjectCallerInCurrentProcess = module.parent.parent.filename
  */
 Object.assign(module.exports, require('./getConfig.js'), require('./transpileSourcePath.js'), require('./Compiler.class.js'))
 
-// ;({ findTargetProjectRoot } = require('@dependency/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
+// ;({ findTargetProjectRoot } = require('@deployment/configurationManagement')) // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).

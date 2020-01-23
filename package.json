@@ -1,11 +1,11 @@
 {
-	"name": "@dependency/javascriptTranspilation",
+	"name": "@deployment/javascriptTranspilation",
 	"main": "./entrypoint/programmaticAPI",
-	"version": "2.0.6",
+	"version": "2.2.1",
 	"scripts": {
 		"postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true # preinstall the module directory to its own node_modules dependencies.",
-		"build": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
-		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\""
+		"build": "yarn run scriptManager shouldCompileScript=true @deployment/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
+		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @deployment/deploymentScript \".buildAndRelease.moduleProject({})\""
 	},
 	"dependencies": {
 		"@babel/babel-plugin-functionSentProxyImplementation": "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x",
@@ -38,7 +38,7 @@
 		"@babel/preset-env": "*",
 		"@babel/register": "*",
 		"@babel/runtime": "*",
-		"@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
+		"@deployment/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^2.x.x",
 		"@dependency/handleJSNativeDataStructure": "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x",
 		"@dependency/handleModuleSystem": "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
 		"babel-core": "^7.0.0-bridge",
@@ -53,10 +53,10 @@
 		"pirates": "^4.0.1"
 	},
 	"devDependencies": {
-		"@dependency/deploymentScript": "https://github.com/AppScriptIO/deploymentScript#semver:^2.x.x",
-		"@dependency/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x",
-		"@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x",
-		"@dependency/scriptManager": "https://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
+		"@deployment/deploymentScript": "https://github.com/AppScriptIO/deploymentScript#semver:^2.x.x",
+		"@deployment/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^2.x.x",
+		"@deployment/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x",
+		"@deployment/scriptManager": "https://github.com/AppScriptIO/scriptManager#semver:^2.x.x",
 		"typescript": "^3.3.3333"
 	}
 }
