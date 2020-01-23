@@ -3,8 +3,8 @@
 
 
 "@babel/babel-plugin-functionSentProxyImplementation@https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x":
-  version "1.0.1"
-  resolved "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#886f69852b590dc651c3767bec8be0ccadc8405c"
+  version "1.0.3"
+  resolved "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#adfa0de072f34574d7caf9a9359d2dcadeb7258e"
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-function-sent" "^7.2.0"
@@ -938,27 +938,91 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@dependency/JSModuleTypeCheck@http://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x":
-  version "1.0.2"
-  uid "09585099a7d382b9a90baa55eb80ba261152168f"
-  resolved "http://github.com/AppScriptIO/JSModuleTypeCheck#09585099a7d382b9a90baa55eb80ba261152168f"
-
-"@dependency/JSModuleTypeCheck@https://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/JSModuleTypeCheck#09585099a7d382b9a90baa55eb80ba261152168f"
-
-"@dependency/addModuleResolutionPath@https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x":
-  version "1.0.5"
-  resolved "https://github.com/AppScriptIO/addModuleResolutionPath#1c9b1a61d78048d0968cf6e3427ed18d68ecd478"
-
-"@dependency/buildTool@https://github.com/AppScriptIO/buildTool#semver:2.x.x":
-  version "2.0.5"
-  resolved "https://github.com/AppScriptIO/buildTool#49dc2245936271e6b81eb1888600e175ebe11abc"
+"@dependency/entity@https://github.com/AppScriptIO/entity#semver:^2.x.x":
+  version "2.0.2"
+  resolved "https://github.com/AppScriptIO/entity#a8c5af1e3d7b78b4ed81aff9f8e9f19a51f67101"
   dependencies:
-    "@dependency/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^1.x.x"
+    "@dependency/handleJSNativeDataStructure" "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x"
+    "@dependency/multiplePrototypeDelegation" "https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x"
+    deepmerge "^4.2.2"
+    lodash "^4.17.11"
+    merge-anything "^2.4.4"
+
+"@dependency/fragmentIndentationObjectStream@https://github.com/AppScriptIO/fragmentIndentationObjectStream#semver:^1.x.x":
+  version "1.0.3"
+  resolved "https://github.com/AppScriptIO/fragmentIndentationObjectStream#c1fb724c0e1fdcf62de7d3c6ea5bc8f1fbe35c53"
+
+"@dependency/graphTraversal-implementation@https://github.com/AppScriptIO/graphTraversal-implementation#semver:^4.x.x":
+  version "4.2.3"
+  resolved "https://github.com/AppScriptIO/graphTraversal-implementation#d4282704dd0c0c651e24aaf04b461c870303a592"
+  dependencies:
+    neo4j-driver "^1.7.5"
+    redisgraph.js "^1.1.4"
+    underscore "*"
+    uuid "*"
+
+"@dependency/graphTraversal@https://github.com/AppScriptIO/graphTraversal#semver:4.x.x", "@dependency/graphTraversal@https://github.com/AppScriptIO/graphTraversal#semver:^4.x.x":
+  version "4.2.4"
+  uid d36825678ddcd69c65d92f6fc2c2b235901779ca
+  resolved "https://github.com/AppScriptIO/graphTraversal#d36825678ddcd69c65d92f6fc2c2b235901779ca"
+  dependencies:
+    "@dependency/entity" "https://github.com/AppScriptIO/entity#semver:^2.x.x"
+    "@dependency/graphTraversal-implementation" "https://github.com/AppScriptIO/graphTraversal-implementation#semver:^4.x.x"
+    "@dependency/handleJSNativeDataStructure" "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x"
+    "@dependency/multiplePrototypeDelegation" "https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x"
+    "@dependency/promiseProperRace" "https://github.com/AppScriptIO/promiseProperRace#semver:^1.x.x"
+    underscore "^1.9.1"
+
+"@dependency/handleFilesystemOperation@http://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x":
+  version "2.0.2"
+  uid ae324d7c2d7d70c022f1aaeec10f963d4a841e59
+  resolved "http://github.com/AppScriptIO/handleFilesystemOperation#ae324d7c2d7d70c022f1aaeec10f963d4a841e59"
+
+"@dependency/handleFilesystemOperation@https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x":
+  version "2.0.2"
+  resolved "https://github.com/AppScriptIO/handleFilesystemOperation#ae324d7c2d7d70c022f1aaeec10f963d4a841e59"
+
+"@dependency/handleJSNativeDataStructure@https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x":
+  version "2.0.4"
+  resolved "https://github.com/AppScriptIO/handleJSNativeDataStructure#8eb14e63413b1586e07dd54731a38e712c6845f3"
+  dependencies:
+    multistream "^2.1.1"
+
+"@dependency/handleModuleSystem@http://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x":
+  version "2.0.3"
+  uid "97082d027dd3d7e931c1925cee50bc709720f4b6"
+  resolved "http://github.com/AppScriptIO/handleModuleSystem#97082d027dd3d7e931c1925cee50bc709720f4b6"
+  dependencies:
+    "@dependency/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
+    del "^3.0.0"
+
+"@dependency/handleModuleSystem@https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x":
+  version "2.0.3"
+  resolved "https://github.com/AppScriptIO/handleModuleSystem#97082d027dd3d7e931c1925cee50bc709720f4b6"
+  dependencies:
+    "@dependency/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
+    del "^3.0.0"
+
+"@dependency/multiplePrototypeDelegation@https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x":
+  version "1.1.2"
+  resolved "https://github.com/AppScriptIO/multiplePrototypeDelegation#1b539de65eb0b21326fa9bf09236c7dcd256eadb"
+
+"@dependency/parseKeyValuePairSeparatedBySymbol@https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol#semver:^1.x.x":
+  version "1.0.3"
+  resolved "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol#d5f718c96b2eddccc40de069c2ebfe6f6d766c73"
+
+"@dependency/promiseProperRace@https://github.com/AppScriptIO/promiseProperRace#semver:^1.x.x":
+  version "1.0.3"
+  resolved "https://github.com/AppScriptIO/promiseProperRace#a1ceb5ff9707b78e2d72876955c23f829a0830d5"
+
+"@deployment/buildTool@https://github.com/AppScriptIO/buildTool#semver:^2.x.x":
+  version "2.2.1"
+  resolved "https://github.com/AppScriptIO/buildTool#09d928390e03e3d56e449e35f11b61a1ecdeec89"
+  dependencies:
     "@dependency/fragmentIndentationObjectStream" "https://github.com/AppScriptIO/fragmentIndentationObjectStream#semver:^1.x.x"
     "@dependency/graphTraversal" "https://github.com/AppScriptIO/graphTraversal#semver:4.x.x"
-    "@dependency/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x"
+    "@deployment/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x"
+    "@deployment/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x"
     command-exists "*"
     css-slam "*"
     fs-extra "*"
@@ -991,18 +1055,18 @@
     type-of-is "*"
     vinyl-fs "*"
 
-"@dependency/configurationManagement@http://github.com/AppScriptIO/configurationManagement#semver:^1.x.x":
-  version "1.0.5"
-  uid c0d6aac471cdd123000c69dcc03d26a48f693bdd
-  resolved "http://github.com/AppScriptIO/configurationManagement#c0d6aac471cdd123000c69dcc03d26a48f693bdd"
+"@deployment/configurationManagement@http://github.com/AppScriptIO/configurationManagement#semver:^2.x.x":
+  version "2.0.1"
+  uid f325be4c7d3b09c0f0bfcb228e1358ff23d6cff2
+  resolved "http://github.com/AppScriptIO/configurationManagement#f325be4c7d3b09c0f0bfcb228e1358ff23d6cff2"
 
-"@dependency/configurationManagement@https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x":
-  version "1.0.5"
-  resolved "https://github.com/AppScriptIO/configurationManagement#c0d6aac471cdd123000c69dcc03d26a48f693bdd"
+"@deployment/configurationManagement@https://github.com/AppScriptIO/configurationManagement#semver:^2.x.x":
+  version "2.0.1"
+  resolved "https://github.com/AppScriptIO/configurationManagement#f325be4c7d3b09c0f0bfcb228e1358ff23d6cff2"
 
-"@dependency/deploymentProvisioning@https://github.com/AppScriptIO/deploymentProvisioning#semver:^1.x.x":
-  version "1.0.10"
-  resolved "https://github.com/AppScriptIO/deploymentProvisioning#075a75c36e9645a688589452202c8279724dcfc4"
+"@deployment/deploymentProvisioning@https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x":
+  version "2.0.1"
+  resolved "https://github.com/AppScriptIO/deploymentProvisioning#a3decd5c0865f694e1a90d80f3779fe4f3096739"
   dependencies:
     any-promise "*"
     command-exists "*"
@@ -1015,18 +1079,18 @@
     vinyl-fs "*"
     which "*"
 
-"@dependency/deploymentScript@https://github.com/AppScriptIO/deploymentScript#semver:^2.x.x":
-  version "2.0.6"
-  resolved "https://github.com/AppScriptIO/deploymentScript#f10ccc0ef48ce01f6f2c56d8f071d9bea68e514a"
+"@deployment/deploymentScript@https://github.com/AppScriptIO/deploymentScript#semver:^2.x.x":
+  version "2.2.1"
+  resolved "https://github.com/AppScriptIO/deploymentScript#1ebb2ed01401d8e5fe7caecfb926ec13af1b7137"
   dependencies:
-    "@dependency/buildTool" "https://github.com/AppScriptIO/buildTool#semver:2.x.x"
-    "@dependency/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^1.x.x"
-    "@dependency/entity" "https://github.com/AppScriptIO/entity#semver:1.0.15"
-    "@dependency/graphTraversal" "https://github.com/AppScriptIO/graphTraversal#semver:4.x.x"
-    "@dependency/graphTraversal-implementation" "https://github.com/AppScriptIO/graphTraversal-implementation#semver:4.x.x"
-    "@dependency/javascriptTestRunner" "https://github.com/AppScriptIO/javascriptTestRunner#semver:^1.x.x"
-    "@dependency/nodejsLiveReload" "https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x"
-    "@dependency/resolveAndLookupPath" "https://github.com/AppScriptIO/resolveAndLookupPath#semver:^1.x.x"
+    "@dependency/entity" "https://github.com/AppScriptIO/entity#semver:^2.x.x"
+    "@dependency/graphTraversal" "https://github.com/AppScriptIO/graphTraversal#semver:^4.x.x"
+    "@dependency/graphTraversal-implementation" "https://github.com/AppScriptIO/graphTraversal-implementation#semver:^4.x.x"
+    "@dependency/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
+    "@deployment/buildTool" "https://github.com/AppScriptIO/buildTool#semver:^2.x.x"
+    "@deployment/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x"
+    "@deployment/javascriptTestRunner" "https://github.com/AppScriptIO/javascriptTestRunner#semver:^2.x.x"
+    "@deployment/nodejsLiveReload" "https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x"
     apollo-cache-inmemory "*"
     apollo-client "*"
     apollo-link "*"
@@ -1048,80 +1112,11 @@
     uuid "^3.3.2"
     write-json-file "*"
 
-"@dependency/entity@https://github.com/AppScriptIO/entity#semver:1.0.15":
-  version "1.0.15"
-  resolved "https://github.com/AppScriptIO/entity#32f3f551cc8fd1bb38023c4c743acea3d4e961fe"
-  dependencies:
-    "@dependency/multiplePrototypeDelegation" "https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x"
-    deepmerge "^4.2.2"
-    lodash "^4.17.11"
-    merge-anything "^2.4.4"
-
-"@dependency/entity@https://github.com/AppScriptIO/entity#semver:^1.x.x":
-  version "1.1.1"
-  resolved "https://github.com/AppScriptIO/entity#9bbc3b306b43d8e3cb8c10bf7facfda6576f7be5"
-  dependencies:
-    "@dependency/handleJSNativeDataStructure" "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x"
-    "@dependency/multiplePrototypeDelegation" "https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x"
-    deepmerge "^4.2.2"
-    lodash "^4.17.11"
-    merge-anything "^2.4.4"
-
-"@dependency/fragmentIndentationObjectStream@https://github.com/AppScriptIO/fragmentIndentationObjectStream#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/fragmentIndentationObjectStream#9cb1ff843e442c5eaf34477cf4c9907eb0e74f7d"
-
-"@dependency/graphTraversal-implementation@https://github.com/AppScriptIO/graphTraversal-implementation#semver:4.x.x", "@dependency/graphTraversal-implementation@https://github.com/AppScriptIO/graphTraversal-implementation#semver:^4.x.x":
-  version "4.2.2"
-  resolved "https://github.com/AppScriptIO/graphTraversal-implementation#ae3a8c6f3c024b9b77513655c5661f6184826476"
-  dependencies:
-    neo4j-driver "^1.7.5"
-    redisgraph.js "^1.1.4"
-    underscore "*"
-    uuid "*"
-
-"@dependency/graphTraversal@https://github.com/AppScriptIO/graphTraversal#semver:4.x.x":
-  version "4.2.1"
-  resolved "https://github.com/AppScriptIO/graphTraversal#cdcb2ba508bf627c036d35c18e51aa9601824629"
-  dependencies:
-    "@dependency/entity" "https://github.com/AppScriptIO/entity#semver:^1.x.x"
-    "@dependency/graphTraversal-implementation" "https://github.com/AppScriptIO/graphTraversal-implementation#semver:^4.x.x"
-    "@dependency/handleJSNativeDataStructure" "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x"
-    "@dependency/multiplePrototypeDelegation" "https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x"
-    "@dependency/promiseProperRace" "https://github.com/AppScriptIO/promiseProperRace#semver:^1.x.x"
-    underscore "^1.9.1"
-
-"@dependency/handleFilesystemOperation@https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x":
+"@deployment/javascriptStaticAnalysis@https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^2.x.x":
   version "2.0.1"
-  resolved "https://github.com/AppScriptIO/handleFilesystemOperation#69d6054f655b1cc80b81afa696b22da13c37b04a"
-
-"@dependency/handleJSNativeDataStructure@https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x":
-  version "2.0.2"
-  resolved "https://github.com/AppScriptIO/handleJSNativeDataStructure#e5acf482ee0a674f560eb9a38ddf34dc9310f81a"
+  resolved "https://github.com/AppScriptIO/javascriptStaticAnalysis#6b263de80bd3a6b8bd09892d7522462cc00c4bb2"
   dependencies:
-    multistream "^2.1.1"
-
-"@dependency/handleModuleSystem@https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x":
-  version "2.0.2"
-  resolved "https://github.com/AppScriptIO/handleModuleSystem#092cdc5fc5c459248d618c08b219ffd1dab7314c"
-  dependencies:
-    "@dependency/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
-    del "^3.0.0"
-
-"@dependency/installNodeJSModule@http://github.com/AppScriptIO/installNodeJSModule#semver:^1.x.x":
-  version "1.0.2"
-  uid e019e8000b79962ba8201506c862baf4241a74f5
-  resolved "http://github.com/AppScriptIO/installNodeJSModule#e019e8000b79962ba8201506c862baf4241a74f5"
-
-"@dependency/installNodeJSModule@https://github.com/AppScriptIO/installNodeJSModule#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/installNodeJSModule#e019e8000b79962ba8201506c862baf4241a74f5"
-
-"@dependency/javascriptStaticAnalysis@https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/javascriptStaticAnalysis#ddf7d2dfebb347b8cb47f67d1992620c22c20b64"
-  dependencies:
-    "@dependency/addModuleResolutionPath" "https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x"
+    "@dependency/handleModuleSystem" "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x"
     "@typescript-eslint/eslint-plugin" "^1.4.2"
     "@typescript-eslint/parser" "^1.4.2"
     babel-eslint next
@@ -1132,22 +1127,22 @@
     prettier "^1.16.4"
     typescript "^3.3.3333"
 
-"@dependency/javascriptTestRunner@https://github.com/AppScriptIO/javascriptTestRunner#semver:^1.x.x":
-  version "1.3.6"
-  resolved "https://github.com/AppScriptIO/javascriptTestRunner#f702a2a88bd34d7441fb9da029c4d24710cfbc38"
+"@deployment/javascriptTestRunner@https://github.com/AppScriptIO/javascriptTestRunner#semver:^2.x.x":
+  version "2.0.1"
+  resolved "https://github.com/AppScriptIO/javascriptTestRunner#e86668a4c101efc4f2b35ff54a540bad8aef72c9"
   dependencies:
-    "@dependency/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x"
-    "@dependency/nodejsLiveReload" "https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x"
     "@dependency/parseKeyValuePairSeparatedBySymbol" "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol#semver:^1.x.x"
+    "@deployment/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x"
+    "@deployment/nodejsLiveReload" "https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x"
     chai "^4.1.2"
     mocha "*"
     moment "*"
     should "*"
     sinon "*"
 
-"@dependency/javascriptTranspilation@https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x":
-  version "1.2.9"
-  resolved "https://github.com/AppScriptIO/javascriptTranspilation#6e996d8a0ea6de6b934972ae4e0162bf8c804fba"
+"@deployment/javascriptTranspilation@https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x":
+  version "2.3.1"
+  resolved "https://github.com/AppScriptIO/javascriptTranspilation#9206623b047d4c4e1143fbe1dc9c04a0a4cf5380"
   dependencies:
     "@babel/babel-plugin-functionSentProxyImplementation" "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x"
     "@babel/cli" "*"
@@ -1179,55 +1174,9 @@
     "@babel/preset-env" "*"
     "@babel/register" "*"
     "@babel/runtime" "*"
-    "@dependency/addModuleResolutionPath" "https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x"
-    "@dependency/configurationManagement" "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x"
-    babel-core "^7.0.0-bridge"
-    babel-minify "*"
-    babel-plugin-dynamic-import-node "*"
-    babel-plugin-macros "*"
-    babel-plugin-parameter-decorator "^1.0.7"
-    babel-plugin-transform-commonjs-es2015-modules "*"
-    babel-plugin-transform-custom-element-classes "*"
-    babel-preset-minify "*"
-    pirates "^4.0.1"
-
-"@dependency/javascriptTranspilation@https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x":
-  version "2.0.3"
-  resolved "https://github.com/AppScriptIO/javascriptTranspilation#1c896a0e49dca6f315c37a85cc8c7a553aaf4f98"
-  dependencies:
-    "@babel/babel-plugin-functionSentProxyImplementation" "https://github.com/AppScriptIO/babel-plugin-functionSentProxyImplementation#semver:^1.x.x"
-    "@babel/cli" "*"
-    "@babel/core" "*"
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@babel/plugin-proposal-class-properties" "*"
-    "@babel/plugin-proposal-decorators" "*"
-    "@babel/plugin-proposal-export-default-from" "^7.2.0"
-    "@babel/plugin-proposal-export-namespace-from" "^7.2.0"
-    "@babel/plugin-proposal-function-bind" "*"
-    "@babel/plugin-proposal-function-sent" "*"
-    "@babel/plugin-proposal-logical-assignment-operators" "^7.2.0"
-    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.2.0"
-    "@babel/plugin-proposal-object-rest-spread" "^7.3.4"
-    "@babel/plugin-proposal-optional-catch-binding" "^7.2.0"
-    "@babel/plugin-proposal-optional-chaining" "^7.2.0"
-    "@babel/plugin-proposal-pipeline-operator" "^7.3.2"
-    "@babel/plugin-proposal-throw-expressions" "^7.2.0"
-    "@babel/plugin-syntax-decorators" "*"
-    "@babel/plugin-syntax-dynamic-import" "*"
-    "@babel/plugin-syntax-function-bind" "^7.2.0"
-    "@babel/plugin-syntax-function-sent" "^7.2.0"
-    "@babel/plugin-syntax-import-meta" "*"
-    "@babel/plugin-syntax-logical-assignment-operators" "^7.2.0"
-    "@babel/plugin-syntax-typescript" "^7.3.3"
-    "@babel/plugin-transform-modules-commonjs" "*"
-    "@babel/plugin-transform-runtime" "*"
-    "@babel/plugin-transform-typescript" "^7.3.2"
-    "@babel/preset-env" "*"
-    "@babel/register" "*"
-    "@babel/runtime" "*"
-    "@dependency/configurationManagement" "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x"
     "@dependency/handleJSNativeDataStructure" "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x"
     "@dependency/handleModuleSystem" "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x"
+    "@deployment/configurationManagement" "https://github.com/AppScriptIO/configurationManagement#semver:^2.x.x"
     babel-core "^7.0.0-bridge"
     babel-minify "*"
     babel-plugin-dynamic-import-node "*"
@@ -1239,67 +1188,31 @@
     clone-deep "^4.0.1"
     pirates "^4.0.1"
 
-"@dependency/moduleScopePattern@https://github.com/AppScriptIO/moduleScopePattern#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/moduleScopePattern#82c3ee40de9a3e8bb5fe137b1337e27863266e90"
-  dependencies:
-    "@dependency/recursiveCreateDirectory" "https://github.com/AppScriptIO/recursiveCreateDirectory#semver:^1.x.x"
-    del "^3.0.0"
-
-"@dependency/multiplePrototypeDelegation@https://github.com/AppScriptIO/multiplePrototypeDelegation#semver:^1.x.x":
-  version "1.0.17"
-  resolved "https://github.com/AppScriptIO/multiplePrototypeDelegation#b36efb3cc5d7c807385f68aaf9521975d3251d6a"
-
-"@dependency/nodejsLiveReload@https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x":
-  version "2.0.3"
-  resolved "https://github.com/AppScriptIO/nodejsLiveReload#0426a961f4d35e6e9079a6605c6d9e81f2a35a8b"
+"@deployment/nodejsLiveReload@https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x":
+  version "2.2.1"
+  resolved "https://github.com/AppScriptIO/nodejsLiveReload#7016f4d4f9c751597368e44e5f321677c838944e"
   dependencies:
     browser-sync "*"
     chokidar "*"
     core-js "*"
 
-"@dependency/parseKeyValuePairSeparatedBySymbol@https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol#b7b1dd65546740f36c2d29d87c4563e8643c0654"
-
-"@dependency/promiseProperRace@https://github.com/AppScriptIO/promiseProperRace#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/promiseProperRace#72091832f41fdc59f68e834cd4e1fb5ef2f09e31"
-
-"@dependency/recursiveCreateDirectory@https://github.com/AppScriptIO/recursiveCreateDirectory#semver:^1.x.x":
-  version "1.0.2"
-  resolved "https://github.com/AppScriptIO/recursiveCreateDirectory#56c4d3e62b7e4158040963e6ba07bc1211e883a3"
-
-"@dependency/resolveAndLookupPath@http://github.com/AppScriptIO/resolveAndLookupPath#semver:^1.x.x":
-  version "1.1.1"
-  uid "88e86468b7bc6ee8801b9b9f9625809e0cd685bf"
-  resolved "http://github.com/AppScriptIO/resolveAndLookupPath#88e86468b7bc6ee8801b9b9f9625809e0cd685bf"
-
-"@dependency/resolveAndLookupPath@https://github.com/AppScriptIO/resolveAndLookupPath#semver:^1.x.x":
-  version "1.1.1"
-  resolved "https://github.com/AppScriptIO/resolveAndLookupPath#88e86468b7bc6ee8801b9b9f9625809e0cd685bf"
-
-"@dependency/scriptExecution@https://github.com/AppScriptIO/scriptExecution#semver:^1.x.x":
-  version "1.0.5"
-  resolved "https://github.com/AppScriptIO/scriptExecution#9b85dd6e64e1ecf915b959ea79424bc4d2963ba9"
+"@deployment/scriptExecution@https://github.com/AppScriptIO/scriptExecution#semver:^2.x.x":
+  version "2.0.1"
+  resolved "https://github.com/AppScriptIO/scriptExecution#fef3fe25e0a925a1929a500933935639495bc458"
   dependencies:
-    "@dependency/JSModuleTypeCheck" "http://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x"
-    "@dependency/configurationManagement" "http://github.com/AppScriptIO/configurationManagement#semver:^1.x.x"
-    "@dependency/installNodeJSModule" "http://github.com/AppScriptIO/installNodeJSModule#semver:^1.x.x"
-    "@dependency/resolveAndLookupPath" "http://github.com/AppScriptIO/resolveAndLookupPath#semver:^1.x.x"
+    "@dependency/handleFilesystemOperation" "http://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
+    "@dependency/handleModuleSystem" "http://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x"
+    "@deployment/configurationManagement" "http://github.com/AppScriptIO/configurationManagement#semver:^2.x.x"
 
-"@dependency/scriptManager@https://github.com/AppScriptIO/scriptManager#semver:^1.x.x":
-  version "1.1.1"
-  resolved "https://github.com/AppScriptIO/scriptManager#b541ae7eb0834ae8f3c23de5baf92bb53168e363"
+"@deployment/scriptManager@https://github.com/AppScriptIO/scriptManager#semver:^2.x.x":
+  version "2.0.1"
+  resolved "https://github.com/AppScriptIO/scriptManager#2b0ea85c730a1c20fc2f542279635cb989a33c53"
   dependencies:
-    "@dependency/JSModuleTypeCheck" "https://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x"
-    "@dependency/addModuleResolutionPath" "https://github.com/AppScriptIO/addModuleResolutionPath#semver:^1.x.x"
-    "@dependency/configurationManagement" "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x"
-    "@dependency/installNodeJSModule" "https://github.com/AppScriptIO/installNodeJSModule#semver:^1.x.x"
-    "@dependency/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x"
-    "@dependency/moduleScopePattern" "https://github.com/AppScriptIO/moduleScopePattern#semver:^1.x.x"
+    "@dependency/handleModuleSystem" "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x"
     "@dependency/parseKeyValuePairSeparatedBySymbol" "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol#semver:^1.x.x"
-    "@dependency/scriptExecution" "https://github.com/AppScriptIO/scriptExecution#semver:^1.x.x"
+    "@deployment/configurationManagement" "https://github.com/AppScriptIO/configurationManagement#semver:^2.x.x"
+    "@deployment/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x"
+    "@deployment/scriptExecution" "https://github.com/AppScriptIO/scriptExecution#semver:^2.x.x"
     child-process-promise "^2.2.1"
     dockerode "^2.5.1"
     find-up "^3.0.0"
@@ -3831,9 +3744,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.338:
-  version "1.3.339"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.339.tgz#ff7b56c4bc58159f0d6623591116e4414e7a618b"
-  integrity sha512-C1i/vH6/kQx9YV8RddMkmW216GwW4pTrnYIlKmDFIqXA4fPwqDxIdGyHsuG+fgurHoljRz7/oaD+tztcryW/9g==
+  version "1.3.340"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.340.tgz#5d4fe78e984d4211194cf5a52e08069543da146f"
+  integrity sha512-hRFBAglhcj5iVYH+o8QU0+XId1WGoc0VGowJB1cuJAt3exHGrivZvWeAO5BRgBZqwZtwxjm8a5MQeGoT/Su3ww==
 
 emitter-component@^1.1.1:
   version "1.1.1"
@@ -7198,12 +7111,13 @@ npm-normalize-package-bin@^1.0.1:
   integrity sha512-EPfafl6JL5/rU+ot6P3gRSCpPDW5VmIzX959Ob1+ySFUuuYHWHekXpwdUZcKP5C+DS4GEtdJluwBjnsNDl+fSA==
 
 npm-packlist@^1.1.6:
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.4.7.tgz#9e954365a06b80b18111ea900945af4f88ed4848"
-  integrity sha512-vAj7dIkp5NhieaGZxBJB8fF4R0078rqsmhJcAfXZ6O7JJhjhPK96n5Ry1oZcfLXgfun0GWTZPOxaEyqv8GBykQ==
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.4.8.tgz#56ee6cc135b9f98ad3d51c1c95da22bbb9b2ef3e"
+  integrity sha512-5+AZgwru5IevF5ZdnFglB5wNlHG1AOOuw28WhUq8/8emhBmLv6jX5by4WJCh7lW0uSYZYS6DXqIsyZVIXRZU9A==
   dependencies:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
+    npm-normalize-package-bin "^1.0.1"
 
 npm-run-path@^2.0.0:
   version "2.0.2"

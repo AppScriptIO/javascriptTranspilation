@@ -59,9 +59,14 @@ class Compiler extends EventEmitter {
       )
       Object.assign(this.config, this.targetProjectConfig.configuration.transpilation.babelConfig)
     }
+
+    // add caller name, similar to @babel/register behavior - https://github.com/babel/babel/blob/master/packages/babel-register/src/node.js#L128
+    Object.assign(this.config, { caller: { name: '@deployment/javascriptTranspilation' } })
   }
 
   requireHook({ restrictToTargetProject = true /* this option when false allows circular dependency `configurationManagement` to use transpilation. */ } = {}) {
+    let revertHookList = []
+
     if (restrictToTargetProject) {
       this.setTargetProject()
       // babel config ignore globs and regex to match files and filter the files to transpile
@@ -70,29 +75,41 @@ class Compiler extends EventEmitter {
     }
 
     // Add event listeners
-    this.on('fileLoaded', fileObject => this.loadedFiles.push({ ...fileObject }))
+    this.on('fileLoaded', fileObject => this.loadedFiles.push(fileObject))
 
-    // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `config.ignore`
-    requireHook.trackFile({
-      emit: (code, filename) => this.emit('fileLoaded', { filename, code }),
-      ignoreFilenamePattern: this.config.ignore,
-      extension: this.extensions,
-    })
+    // Hooks executed in order
+    // #1 - tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `config.ignore`
+    {
+      let revertHook = requireHook.trackFile({
+        emit: (code, filename) => this.emit('fileLoaded', { filename, code }),
+        ignoreFilenamePattern: this.config.ignore,
+        extension: this.extensions,
+      })
+      revertHookList.push(revertHook)
+    }
 
-    // output transpilation - output transpilation result into filesystem files
-    this.setPrimaryTargetProject()
-    requireHook.writeFileToDisk({
-      extension: this.extensions,
-      ignoreFilenamePattern: this.config.ignore,
-      targetProjectConfig: this.primaryTargetProjectConfig,
-    })
+    // #2 - Runtime transpilation
+    {
+      console.log(`[javascriptTranspilation] Registered Nodejs require hook for runtime transpilation - ${this.callerPath || 'Unknown compiler.callerPath'}`)
+      // this.config.ignore = [/node_modules/, /^((?!\/webapp\/node_modules\/@service\/webapp-clientSide).)*$/]
+      let revertHook
+      // revertHook = requireHook.babelRegister({ babelRegisterConfig: Object.assign({ extensions: this.extensions }, this.config) }) //! babelRegister doesn't support multiple hooks, and will override previous ones.
+      revertHook = requireHook.babelTransform({ babelConfig: this.config, extension: this.extensions, ignoreNodeModules: false, ignoreFilenamePattern: this.config.ignore })
+      revertHookList.push(revertHook)
+    }
 
-    console.log(`[javascriptTranspilation] Registered Nodejs require hook for runtime transpilation - ${this.callerPath || 'Unknown compiler.callerPath'}`)
-    // this.config.ignore = [/node_modules/, /^((?!\/webapp\/node_modules\/@service\/webapp-clientSide).)*$/]
-    let revertHook
-    // revertHook = requireHook.babelRegister({ babelConfig: this.config }) //! babelRegister doesn't support multiple hooks, and will override previous ones.
-    requireHook.babelTransform({ babelConfig: this.config, extension: this.extensions, ignoreNodeModules: false, ignoreFilenamePattern: this.config.ignore })
-    return { revertHook }
+    // #3 - output transpilation - output transpilation result into filesystem files
+    {
+      this.setPrimaryTargetProject()
+      let revertHook = requireHook.writeFileToDisk({
+        extension: this.extensions,
+        ignoreFilenamePattern: this.config.ignore,
+        targetProjectConfig: this.primaryTargetProjectConfig,
+      })
+      revertHookList.push(revertHook)
+    }
+
+    return { revertHook: () => revertHookList.forEach(revert => revert()) }
   }
 
   // lookup the project that instantiated a Compiler instance.
