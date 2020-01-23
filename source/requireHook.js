@@ -1,18 +1,42 @@
 const path = require('path'),
   filesystem = require('fs'),
   assert = require('assert'),
-  { transformFileSync } = require('@babel/core'),
+  babel = require('@babel/core'),
   { addHook: addRequireHook } = require('pirates'),
   _babelRegister = require(`@babel/register`),
   { removeMatchingStringFromBeginning } = require('./utility/removeMatchingStringFromBeginning.js'),
   defaultOutputRelativePath = './temporary/transpiled',
   isPreservedSymlink = require('./utility/isPreservedSymlinkFlag.js')
 
+//! Important: @babel/register when called multiple times overrides the previous registered hook. Which doesn't allow to register more than one hook. or the caching system prevent checking same file by next hooks.
+// https://github.com/babel/babel/blob/master/packages/babel-register/src/node.js
 function babelRegister({ babelConfig }) {
   // console.group(`\x1b[2m\x1b[3m• Babel:\x1b[0m Compiling code at runtime.`)
   // The require hook will bind itself to node's require and automatically compile files on the fly
   _babelRegister(babelConfig) // Compile code on runtime.
   // console.groupEnd()
+}
+
+// Use instead of babel register to allow registering multiple different hooks with different rules.
+// TODO: Note: this doesn't include caching like in https://github.com/babel/babel/blob/master/packages/babel-register/src/node.js
+function babelTransform({ babelConfig, extension, ignoreNodeModules = false, ignoreFilenamePattern = [] /* Array of Regex type */ } = {}) {
+  addRequireHook(
+    (code, filename) => {
+      let transformed
+      // transformed = babel.transformFileSync(filename, babelConfig)
+      transformed = babel.transformSync(code, Object.assign(babelConfig, { filename }) /** filename is required */)
+      // transformed.code transformed.map
+      return transformed.code
+    },
+    {
+      exts: extension,
+      ignoreNodeModules,
+      matcher: filename => {
+        let matchIgnore = ignoreFilenamePattern.some(regex => filename.match(regex))
+        return !matchIgnore
+      },
+    },
+  )
 }
 
 function trackFile({ ignoreFilenamePattern, extension, emit }) {
@@ -51,37 +75,12 @@ function writeFileToDisk({ targetProjectConfig, outputRelativePath, extension, i
     {
       exts: extension,
       ignoreNodeModules: ignoreNodeModules,
-      matcher: filename => (ignoreFilenamePattern.some(regex => filename.match(regex)) ? false : true),
+      matcher: filename => {
+        let matchIgnore = ignoreFilenamePattern.some(regex => filename.match(regex))
+        return !matchIgnore
+      },
     },
   )
 }
 
-function babelTransformFile({ babelConfig, extension, ignoreNodeModules = false, ignoreFilenamePattern = [] /* Array of Regex type */ } = {}) {
-  addRequireHook(
-    (code, filename) => {
-      let content
-
-      let transformed = transformFileSync(
-        filename,
-        Object.assign(
-          {
-            // https://babeljs.io/docs/en/options
-            sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
-            ast: false,
-          },
-          babelConfig,
-        ),
-      )
-      // transformed.code transformed.map
-      content = transformed.code
-      return content
-    },
-    {
-      exts: extension,
-      ignoreNodeModules: ignoreNodeModules,
-      matcher: filename => (ignoreFilenamePattern.some(regex => filename.match(regex)) ? false : true),
-    },
-  )
-}
-
-module.exports = { trackFile, babelTransformFile, writeFileToDisk, babelRegister }
+module.exports = { trackFile, babelTransform, writeFileToDisk, babelRegister }

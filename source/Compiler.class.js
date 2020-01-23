@@ -11,11 +11,22 @@ const path = require('path'),
  * Used to initialize nodejs app with transpiled code using Babel, through an entrypoint.js which loads the app.js after registering the transpilation require hooks.
  */
 class Compiler extends EventEmitter {
-  constructor({ babelConfig = {}, callerPath } = {}) {
+  constructor({
+    callerPath,
+    // https://github.com/babel/babel/blob/master/packages/babel-core/src/config/validation/options.js
+    babelConfig = {},
+    /* 
+      configurations related to hook registrations or @babel/register
+      Note: extensions are not valid babel configuration, therefore must be passed separately. 
+    */
+    // Setting this will remove the currently hooked extensions of `.es6`, `.es`, `.jsx`, `.mjs` and .js so you'll have to add them back if you want them to be used again.
+    extensions = ['.js', '.mjs', '.ts'], // default is ".es6", ".es", ".jsx", ".js", ".mjs"
+  } = {}) {
     super()
     Compiler.instance.push(this) // track instances
 
     this.config = babelConfig
+    this.extensions = extensions
     this.callerPath = callerPath
 
     /** Usage: 
@@ -61,25 +72,26 @@ class Compiler extends EventEmitter {
     // Add event listeners
     this.on('fileLoaded', fileObject => this.loadedFiles.push({ ...fileObject }))
 
-    // this.config.ignore = [/node_modules/, /^((?!\/d\/code\/App\/gazitengWebapp\/node_modules\/@application\/gazitengWebapp-clientSide).)*$/]
-    let revertHook = requireHook.babelRegister({ babelConfig: this.config })
-
     // tracking files is for debugging purposes only, the actual runtime transformation happens in babel `requireHook`. The tracker tries to mimic the glob file matching using the ignore option passed `config.ignore`
     requireHook.trackFile({
       emit: (code, filename) => this.emit('fileLoaded', { filename, code }),
       ignoreFilenamePattern: this.config.ignore,
-      extension: this.config.extensions,
+      extension: this.extensions,
     })
 
     // output transpilation - output transpilation result into filesystem files
     this.setPrimaryTargetProject()
     requireHook.writeFileToDisk({
-      extension: this.config.extensions,
+      extension: this.extensions,
       ignoreFilenamePattern: this.config.ignore,
-      shouldTransform: false,
       targetProjectConfig: this.primaryTargetProjectConfig,
     })
 
+    console.log(`[javascriptTranspilation] Registered Nodejs require hook for runtime transpilation - ${this.callerPath || 'Unknown compiler.callerPath'}`)
+    // this.config.ignore = [/node_modules/, /^((?!\/webapp\/node_modules\/@service\/webapp-clientSide).)*$/]
+    let revertHook
+    // revertHook = requireHook.babelRegister({ babelConfig: this.config }) //! babelRegister doesn't support multiple hooks, and will override previous ones.
+    requireHook.babelTransform({ babelConfig: this.config, extension: this.extensions, ignoreNodeModules: false, ignoreFilenamePattern: this.config.ignore })
     return { revertHook }
   }
 

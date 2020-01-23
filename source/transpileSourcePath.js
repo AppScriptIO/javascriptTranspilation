@@ -4,7 +4,7 @@ const util = require('util'),
   path = require('path'),
   { promises: filesystem } = require('fs')
 // instead of reimplementing babel transform for directories using programmatic api, the cli that has this feature will be used.
-const babelTransformFile = util.promisify(babel.transformFile),
+const babelTransform = util.promisify(babel.transformFile),
   childProcessSpawn = util.promisify(childProcess.spawn)
 
 /**
