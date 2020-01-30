@@ -1,7 +1,7 @@
 {
 	"name": "@deployment/javascriptTranspilation",
 	"main": "./entrypoint/programmaticAPI",
-	"version": "2.4.1",
+	"version": "2.4.2",
 	"scripts": {
 		"postinstall": "cd $INIT_CWD/node_modules/@dependency && ln -s ../../ javascriptTranspilation || true # preinstall the module directory to its own node_modules dependencies.",
 		"build": "yarn run scriptManager shouldCompileScript=true @deployment/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
