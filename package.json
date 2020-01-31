@@ -38,6 +38,7 @@
 		"@babel/preset-env": "*",
 		"@babel/register": "*",
 		"@babel/runtime": "*",
+		"@dependency/handleFilesystemOperation": "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x",
 		"@dependency/handleJSNativeDataStructure": "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x",
 		"@dependency/handleModuleSystem": "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
 		"@deployment/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^2.x.x",

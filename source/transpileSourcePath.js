@@ -6,6 +6,7 @@ const util = require('util'),
 // instead of reimplementing babel transform for directories using programmatic api, the cli that has this feature will be used.
 const babelTransform = util.promisify(babel.transformFile),
   childProcessSpawn = util.promisify(childProcess.spawn)
+const { recursivelySyncFile } = require('@dependency/handleFilesystemOperation')
 
 /**
  * cli tool will be used instead of the babel programmatic api.
@@ -29,6 +30,8 @@ async function transpileSourcePath({ source, destination, basePath }) {
     else if (fileStat.isDirectory()) destination = path.join(destination, path.relative(basePath, source))
   } else return // return if source doesn't exist
 
+  await recursivelySyncFile({ source: source, destination: destination, copyContentOnly: true })
+
   // execute babel cli
   let cp = childProcess.spawnSync(
     'yarn',
@@ -41,7 +44,8 @@ async function transpileSourcePath({ source, destination, basePath }) {
       '"./configuration/babel.config.js"',
       '--ignore',
       '"**/node_modules/**/*"',
-      '--copy-files --include-dotfiles --no-copy-ignored', // Apply ignore regex to the copy-files functionality, this will cause ignore flag to affect babel and also non transpiled copied files.
+      // Note: a separate rsync step should be used if copying other files is required, as the functionality provided with the babel commandline is limited.
+      // '--copy-files --include-dotfiles --no-copy-ignored', // Note: this will ignore only .js files, regardless of the regex including other types. Apply ignore regex to the copy-files functionality, this will cause ignore flag to affect babel and also non transpiled copied files.
       `"${path.relative(basePath, source)}"`,
     ],
     {
