@@ -974,9 +974,9 @@
     underscore "^1.9.1"
 
 "@dependency/handleFilesystemOperation@http://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x":
-  version "2.0.7"
-  uid "79d62722a75a2075461a45e03376424cfba8feff"
-  resolved "http://github.com/AppScriptIO/handleFilesystemOperation#79d62722a75a2075461a45e03376424cfba8feff"
+  version "2.0.9"
+  uid c9706d990ad6c599fc04376efd102f4dfd259df4
+  resolved "http://github.com/AppScriptIO/handleFilesystemOperation#c9706d990ad6c599fc04376efd102f4dfd259df4"
   dependencies:
     "@deployment/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x"
     glob "^7.1.6"
@@ -990,9 +990,9 @@
     upath "^1.2.0"
     vinyl-fs "*"
 
-"@dependency/handleFilesystemOperation@https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x", "@deployment/handleFilesystemOperation@https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x":
-  version "2.0.7"
-  resolved "https://github.com/AppScriptIO/handleFilesystemOperation#79d62722a75a2075461a45e03376424cfba8feff"
+"@dependency/handleFilesystemOperation@https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x":
+  version "2.0.9"
+  resolved "https://github.com/AppScriptIO/handleFilesystemOperation#c9706d990ad6c599fc04376efd102f4dfd259df4"
   dependencies:
     "@deployment/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x"
     glob "^7.1.6"
@@ -1007,9 +1007,11 @@
     vinyl-fs "*"
 
 "@dependency/handleJSNativeDataStructure@https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x":
-  version "2.0.4"
-  resolved "https://github.com/AppScriptIO/handleJSNativeDataStructure#8eb14e63413b1586e07dd54731a38e712c6845f3"
+  version "2.0.5"
+  resolved "https://github.com/AppScriptIO/handleJSNativeDataStructure#d7639c67eda6400721cb0e7535b839326496a742"
   dependencies:
+    deepmerge "^4.2.2"
+    merge-anything "^2.4.4"
     multistream "^2.1.1"
 
 "@dependency/handleModuleSystem@http://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x":
@@ -1040,13 +1042,13 @@
   resolved "https://github.com/AppScriptIO/promiseProperRace#a1ceb5ff9707b78e2d72876955c23f829a0830d5"
 
 "@deployment/buildTool@https://github.com/AppScriptIO/buildTool#semver:^2.x.x":
-  version "2.3.2"
-  resolved "https://github.com/AppScriptIO/buildTool#5dd9c6d4382aaf5fdbf7af76789bc015d84534ed"
+  version "2.3.3"
+  resolved "https://github.com/AppScriptIO/buildTool#8f98dfabffa5a2e691c21cb1ce7c3cc930f1b924"
   dependencies:
     "@dependency/fragmentIndentationObjectStream" "https://github.com/AppScriptIO/fragmentIndentationObjectStream#semver:^1.x.x"
     "@dependency/graphTraversal" "https://github.com/AppScriptIO/graphTraversal#semver:4.x.x"
+    "@dependency/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
     "@deployment/deploymentProvisioning" "https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x"
-    "@deployment/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
     "@deployment/javascriptTranspilation" "https://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x"
     command-exists "*"
     css-slam "*"
@@ -1090,8 +1092,8 @@
   resolved "https://github.com/AppScriptIO/configurationManagement#f325be4c7d3b09c0f0bfcb228e1358ff23d6cff2"
 
 "@deployment/deploymentProvisioning@https://github.com/AppScriptIO/deploymentProvisioning#semver:^2.x.x":
-  version "2.1.2"
-  resolved "https://github.com/AppScriptIO/deploymentProvisioning#bcad4599e3c594db2358708ab275f2f93592e59b"
+  version "2.1.6"
+  resolved "https://github.com/AppScriptIO/deploymentProvisioning#c34b383bf87a27ee7533357948b6b99b9804fbe9"
   dependencies:
     command-exists "*"
     is-wsl "*"
@@ -1099,14 +1101,14 @@
     which "*"
 
 "@deployment/deploymentScript@https://github.com/AppScriptIO/deploymentScript#semver:^2.x.x":
-  version "2.2.5"
-  resolved "https://github.com/AppScriptIO/deploymentScript#ff1a906bea66a5ffdb467b4f7091ac9bb9a1c476"
+  version "2.3.2"
+  resolved "https://github.com/AppScriptIO/deploymentScript#1726a9129a300289e5b2700133343021405c6d33"
   dependencies:
     "@dependency/entity" "https://github.com/AppScriptIO/entity#semver:^2.x.x"
     "@dependency/graphTraversal" "https://github.com/AppScriptIO/graphTraversal#semver:^4.x.x"
     "@dependency/graphTraversal-implementation" "https://github.com/AppScriptIO/graphTraversal-implementation#semver:^4.x.x"
+    "@dependency/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
     "@deployment/buildTool" "https://github.com/AppScriptIO/buildTool#semver:^2.x.x"
-    "@deployment/handleFilesystemOperation" "https://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
     "@deployment/javascriptTestRunner" "https://github.com/AppScriptIO/javascriptTestRunner#semver:^2.x.x"
     "@deployment/nodejsLiveReload" "https://github.com/AppScriptIO/nodejsLiveReload#semver:^2.x.x"
     apollo-cache-inmemory "*"
@@ -1462,9 +1464,9 @@
     "@types/node" "*"
 
 "@types/node@*", "@types/node@>=6":
-  version "13.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.2.tgz#3de53b55fd39efc428a901a0f6db31f761cfa131"
-  integrity sha512-Fr6a47c84PRLfd7M7u3/hEknyUdQrrBA6VoPmkze0tcflhU5UnpWEX2kn12ktA/lb+MNHSqFlSiPHIHsaErTPA==
+  version "13.5.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.5.3.tgz#37f1f539b7535b9fb4ef77d59db1847a837b7f17"
+  integrity sha512-ZPnWX9PW992w6DUsz3JIXHaSb5v7qmKCVzC3km6SxcDGxk7zmLfYaCJTbktIa5NeywJkkZDhGldKqDIvC5DRrA==
 
 "@types/node@^4.0.30":
   version "4.9.4"
