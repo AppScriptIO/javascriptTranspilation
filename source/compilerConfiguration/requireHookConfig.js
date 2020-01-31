@@ -1,13 +1,14 @@
-// clone config
+"use strict";
 module.exports = () => {
   return {
-    // When a file path matches this regex then it is **not** compiled
-    ignore: [/node_modules/] || [/node_modules\/(?!@dependency)/], // ignore everythng in node_modules except internal modules.
-    // https://babeljs.io/docs/en/options - similar to default @babel/register options
-    sourceMaps: 'both' /*inline & include in result object*/ || 'inline' || true,
+
+    ignore: [/node_modules/] || [/node_modules\/(?!@dependency)/],
+
+    sourceMaps: 'both' || 'inline' || true,
     ast: false,
     babelrc: false,
     configFile: false,
-    passPerPreset: false,
-  }
-}
+    passPerPreset: false };
+
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vcmVxdWlyZUhvb2tDb25maWcuanMiXSwibmFtZXMiOlsibW9kdWxlIiwiZXhwb3J0cyIsImlnbm9yZSIsInNvdXJjZU1hcHMiLCJhc3QiLCJiYWJlbHJjIiwiY29uZmlnRmlsZSIsInBhc3NQZXJQcmVzZXQiXSwibWFwcGluZ3MiOiI7QUFDQUEsTUFBTSxDQUFDQyxPQUFQLEdBQWlCLE1BQU07QUFDckIsU0FBTzs7QUFFTEMsSUFBQUEsTUFBTSxFQUFFLENBQUMsY0FBRCxLQUFvQixDQUFDLCtCQUFELENBRnZCOztBQUlMQyxJQUFBQSxVQUFVLEVBQUUsVUFBZ0QsUUFBaEQsSUFBNEQsSUFKbkU7QUFLTEMsSUFBQUEsR0FBRyxFQUFFLEtBTEE7QUFNTEMsSUFBQUEsT0FBTyxFQUFFLEtBTko7QUFPTEMsSUFBQUEsVUFBVSxFQUFFLEtBUFA7QUFRTEMsSUFBQUEsYUFBYSxFQUFFLEtBUlYsRUFBUDs7QUFVRCxDQVhEIiwic291cmNlc0NvbnRlbnQiOlsiLy8gY2xvbmUgY29uZmlnXG5tb2R1bGUuZXhwb3J0cyA9ICgpID0+IHtcbiAgcmV0dXJuIHtcbiAgICAvLyBXaGVuIGEgZmlsZSBwYXRoIG1hdGNoZXMgdGhpcyByZWdleCB0aGVuIGl0IGlzICoqbm90KiogY29tcGlsZWRcbiAgICBpZ25vcmU6IFsvbm9kZV9tb2R1bGVzL10gfHwgWy9ub2RlX21vZHVsZXNcXC8oPyFAZGVwZW5kZW5jeSkvXSwgLy8gaWdub3JlIGV2ZXJ5dGhuZyBpbiBub2RlX21vZHVsZXMgZXhjZXB0IGludGVybmFsIG1vZHVsZXMuXG4gICAgLy8gaHR0cHM6Ly9iYWJlbGpzLmlvL2RvY3MvZW4vb3B0aW9ucyAtIHNpbWlsYXIgdG8gZGVmYXVsdCBAYmFiZWwvcmVnaXN0ZXIgb3B0aW9uc1xuICAgIHNvdXJjZU1hcHM6ICdib3RoJyAvKmlubGluZSAmIGluY2x1ZGUgaW4gcmVzdWx0IG9iamVjdCovIHx8ICdpbmxpbmUnIHx8IHRydWUsXG4gICAgYXN0OiBmYWxzZSxcbiAgICBiYWJlbHJjOiBmYWxzZSxcbiAgICBjb25maWdGaWxlOiBmYWxzZSxcbiAgICBwYXNzUGVyUHJlc2V0OiBmYWxzZSxcbiAgfVxufVxuIl19
