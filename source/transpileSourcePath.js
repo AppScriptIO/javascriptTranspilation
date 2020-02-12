@@ -1,61 +1,62 @@
-const util = require('util'),
-  babel = require('@babel/core'),
-  childProcess = require('child_process'),
-  path = require('path'),
-  { promises: filesystem } = require('fs')
-// instead of reimplementing babel transform for directories using programmatic api, the cli that has this feature will be used.
+"use strict";const util = require('util'),
+babel = require('@babel/core'),
+childProcess = require('child_process'),
+path = require('path'),
+{ promises: filesystem } = require('fs');
+
 const babelTransform = util.promisify(babel.transformFile),
-  childProcessSpawn = util.promisify(childProcess.spawn)
-const { recursivelySyncFile } = require('@dependency/handleFilesystemOperation')
+childProcessSpawn = util.promisify(childProcess.spawn);
+const { recursivelySyncFile } = require('@dependency/handleFilesystemOperation');
 
-/**
- * cli tool will be used instead of the babel programmatic api.
- * https://github.com/babel/babel/blob/master/packages/babel-cli/src/babel/dir.js#L13
- * https://github.com/babel/babel/tree/master/packages/babel-cli/src/babel
- * https://babeljs.io/docs/en/babel-cli
- * 
- * Similar to: 
- ```
-  yarn run babel --out-dir ./distribution/ "./package.json" --config-file "./configuration/babel.config.js" --copy-files
- ```
- */
+
+
+
+
+
+
+
+
+
+
+
 async function transpileSourcePath({ source, destination, basePath }) {
-  // relative to root.
-  if (!path.isAbsolute(source)) source = path.join(basePath, source)
 
-  let fileStat = await filesystem.lstat(source).catch(error => (error.code == 'ENOENT' ? false : console.error(error)))
-  // destination should include directory
+  if (!path.isAbsolute(source)) source = path.join(basePath, source);
+
+  let fileStat = await filesystem.lstat(source).catch(error => error.code == 'ENOENT' ? false : console.error(error));
+
   if (fileStat) {
-    if (fileStat.isFile()) destination = destination
-    else if (fileStat.isDirectory()) destination = path.join(destination, path.relative(basePath, source))
-  } else return // return if source doesn't exist
+    if (fileStat.isFile()) destination = destination;else
+    if (fileStat.isDirectory()) destination = path.join(destination, path.relative(basePath, source));
+  } else return;
 
-  await recursivelySyncFile({ source: source, destination: destination, copyContentOnly: true })
+  await recursivelySyncFile({ source: source, destination: destination, copyContentOnly: true });
 
-  // execute babel cli
+
   let cp = childProcess.spawnSync(
-    'yarn',
-    [
-      'run',
-      'babel',
-      '--out-dir',
-      `"${destination}"`,
-      '--config-file',
-      '"./configuration/babel.config.js"',
-      '--ignore',
-      '"**/node_modules/**/*"',
-      // Note: a separate rsync step should be used if copying other files is required, as the functionality provided with the babel commandline is limited.
-      // '--copy-files --include-dotfiles --no-copy-ignored', // Note: this will ignore only .js files, regardless of the regex including other types. Apply ignore regex to the copy-files functionality, this will cause ignore flag to affect babel and also non transpiled copied files.
-      `"${path.relative(basePath, source)}"`,
-    ],
-    {
-      cwd: basePath,
-      shell: true,
-      stdio: ['inherit', 'inherit', 'inherit'],
-    },
-  )
+  'yarn',
+  [
+  'run',
+  'babel',
+  '--out-dir',
+  `"${destination}"`,
+  '--config-file',
+  '"./configuration/babel.config.js"',
+  '--ignore',
+  '"**/node_modules/**/*"',
+
+
+  `"${path.relative(basePath, source)}"`],
+
+  {
+    cwd: basePath,
+    shell: true,
+    stdio: ['inherit', 'inherit', 'inherit'] });
+
+
 }
 
-// yarn run babel --our-dir "./distribution" --config-file "./configuration/babel.config.js" --copy-files "./source"
 
-module.exports = { transpileSourcePath }
+
+module.exports = { transpileSourcePath };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS90cmFuc3BpbGVTb3VyY2VQYXRoLmpzIl0sIm5hbWVzIjpbInV0aWwiLCJyZXF1aXJlIiwiYmFiZWwiLCJjaGlsZFByb2Nlc3MiLCJwYXRoIiwicHJvbWlzZXMiLCJmaWxlc3lzdGVtIiwiYmFiZWxUcmFuc2Zvcm0iLCJwcm9taXNpZnkiLCJ0cmFuc2Zvcm1GaWxlIiwiY2hpbGRQcm9jZXNzU3Bhd24iLCJzcGF3biIsInJlY3Vyc2l2ZWx5U3luY0ZpbGUiLCJ0cmFuc3BpbGVTb3VyY2VQYXRoIiwic291cmNlIiwiZGVzdGluYXRpb24iLCJiYXNlUGF0aCIsImlzQWJzb2x1dGUiLCJqb2luIiwiZmlsZVN0YXQiLCJsc3RhdCIsImNhdGNoIiwiZXJyb3IiLCJjb2RlIiwiY29uc29sZSIsImlzRmlsZSIsImlzRGlyZWN0b3J5IiwicmVsYXRpdmUiLCJjb3B5Q29udGVudE9ubHkiLCJjcCIsInNwYXduU3luYyIsImN3ZCIsInNoZWxsIiwic3RkaW8iLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiYUFBQSxNQUFNQSxJQUFJLEdBQUdDLE9BQU8sQ0FBQyxNQUFELENBQXBCO0FBQ0VDLEtBQUssR0FBR0QsT0FBTyxDQUFDLGFBQUQsQ0FEakI7QUFFRUUsWUFBWSxHQUFHRixPQUFPLENBQUMsZUFBRCxDQUZ4QjtBQUdFRyxJQUFJLEdBQUdILE9BQU8sQ0FBQyxNQUFELENBSGhCO0FBSUUsRUFBRUksUUFBUSxFQUFFQyxVQUFaLEtBQTJCTCxPQUFPLENBQUMsSUFBRCxDQUpwQzs7QUFNQSxNQUFNTSxjQUFjLEdBQUdQLElBQUksQ0FBQ1EsU0FBTCxDQUFlTixLQUFLLENBQUNPLGFBQXJCLENBQXZCO0FBQ0VDLGlCQUFpQixHQUFHVixJQUFJLENBQUNRLFNBQUwsQ0FBZUwsWUFBWSxDQUFDUSxLQUE1QixDQUR0QjtBQUVBLE1BQU0sRUFBRUMsbUJBQUYsS0FBMEJYLE9BQU8sQ0FBQyx1Q0FBRCxDQUF2Qzs7Ozs7Ozs7Ozs7OztBQWFBLGVBQWVZLG1CQUFmLENBQW1DLEVBQUVDLE1BQUYsRUFBVUMsV0FBVixFQUF1QkMsUUFBdkIsRUFBbkMsRUFBc0U7O0FBRXBFLE1BQUksQ0FBQ1osSUFBSSxDQUFDYSxVQUFMLENBQWdCSCxNQUFoQixDQUFMLEVBQThCQSxNQUFNLEdBQUdWLElBQUksQ0FBQ2MsSUFBTCxDQUFVRixRQUFWLEVBQW9CRixNQUFwQixDQUFUOztBQUU5QixNQUFJSyxRQUFRLEdBQUcsTUFBTWIsVUFBVSxDQUFDYyxLQUFYLENBQWlCTixNQUFqQixFQUF5Qk8sS0FBekIsQ0FBK0JDLEtBQUssSUFBS0EsS0FBSyxDQUFDQyxJQUFOLElBQWMsUUFBZCxHQUF5QixLQUF6QixHQUFpQ0MsT0FBTyxDQUFDRixLQUFSLENBQWNBLEtBQWQsQ0FBMUUsQ0FBckI7O0FBRUEsTUFBSUgsUUFBSixFQUFjO0FBQ1osUUFBSUEsUUFBUSxDQUFDTSxNQUFULEVBQUosRUFBdUJWLFdBQVcsR0FBR0EsV0FBZCxDQUF2QjtBQUNLLFFBQUlJLFFBQVEsQ0FBQ08sV0FBVCxFQUFKLEVBQTRCWCxXQUFXLEdBQUdYLElBQUksQ0FBQ2MsSUFBTCxDQUFVSCxXQUFWLEVBQXVCWCxJQUFJLENBQUN1QixRQUFMLENBQWNYLFFBQWQsRUFBd0JGLE1BQXhCLENBQXZCLENBQWQ7QUFDbEMsR0FIRCxNQUdPOztBQUVQLFFBQU1GLG1CQUFtQixDQUFDLEVBQUVFLE1BQU0sRUFBRUEsTUFBVixFQUFrQkMsV0FBVyxFQUFFQSxXQUEvQixFQUE0Q2EsZUFBZSxFQUFFLElBQTdELEVBQUQsQ0FBekI7OztBQUdBLE1BQUlDLEVBQUUsR0FBRzFCLFlBQVksQ0FBQzJCLFNBQWI7QUFDUCxRQURPO0FBRVA7QUFDRSxPQURGO0FBRUUsU0FGRjtBQUdFLGFBSEY7QUFJRyxNQUFHZixXQUFZLEdBSmxCO0FBS0UsaUJBTEY7QUFNRSxxQ0FORjtBQU9FLFlBUEY7QUFRRSwwQkFSRjs7O0FBV0csTUFBR1gsSUFBSSxDQUFDdUIsUUFBTCxDQUFjWCxRQUFkLEVBQXdCRixNQUF4QixDQUFnQyxHQVh0QyxDQUZPOztBQWVQO0FBQ0VpQixJQUFBQSxHQUFHLEVBQUVmLFFBRFA7QUFFRWdCLElBQUFBLEtBQUssRUFBRSxJQUZUO0FBR0VDLElBQUFBLEtBQUssRUFBRSxDQUFDLFNBQUQsRUFBWSxTQUFaLEVBQXVCLFNBQXZCLENBSFQsRUFmTyxDQUFUOzs7QUFxQkQ7Ozs7QUFJREMsTUFBTSxDQUFDQyxPQUFQLEdBQWlCLEVBQUV0QixtQkFBRixFQUFqQiIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHV0aWwgPSByZXF1aXJlKCd1dGlsJyksXG4gIGJhYmVsID0gcmVxdWlyZSgnQGJhYmVsL2NvcmUnKSxcbiAgY2hpbGRQcm9jZXNzID0gcmVxdWlyZSgnY2hpbGRfcHJvY2VzcycpLFxuICBwYXRoID0gcmVxdWlyZSgncGF0aCcpLFxuICB7IHByb21pc2VzOiBmaWxlc3lzdGVtIH0gPSByZXF1aXJlKCdmcycpXG4vLyBpbnN0ZWFkIG9mIHJlaW1wbGVtZW50aW5nIGJhYmVsIHRyYW5zZm9ybSBmb3IgZGlyZWN0b3JpZXMgdXNpbmcgcHJvZ3JhbW1hdGljIGFwaSwgdGhlIGNsaSB0aGF0IGhhcyB0aGlzIGZlYXR1cmUgd2lsbCBiZSB1c2VkLlxuY29uc3QgYmFiZWxUcmFuc2Zvcm0gPSB1dGlsLnByb21pc2lmeShiYWJlbC50cmFuc2Zvcm1GaWxlKSxcbiAgY2hpbGRQcm9jZXNzU3Bhd24gPSB1dGlsLnByb21pc2lmeShjaGlsZFByb2Nlc3Muc3Bhd24pXG5jb25zdCB7IHJlY3Vyc2l2ZWx5U3luY0ZpbGUgfSA9IHJlcXVpcmUoJ0BkZXBlbmRlbmN5L2hhbmRsZUZpbGVzeXN0ZW1PcGVyYXRpb24nKVxuXG4vKipcbiAqIGNsaSB0b29sIHdpbGwgYmUgdXNlZCBpbnN0ZWFkIG9mIHRoZSBiYWJlbCBwcm9ncmFtbWF0aWMgYXBpLlxuICogaHR0cHM6Ly9naXRodWIuY29tL2JhYmVsL2JhYmVsL2Jsb2IvbWFzdGVyL3BhY2thZ2VzL2JhYmVsLWNsaS9zcmMvYmFiZWwvZGlyLmpzI0wxM1xuICogaHR0cHM6Ly9naXRodWIuY29tL2JhYmVsL2JhYmVsL3RyZWUvbWFzdGVyL3BhY2thZ2VzL2JhYmVsLWNsaS9zcmMvYmFiZWxcbiAqIGh0dHBzOi8vYmFiZWxqcy5pby9kb2NzL2VuL2JhYmVsLWNsaVxuICogXG4gKiBTaW1pbGFyIHRvOiBcbiBgYGBcbiAgeWFybiBydW4gYmFiZWwgLS1vdXQtZGlyIC4vZGlzdHJpYnV0aW9uLyBcIi4vcGFja2FnZS5qc29uXCIgLS1jb25maWctZmlsZSBcIi4vY29uZmlndXJhdGlvbi9iYWJlbC5jb25maWcuanNcIiAtLWNvcHktZmlsZXNcbiBgYGBcbiAqL1xuYXN5bmMgZnVuY3Rpb24gdHJhbnNwaWxlU291cmNlUGF0aCh7IHNvdXJjZSwgZGVzdGluYXRpb24sIGJhc2VQYXRoIH0pIHtcbiAgLy8gcmVsYXRpdmUgdG8gcm9vdC5cbiAgaWYgKCFwYXRoLmlzQWJzb2x1dGUoc291cmNlKSkgc291cmNlID0gcGF0aC5qb2luKGJhc2VQYXRoLCBzb3VyY2UpXG5cbiAgbGV0IGZpbGVTdGF0ID0gYXdhaXQgZmlsZXN5c3RlbS5sc3RhdChzb3VyY2UpLmNhdGNoKGVycm9yID0+IChlcnJvci5jb2RlID09ICdFTk9FTlQnID8gZmFsc2UgOiBjb25zb2xlLmVycm9yKGVycm9yKSkpXG4gIC8vIGRlc3RpbmF0aW9uIHNob3VsZCBpbmNsdWRlIGRpcmVjdG9yeVxuICBpZiAoZmlsZVN0YXQpIHtcbiAgICBpZiAoZmlsZVN0YXQuaXNGaWxlKCkpIGRlc3RpbmF0aW9uID0gZGVzdGluYXRpb25cbiAgICBlbHNlIGlmIChmaWxlU3RhdC5pc0RpcmVjdG9yeSgpKSBkZXN0aW5hdGlvbiA9IHBhdGguam9pbihkZXN0aW5hdGlvbiwgcGF0aC5yZWxhdGl2ZShiYXNlUGF0aCwgc291cmNlKSlcbiAgfSBlbHNlIHJldHVybiAvLyByZXR1cm4gaWYgc291cmNlIGRvZXNuJ3QgZXhpc3RcblxuICBhd2FpdCByZWN1cnNpdmVseVN5bmNGaWxlKHsgc291cmNlOiBzb3VyY2UsIGRlc3RpbmF0aW9uOiBkZXN0aW5hdGlvbiwgY29weUNvbnRlbnRPbmx5OiB0cnVlIH0pXG5cbiAgLy8gZXhlY3V0ZSBiYWJlbCBjbGlcbiAgbGV0IGNwID0gY2hpbGRQcm9jZXNzLnNwYXduU3luYyhcbiAgICAneWFybicsXG4gICAgW1xuICAgICAgJ3J1bicsXG4gICAgICAnYmFiZWwnLFxuICAgICAgJy0tb3V0LWRpcicsXG4gICAgICBgXCIke2Rlc3RpbmF0aW9ufVwiYCxcbiAgICAgICctLWNvbmZpZy1maWxlJyxcbiAgICAgICdcIi4vY29uZmlndXJhdGlvbi9iYWJlbC5jb25maWcuanNcIicsXG4gICAgICAnLS1pZ25vcmUnLFxuICAgICAgJ1wiKiovbm9kZV9tb2R1bGVzLyoqLypcIicsXG4gICAgICAvLyBOb3RlOiBhIHNlcGFyYXRlIHJzeW5jIHN0ZXAgc2hvdWxkIGJlIHVzZWQgaWYgY29weWluZyBvdGhlciBmaWxlcyBpcyByZXF1aXJlZCwgYXMgdGhlIGZ1bmN0aW9uYWxpdHkgcHJvdmlkZWQgd2l0aCB0aGUgYmFiZWwgY29tbWFuZGxpbmUgaXMgbGltaXRlZC5cbiAgICAgIC8vICctLWNvcHktZmlsZXMgLS1pbmNsdWRlLWRvdGZpbGVzIC0tbm8tY29weS1pZ25vcmVkJywgLy8gTm90ZTogdGhpcyB3aWxsIGlnbm9yZSBvbmx5IC5qcyBmaWxlcywgcmVnYXJkbGVzcyBvZiB0aGUgcmVnZXggaW5jbHVkaW5nIG90aGVyIHR5cGVzLiBBcHBseSBpZ25vcmUgcmVnZXggdG8gdGhlIGNvcHktZmlsZXMgZnVuY3Rpb25hbGl0eSwgdGhpcyB3aWxsIGNhdXNlIGlnbm9yZSBmbGFnIHRvIGFmZmVjdCBiYWJlbCBhbmQgYWxzbyBub24gdHJhbnNwaWxlZCBjb3BpZWQgZmlsZXMuXG4gICAgICBgXCIke3BhdGgucmVsYXRpdmUoYmFzZVBhdGgsIHNvdXJjZSl9XCJgLFxuICAgIF0sXG4gICAge1xuICAgICAgY3dkOiBiYXNlUGF0aCxcbiAgICAgIHNoZWxsOiB0cnVlLFxuICAgICAgc3RkaW86IFsnaW5oZXJpdCcsICdpbmhlcml0JywgJ2luaGVyaXQnXSxcbiAgICB9LFxuICApXG59XG5cbi8vIHlhcm4gcnVuIGJhYmVsIC0tb3VyLWRpciBcIi4vZGlzdHJpYnV0aW9uXCIgLS1jb25maWctZmlsZSBcIi4vY29uZmlndXJhdGlvbi9iYWJlbC5jb25maWcuanNcIiAtLWNvcHktZmlsZXMgXCIuL3NvdXJjZVwiXG5cbm1vZHVsZS5leHBvcnRzID0geyB0cmFuc3BpbGVTb3VyY2VQYXRoIH1cbiJdfQ==
