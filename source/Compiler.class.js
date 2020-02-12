@@ -52,25 +52,32 @@ class Compiler extends EventEmitter {
     mergeNonexistentProperties(this.config, deepCloneJSNativeType(defaultRequireHookConfig) /*clone deep objects to prevent conflicts between instances.*/)
 
     if (!this.config.plugins && !this.config.presets) {
-      this.setTargetProject()
-      assert(
-        this.targetProjectConfig.configuration.transpilation && this.targetProjectConfig.configuration.transpilation.babelConfig,
-        `• Project configuration must have 'transpilation' & nested 'babelConfig' entries.`,
-      )
-      Object.assign(this.config, this.targetProjectConfig.configuration.transpilation.babelConfig)
+      this.setTargetProject() // lookup project config
+
+      let transpilationConfig = this.targetProjectConfig.getTranspilation()
+      assert(transpilationConfig && transpilationConfig.babelConfig, `• Project (${this.targetProjectConfig.rootPath}) configuration must have 'transpilation' & nested 'babelConfig' entries.`)
+      Object.assign(this.config, transpilationConfig.babelConfig)
     }
 
     // add caller name, similar to @babel/register behavior - https://github.com/babel/babel/blob/master/packages/babel-register/src/node.js#L128
     Object.assign(this.config, { caller: { name: '@deployment/javascriptTranspilation' } })
   }
 
-  requireHook({ restrictToTargetProject = true /* this option when false allows circular dependency `configurationManagement` to use transpilation. */ } = {}) {
+  requireHook({
+    restrictToTargetProject = true || '<projectRootPath' /* this option when false or string provided allows circular dependency `configurationManagement` to use transpilation. */,
+  } = {}) {
     let revertHookList = []
 
+    let projectRootPath
     if (restrictToTargetProject) {
-      this.setTargetProject()
+      if (typeof restrictToTargetProject == 'string') projectRootPath = restrictToTargetProject
+      else {
+        this.setTargetProject()
+        projectRootPath = this.targetProjectConfig.rootPath
+      }
+
       // babel config ignore globs and regex to match files and filter the files to transpile
-      const targetProjectFilesRegex = new RegExp(`^((?!${this.targetProjectConfig.rootPath}).)*$`) // negation - paths that don't include the path i.e. outside the directory.
+      const targetProjectFilesRegex = new RegExp(`^((?!${projectRootPath}).)*$`) // negation - paths that don't include the path i.e. outside the directory.
       this.config.ignore.push(targetProjectFilesRegex) // transpile files that are nested in the target project only.
     }
 
@@ -117,6 +124,16 @@ class Compiler extends EventEmitter {
     if (this.targetProjectConfig) return
     assert(this.callerPath, '• callerPath should be passed in case babel configuration was not provided')
     const { findTargetProjectRoot } = require('@deployment/configurationManagement') // require here to prevent cyclic dependency with this module, as the module may use runtime transpilation (i.e. will use exported functionality from this module).
+
+    // NOTE: DOESN'T WORK - check for circular dependency
+    // let moduleLoaded
+    // try {
+    //   moduleLoaded = !!require.cache[require.resolve('@deployment/configurationManagement')]
+    // } catch (ex) {
+    //   moduleLoaded = false
+    // }
+    // assert(moduleLoaded, '• configurationManagement module did not finish loading, a circular dependency probably caused by symlinking to with runtime transpilation of the module')
+
     this.targetProjectConfig = findTargetProjectRoot({ nestedProjectPath: [this.callerPath] })
   }
 
