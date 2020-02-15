@@ -1,4 +1,5 @@
 const path = require('path')
+
 module.exports = [
   require.resolve(`babel-preset-minify`),
   {

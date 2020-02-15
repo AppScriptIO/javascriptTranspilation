@@ -93,49 +93,19 @@ module.exports.transformNamedModuleToPath = function() {
           const packageDir = resolvedPackage.substring(0, resolvedPackage.length - 'package.json'.length)
           resolvedPath = `${packageDir}${pathToAppend}`
         } else {
+          console.log(pathToResolve, lookupDirectory, moduleDirectory)
           resolvedPath = resolveModule.sync(pathToResolve, { basedir: lookupDirectory, moduleDirectory })
         }
 
         // create relative path for browser consumption
-        let relativePathFromImporter = _path.relative(importer, resolvedPath)
+        let relativePathFromImporter = `./${_path.relative(_path.dirname(importer) /*relative to folder*/, resolvedPath)}`
 
         // console.log(`importee: ${importee}`)
         // console.log(`importer: ${importer}`)
-        // console.log(`resolvedPath: ${source.value}`)
+        // console.log(`resolvedPath: ${resolvedPath}`)
         // console.log(`relativePathFromImporter: ${relativePathFromImporter}`)
         // console.log('\n')
         source.value = relativePathFromImporter
-      },
-    },
-  }
-}
-
-/**
- * Babel transform plugin that minifies template literals tagged with "html"
- */
-module.exports.minifyHtmlTemplateLiterals = function() {
-  // doesn't work, >> ERROR { Error: AST root must be a Program or File node // i.e. partial ast isn't wrapped in an ast program.
-  return {
-    visitor: {
-      TaggedTemplateExpression(path) {
-        let tagName = path.node.tag.name
-        if (!(tagName == 'html')) return
-        path.node.quasi.expressions
-        let templateLiteral = path.node.quasi
-        let expression = templateLiteral.expressions
-        if (expression) {
-          for (let index in expression) {
-            let code = babel.transformFromAst({
-              type: 'File',
-              program: {
-                type: 'Program',
-                sourceType: 'module',
-                body: [expression[index]],
-              },
-            })
-            console.log(code)
-          }
-        }
       },
     },
   }

@@ -1,7 +1,8 @@
-import path from 'path'
-import { transformNamedModuleToPath, minifyHtmlTemplateLiterals } from '../utility/transformPlugin.babel.js'
-import babelPresetMinifyConfig from './babelPresetMinifyModuleConfig.preset.js'
+const path = require('path')
+const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../utility/transformPlugin.babel.js')
+const babelPresetMinifyConfig = require('./babelPresetMinifyModuleConfig.preset.js')
 
+// TODO: use `https://www.npmjs.com/package/minify-html-literals` to minify javascript template literals e.g. let x = html`<tag>  </tag>`
 module.exports = {
   babelConfig: {
     presets: [babelPresetMinifyConfig],
