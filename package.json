@@ -43,16 +43,19 @@
 		"@dependency/handleJSNativeDataStructure": "https://github.com/AppScriptIO/handleJSNativeDataStructure#semver:^2.x.x",
 		"@dependency/handleModuleSystem": "https://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
 		"@deployment/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^2.x.x",
+		"@rollup/plugin-node-resolve": "^7.1.1",
 		"babel-core": "^7.0.0-bridge",
 		"babel-minify": "*",
 		"babel-plugin-dynamic-import-node": "*",
 		"babel-plugin-macros": "*",
+		"babel-plugin-module-resolver": "^4.0.0",
 		"babel-plugin-parameter-decorator": "^1.0.7",
 		"babel-plugin-transform-commonjs-es2015-modules": "*",
 		"babel-plugin-transform-custom-element-classes": "*",
 		"babel-preset-minify": "*",
 		"clone-deep": "^4.0.1",
-		"pirates": "^4.0.1"
+		"pirates": "^4.0.1",
+		"resolve": "^1.15.1"
 	},
 	"devDependencies": {
 		"@deployment/deploymentScript": "https://github.com/AppScriptIO/deploymentScript#semver:^2.x.x",

@@ -1,5 +1,5 @@
 const path = require('path')
-const { script } = require('./script.config.js')
+const script = require('./script.config.js')
 
 const ownConfig = {
   directory: {
@@ -18,7 +18,7 @@ const ownConfig = {
     },
   },
   get script() {
-    return [...script, ...[{ type: 'directory', path: ownConfig.directory.script }]]
+    return [...script(), ...[{ type: 'directory', path: ownConfig.directory.script }]]
   },
   entrypoint: {
     programmaticAPI: './script.js',
