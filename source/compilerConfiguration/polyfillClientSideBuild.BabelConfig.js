@@ -1,43 +1,33 @@
-const path = require('path')
-const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../utility/transformPlugin.babel.js')
-const babelPresetMinifyConfig = require('./babelPresetMinifyModuleConfig.preset.js')
+"use strict";const path = require('path');
+const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../utility/transformPlugin.babel.js');
+const babelPresetMinifyConfig = require('./babelPresetMinifyModuleConfig.preset.js');
 
 module.exports = {
   babelConfig: {
-    // TODO: fix polyfill - add polyfill for native import, es2015 currently causes errors, etc.
-    presets: [
-      [
-        require.resolve(`@babel/preset-env`), // https://babeljs.io/docs/en/usage  // https://babeljs.io/docs/en/babel-preset-env
-        {
-          targets: {
-            chrome: '49',
-            opera: '36',
-            ie: '11',
-            edge: '15',
-            firefox: '51',
-            safari: '10',
-          },
-          // useBuiltIns: 'usage',
-        },
-      ],
-      babelPresetMinifyConfig,
-      // require.resolve(`@babel/preset-stage-0`),
-    ],
-    plugins: [
-      require.resolve(`@babel/plugin-syntax-dynamic-import`),
-      require.resolve(`@babel/plugin-syntax-import-meta`),
-      // require.resolve(`@babel/plugin-syntax-decorators`),
-      [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // https://github.com/babel/babel/issues/7786
-      [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }],
-      transformNamedModuleToPath,
-      // minifyHtmlTemplateLiterals // TODO: transform tagged template literals in js files (minify).
-    ],
-  },
-}
 
-// https://github.com/open-wc/open-wc/blob/master/packages/es-dev-server/src/utils/babel-transform.js
-// require.resolve('@babel/plugin-proposal-dynamic-import'),
-// require.resolve('@babel/plugin-transform-modules-systemjs'),
-// // systemjs adds template literals, we do systemjs after (potential)
-// // es5 compilation so we need to ensure it stays es5
-// require.resolve('@babel/plugin-transform-template-literals'),
+    presets: [
+    [
+    require.resolve(`@babel/preset-env`),
+    {
+      targets: {
+        chrome: '49',
+        opera: '36',
+        ie: '11',
+        edge: '15',
+        firefox: '51',
+        safari: '10' } }],
+
+
+
+
+    babelPresetMinifyConfig],
+
+
+    plugins: [
+    require.resolve(`@babel/plugin-syntax-dynamic-import`),
+    require.resolve(`@babel/plugin-syntax-import-meta`),
+
+    [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }],
+    [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }],
+    transformNamedModuleToPath] } };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vcG9seWZpbGxDbGllbnRTaWRlQnVpbGQuQmFiZWxDb25maWcuanMiXSwibmFtZXMiOlsicGF0aCIsInJlcXVpcmUiLCJ0cmFuc2Zvcm1OYW1lZE1vZHVsZVRvUGF0aCIsIm1pbmlmeUh0bWxUZW1wbGF0ZUxpdGVyYWxzIiwiYmFiZWxQcmVzZXRNaW5pZnlDb25maWciLCJtb2R1bGUiLCJleHBvcnRzIiwiYmFiZWxDb25maWciLCJwcmVzZXRzIiwicmVzb2x2ZSIsInRhcmdldHMiLCJjaHJvbWUiLCJvcGVyYSIsImllIiwiZWRnZSIsImZpcmVmb3giLCJzYWZhcmkiLCJwbHVnaW5zIiwibGVnYWN5IiwibG9vc2UiXSwibWFwcGluZ3MiOiJhQUFBLE1BQU1BLElBQUksR0FBR0MsT0FBTyxDQUFDLE1BQUQsQ0FBcEI7QUFDQSxNQUFNLEVBQUVDLDBCQUFGLEVBQThCQywwQkFBOUIsS0FBNkRGLE9BQU8sQ0FBQyxxQ0FBRCxDQUExRTtBQUNBLE1BQU1HLHVCQUF1QixHQUFHSCxPQUFPLENBQUMsMkNBQUQsQ0FBdkM7O0FBRUFJLE1BQU0sQ0FBQ0MsT0FBUCxHQUFpQjtBQUNmQyxFQUFBQSxXQUFXLEVBQUU7O0FBRVhDLElBQUFBLE9BQU8sRUFBRTtBQUNQO0FBQ0VQLElBQUFBLE9BQU8sQ0FBQ1EsT0FBUixDQUFpQixtQkFBakIsQ0FERjtBQUVFO0FBQ0VDLE1BQUFBLE9BQU8sRUFBRTtBQUNQQyxRQUFBQSxNQUFNLEVBQUUsSUFERDtBQUVQQyxRQUFBQSxLQUFLLEVBQUUsSUFGQTtBQUdQQyxRQUFBQSxFQUFFLEVBQUUsSUFIRztBQUlQQyxRQUFBQSxJQUFJLEVBQUUsSUFKQztBQUtQQyxRQUFBQSxPQUFPLEVBQUUsSUFMRjtBQU1QQyxRQUFBQSxNQUFNLEVBQUUsSUFORCxFQURYLEVBRkYsQ0FETzs7Ozs7QUFlUFosSUFBQUEsdUJBZk8sQ0FGRTs7O0FBb0JYYSxJQUFBQSxPQUFPLEVBQUU7QUFDUGhCLElBQUFBLE9BQU8sQ0FBQ1EsT0FBUixDQUFpQixxQ0FBakIsQ0FETztBQUVQUixJQUFBQSxPQUFPLENBQUNRLE9BQVIsQ0FBaUIsa0NBQWpCLENBRk87O0FBSVAsS0FBQ1IsT0FBTyxDQUFDUSxPQUFSLENBQWlCLG1DQUFqQixDQUFELEVBQXVELEVBQUVTLE1BQU0sRUFBRSxJQUFWLEVBQXZELENBSk87QUFLUCxLQUFDakIsT0FBTyxDQUFDUSxPQUFSLENBQWlCLHlDQUFqQixDQUFELEVBQTZELEVBQUVVLEtBQUssRUFBRSxJQUFULEVBQTdELENBTE87QUFNUGpCLElBQUFBLDBCQU5PLENBcEJFLEVBREUsRUFBakIiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpXG5jb25zdCB7IHRyYW5zZm9ybU5hbWVkTW9kdWxlVG9QYXRoLCBtaW5pZnlIdG1sVGVtcGxhdGVMaXRlcmFscyB9ID0gcmVxdWlyZSgnLi4vdXRpbGl0eS90cmFuc2Zvcm1QbHVnaW4uYmFiZWwuanMnKVxuY29uc3QgYmFiZWxQcmVzZXRNaW5pZnlDb25maWcgPSByZXF1aXJlKCcuL2JhYmVsUHJlc2V0TWluaWZ5TW9kdWxlQ29uZmlnLnByZXNldC5qcycpXG5cbm1vZHVsZS5leHBvcnRzID0ge1xuICBiYWJlbENvbmZpZzoge1xuICAgIC8vIFRPRE86IGZpeCBwb2x5ZmlsbCAtIGFkZCBwb2x5ZmlsbCBmb3IgbmF0aXZlIGltcG9ydCwgZXMyMDE1IGN1cnJlbnRseSBjYXVzZXMgZXJyb3JzLCBldGMuXG4gICAgcHJlc2V0czogW1xuICAgICAgW1xuICAgICAgICByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wcmVzZXQtZW52YCksIC8vIGh0dHBzOi8vYmFiZWxqcy5pby9kb2NzL2VuL3VzYWdlICAvLyBodHRwczovL2JhYmVsanMuaW8vZG9jcy9lbi9iYWJlbC1wcmVzZXQtZW52XG4gICAgICAgIHtcbiAgICAgICAgICB0YXJnZXRzOiB7XG4gICAgICAgICAgICBjaHJvbWU6ICc0OScsXG4gICAgICAgICAgICBvcGVyYTogJzM2JyxcbiAgICAgICAgICAgIGllOiAnMTEnLFxuICAgICAgICAgICAgZWRnZTogJzE1JyxcbiAgICAgICAgICAgIGZpcmVmb3g6ICc1MScsXG4gICAgICAgICAgICBzYWZhcmk6ICcxMCcsXG4gICAgICAgICAgfSxcbiAgICAgICAgICAvLyB1c2VCdWlsdEluczogJ3VzYWdlJyxcbiAgICAgICAgfSxcbiAgICAgIF0sXG4gICAgICBiYWJlbFByZXNldE1pbmlmeUNvbmZpZyxcbiAgICAgIC8vIHJlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3ByZXNldC1zdGFnZS0wYCksXG4gICAgXSxcbiAgICBwbHVnaW5zOiBbXG4gICAgICByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWR5bmFtaWMtaW1wb3J0YCksXG4gICAgICByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWltcG9ydC1tZXRhYCksXG4gICAgICAvLyByZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tc3ludGF4LWRlY29yYXRvcnNgKSxcbiAgICAgIFtyZXF1aXJlLnJlc29sdmUoYEBiYWJlbC9wbHVnaW4tcHJvcG9zYWwtZGVjb3JhdG9yc2ApLCB7IGxlZ2FjeTogdHJ1ZSB9XSwgLy8gaHR0cHM6Ly9naXRodWIuY29tL2JhYmVsL2JhYmVsL2lzc3Vlcy83Nzg2XG4gICAgICBbcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLWNsYXNzLXByb3BlcnRpZXNgKSwgeyBsb29zZTogdHJ1ZSB9XSxcbiAgICAgIHRyYW5zZm9ybU5hbWVkTW9kdWxlVG9QYXRoLFxuICAgICAgLy8gbWluaWZ5SHRtbFRlbXBsYXRlTGl0ZXJhbHMgLy8gVE9ETzogdHJhbnNmb3JtIHRhZ2dlZCB0ZW1wbGF0ZSBsaXRlcmFscyBpbiBqcyBmaWxlcyAobWluaWZ5KS5cbiAgICBdLFxuICB9LFxufVxuXG4vLyBodHRwczovL2dpdGh1Yi5jb20vb3Blbi13Yy9vcGVuLXdjL2Jsb2IvbWFzdGVyL3BhY2thZ2VzL2VzLWRldi1zZXJ2ZXIvc3JjL3V0aWxzL2JhYmVsLXRyYW5zZm9ybS5qc1xuLy8gcmVxdWlyZS5yZXNvbHZlKCdAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLWR5bmFtaWMtaW1wb3J0JyksXG4vLyByZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tdHJhbnNmb3JtLW1vZHVsZXMtc3lzdGVtanMnKSxcbi8vIC8vIHN5c3RlbWpzIGFkZHMgdGVtcGxhdGUgbGl0ZXJhbHMsIHdlIGRvIHN5c3RlbWpzIGFmdGVyIChwb3RlbnRpYWwpXG4vLyAvLyBlczUgY29tcGlsYXRpb24gc28gd2UgbmVlZCB0byBlbnN1cmUgaXQgc3RheXMgZXM1XG4vLyByZXF1aXJlLnJlc29sdmUoJ0BiYWJlbC9wbHVnaW4tdHJhbnNmb3JtLXRlbXBsYXRlLWxpdGVyYWxzJyksXG4iXX0=

@@ -1,25 +1,26 @@
-const path = require('path')
+"use strict";const path = require('path');
 
-/**
- * Example:
- * basePath = `/x/y/`
- * targetPath = `/x/y/z/t.js`
- * --> `/z/t.js`
- */
+
+
+
+
+
+
 function removeMatchingStringFromBeginning({ basePath, targetPath }) {
-  let filenameArray = targetPath.split(path.sep).filter(n => n)
-  let rootPathArray = basePath.split(path.sep).filter(n => n)
+  let filenameArray = targetPath.split(path.sep).filter(n => n);
+  let rootPathArray = basePath.split(path.sep).filter(n => n);
   let beginningMatch = true,
-    index = 0
+  index = 0;
   while (beginningMatch && filenameArray.length >= index && rootPathArray.length >= index) {
-    if (filenameArray[index] == rootPathArray[index]) filenameArray[index] = null
-    else beginningMatch = false
-    index++
+    if (filenameArray[index] == rootPathArray[index]) filenameArray[index] = null;else
+    beginningMatch = false;
+    index++;
   }
-  
-  filenameArray = filenameArray.filter(_ => Boolean(_)) // filter null
-  
-  return filenameArray.join(path.sep)
+
+  filenameArray = filenameArray.filter(_ => Boolean(_));
+
+  return filenameArray.join(path.sep);
 }
 
-module.exports = { removeMatchingStringFromBeginning }
+module.exports = { removeMatchingStringFromBeginning };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS91dGlsaXR5L3JlbW92ZU1hdGNoaW5nU3RyaW5nRnJvbUJlZ2lubmluZy5qcyJdLCJuYW1lcyI6WyJwYXRoIiwicmVxdWlyZSIsInJlbW92ZU1hdGNoaW5nU3RyaW5nRnJvbUJlZ2lubmluZyIsImJhc2VQYXRoIiwidGFyZ2V0UGF0aCIsImZpbGVuYW1lQXJyYXkiLCJzcGxpdCIsInNlcCIsImZpbHRlciIsIm4iLCJyb290UGF0aEFycmF5IiwiYmVnaW5uaW5nTWF0Y2giLCJpbmRleCIsImxlbmd0aCIsIl8iLCJCb29sZWFuIiwiam9pbiIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJhQUFBLE1BQU1BLElBQUksR0FBR0MsT0FBTyxDQUFDLE1BQUQsQ0FBcEI7Ozs7Ozs7O0FBUUEsU0FBU0MsaUNBQVQsQ0FBMkMsRUFBRUMsUUFBRixFQUFZQyxVQUFaLEVBQTNDLEVBQXFFO0FBQ25FLE1BQUlDLGFBQWEsR0FBR0QsVUFBVSxDQUFDRSxLQUFYLENBQWlCTixJQUFJLENBQUNPLEdBQXRCLEVBQTJCQyxNQUEzQixDQUFrQ0MsQ0FBQyxJQUFJQSxDQUF2QyxDQUFwQjtBQUNBLE1BQUlDLGFBQWEsR0FBR1AsUUFBUSxDQUFDRyxLQUFULENBQWVOLElBQUksQ0FBQ08sR0FBcEIsRUFBeUJDLE1BQXpCLENBQWdDQyxDQUFDLElBQUlBLENBQXJDLENBQXBCO0FBQ0EsTUFBSUUsY0FBYyxHQUFHLElBQXJCO0FBQ0VDLEVBQUFBLEtBQUssR0FBRyxDQURWO0FBRUEsU0FBT0QsY0FBYyxJQUFJTixhQUFhLENBQUNRLE1BQWQsSUFBd0JELEtBQTFDLElBQW1ERixhQUFhLENBQUNHLE1BQWQsSUFBd0JELEtBQWxGLEVBQXlGO0FBQ3ZGLFFBQUlQLGFBQWEsQ0FBQ08sS0FBRCxDQUFiLElBQXdCRixhQUFhLENBQUNFLEtBQUQsQ0FBekMsRUFBa0RQLGFBQWEsQ0FBQ08sS0FBRCxDQUFiLEdBQXVCLElBQXZCLENBQWxEO0FBQ0tELElBQUFBLGNBQWMsR0FBRyxLQUFqQjtBQUNMQyxJQUFBQSxLQUFLO0FBQ047O0FBRURQLEVBQUFBLGFBQWEsR0FBR0EsYUFBYSxDQUFDRyxNQUFkLENBQXFCTSxDQUFDLElBQUlDLE9BQU8sQ0FBQ0QsQ0FBRCxDQUFqQyxDQUFoQjs7QUFFQSxTQUFPVCxhQUFhLENBQUNXLElBQWQsQ0FBbUJoQixJQUFJLENBQUNPLEdBQXhCLENBQVA7QUFDRDs7QUFFRFUsTUFBTSxDQUFDQyxPQUFQLEdBQWlCLEVBQUVoQixpQ0FBRixFQUFqQiIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHBhdGggPSByZXF1aXJlKCdwYXRoJylcblxuLyoqXG4gKiBFeGFtcGxlOlxuICogYmFzZVBhdGggPSBgL3gveS9gXG4gKiB0YXJnZXRQYXRoID0gYC94L3kvei90LmpzYFxuICogLS0+IGAvei90LmpzYFxuICovXG5mdW5jdGlvbiByZW1vdmVNYXRjaGluZ1N0cmluZ0Zyb21CZWdpbm5pbmcoeyBiYXNlUGF0aCwgdGFyZ2V0UGF0aCB9KSB7XG4gIGxldCBmaWxlbmFtZUFycmF5ID0gdGFyZ2V0UGF0aC5zcGxpdChwYXRoLnNlcCkuZmlsdGVyKG4gPT4gbilcbiAgbGV0IHJvb3RQYXRoQXJyYXkgPSBiYXNlUGF0aC5zcGxpdChwYXRoLnNlcCkuZmlsdGVyKG4gPT4gbilcbiAgbGV0IGJlZ2lubmluZ01hdGNoID0gdHJ1ZSxcbiAgICBpbmRleCA9IDBcbiAgd2hpbGUgKGJlZ2lubmluZ01hdGNoICYmIGZpbGVuYW1lQXJyYXkubGVuZ3RoID49IGluZGV4ICYmIHJvb3RQYXRoQXJyYXkubGVuZ3RoID49IGluZGV4KSB7XG4gICAgaWYgKGZpbGVuYW1lQXJyYXlbaW5kZXhdID09IHJvb3RQYXRoQXJyYXlbaW5kZXhdKSBmaWxlbmFtZUFycmF5W2luZGV4XSA9IG51bGxcbiAgICBlbHNlIGJlZ2lubmluZ01hdGNoID0gZmFsc2VcbiAgICBpbmRleCsrXG4gIH1cbiAgXG4gIGZpbGVuYW1lQXJyYXkgPSBmaWxlbmFtZUFycmF5LmZpbHRlcihfID0+IEJvb2xlYW4oXykpIC8vIGZpbHRlciBudWxsXG4gIFxuICByZXR1cm4gZmlsZW5hbWVBcnJheS5qb2luKHBhdGguc2VwKVxufVxuXG5tb2R1bGUuZXhwb3J0cyA9IHsgcmVtb3ZlTWF0Y2hpbmdTdHJpbmdGcm9tQmVnaW5uaW5nIH1cbiJdfQ==
