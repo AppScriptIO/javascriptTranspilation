@@ -93,7 +93,15 @@ module.exports.transformNamedModuleToPath = function() {
           const packageDir = resolvedPackage.substring(0, resolvedPackage.length - 'package.json'.length)
           resolvedPath = `${packageDir}${pathToAppend}`
         } else {
-          resolvedPath = resolveModule.sync(pathToResolve, { basedir: lookupDirectory, moduleDirectory })
+          resolvedPath = resolveModule.sync(pathToResolve, {
+            basedir: lookupDirectory,
+            moduleDirectory,
+            // use "module" field instead of "main" field when present
+            packageFilter: package => {
+              if (package.module) package.main = package.module
+              return package
+            },
+          })
         }
 
         // create relative path for browser consumption
