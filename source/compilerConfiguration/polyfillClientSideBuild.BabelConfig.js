@@ -1,5 +1,5 @@
 const path = require('path')
-const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../utility/transformPlugin.babel.js')
+const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../transformPlugin.babel.js')
 const babelPresetMinifyConfig = require('./babelPresetMinifyModuleConfig.preset.js')
 
 module.exports = {
