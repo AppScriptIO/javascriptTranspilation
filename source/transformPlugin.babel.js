@@ -97,9 +97,9 @@ module.exports.transformNamedModuleToPath = function() {
             basedir: lookupDirectory,
             moduleDirectory,
             // use "module" field instead of "main" field when present
-            packageFilter: package => {
-              if (package.module) package.main = package.module
-              return package
+            packageFilter: packageConfig => {
+              if (packageConfig.module) packageConfig.main = packageConfig.module
+              return packageConfig
             },
           })
         }
