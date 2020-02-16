@@ -1,26 +1,27 @@
-// Compiler configuration includes `babel transform` options & `@babel/register` configuration.
+"use strict";
 function getCompilerConfig(configKey) {
-  return require(`./compilerConfiguration/${configKey}`) // load configuration equivalent to .babelrc options
+  return require(`./compilerConfiguration/${configKey}`);
 }
 
-// export babel configuratio sets as well
+
 function getBabelConfig(babelConfigFilename, { configType = 'json' } = {}) {
-  const jsonConfig = require(`./compilerConfiguration/${babelConfigFilename}`)
+  const jsonConfig = require(`./compilerConfiguration/${babelConfigFilename}`);
   switch (configType) {
     case 'functionApi':
       return api => {
-        api.cache.forever()
-        return jsonConfig.babelConfig
-      }
-      break
+        api.cache.forever();
+        return jsonConfig.babelConfig;
+      };
+      break;
     case 'json':
     default:
-      return jsonConfig.babelConfig
-      break
-  }
-  return
+      return jsonConfig.babelConfig;
+      break;}
+
+  return;
 }
 
-const defaultRequireHookConfig = require('./compilerConfiguration/requireHookConfig.js')
+const defaultRequireHookConfig = require('./compilerConfiguration/requireHookConfig.js');
 
-module.exports = { getBabelConfig, getCompilerConfig, defaultRequireHookConfig: defaultRequireHookConfig() }
+module.exports = { getBabelConfig, getCompilerConfig, defaultRequireHookConfig: defaultRequireHookConfig() };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS9nZXRDb25maWcuanMiXSwibmFtZXMiOlsiZ2V0Q29tcGlsZXJDb25maWciLCJjb25maWdLZXkiLCJyZXF1aXJlIiwiZ2V0QmFiZWxDb25maWciLCJiYWJlbENvbmZpZ0ZpbGVuYW1lIiwiY29uZmlnVHlwZSIsImpzb25Db25maWciLCJhcGkiLCJjYWNoZSIsImZvcmV2ZXIiLCJiYWJlbENvbmZpZyIsImRlZmF1bHRSZXF1aXJlSG9va0NvbmZpZyIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiI7QUFDQSxTQUFTQSxpQkFBVCxDQUEyQkMsU0FBM0IsRUFBc0M7QUFDcEMsU0FBT0MsT0FBTyxDQUFFLDJCQUEwQkQsU0FBVSxFQUF0QyxDQUFkO0FBQ0Q7OztBQUdELFNBQVNFLGNBQVQsQ0FBd0JDLG1CQUF4QixFQUE2QyxFQUFFQyxVQUFVLEdBQUcsTUFBZixLQUEwQixFQUF2RSxFQUEyRTtBQUN6RSxRQUFNQyxVQUFVLEdBQUdKLE9BQU8sQ0FBRSwyQkFBMEJFLG1CQUFvQixFQUFoRCxDQUExQjtBQUNBLFVBQVFDLFVBQVI7QUFDRSxTQUFLLGFBQUw7QUFDRSxhQUFPRSxHQUFHLElBQUk7QUFDWkEsUUFBQUEsR0FBRyxDQUFDQyxLQUFKLENBQVVDLE9BQVY7QUFDQSxlQUFPSCxVQUFVLENBQUNJLFdBQWxCO0FBQ0QsT0FIRDtBQUlBO0FBQ0YsU0FBSyxNQUFMO0FBQ0E7QUFDRSxhQUFPSixVQUFVLENBQUNJLFdBQWxCO0FBQ0EsWUFWSjs7QUFZQTtBQUNEOztBQUVELE1BQU1DLHdCQUF3QixHQUFHVCxPQUFPLENBQUMsOENBQUQsQ0FBeEM7O0FBRUFVLE1BQU0sQ0FBQ0MsT0FBUCxHQUFpQixFQUFFVixjQUFGLEVBQWtCSCxpQkFBbEIsRUFBcUNXLHdCQUF3QixFQUFFQSx3QkFBd0IsRUFBdkYsRUFBakIiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBDb21waWxlciBjb25maWd1cmF0aW9uIGluY2x1ZGVzIGBiYWJlbCB0cmFuc2Zvcm1gIG9wdGlvbnMgJiBgQGJhYmVsL3JlZ2lzdGVyYCBjb25maWd1cmF0aW9uLlxuZnVuY3Rpb24gZ2V0Q29tcGlsZXJDb25maWcoY29uZmlnS2V5KSB7XG4gIHJldHVybiByZXF1aXJlKGAuL2NvbXBpbGVyQ29uZmlndXJhdGlvbi8ke2NvbmZpZ0tleX1gKSAvLyBsb2FkIGNvbmZpZ3VyYXRpb24gZXF1aXZhbGVudCB0byAuYmFiZWxyYyBvcHRpb25zXG59XG5cbi8vIGV4cG9ydCBiYWJlbCBjb25maWd1cmF0aW8gc2V0cyBhcyB3ZWxsXG5mdW5jdGlvbiBnZXRCYWJlbENvbmZpZyhiYWJlbENvbmZpZ0ZpbGVuYW1lLCB7IGNvbmZpZ1R5cGUgPSAnanNvbicgfSA9IHt9KSB7XG4gIGNvbnN0IGpzb25Db25maWcgPSByZXF1aXJlKGAuL2NvbXBpbGVyQ29uZmlndXJhdGlvbi8ke2JhYmVsQ29uZmlnRmlsZW5hbWV9YClcbiAgc3dpdGNoIChjb25maWdUeXBlKSB7XG4gICAgY2FzZSAnZnVuY3Rpb25BcGknOlxuICAgICAgcmV0dXJuIGFwaSA9PiB7XG4gICAgICAgIGFwaS5jYWNoZS5mb3JldmVyKClcbiAgICAgICAgcmV0dXJuIGpzb25Db25maWcuYmFiZWxDb25maWdcbiAgICAgIH1cbiAgICAgIGJyZWFrXG4gICAgY2FzZSAnanNvbic6XG4gICAgZGVmYXVsdDpcbiAgICAgIHJldHVybiBqc29uQ29uZmlnLmJhYmVsQ29uZmlnXG4gICAgICBicmVha1xuICB9XG4gIHJldHVyblxufVxuXG5jb25zdCBkZWZhdWx0UmVxdWlyZUhvb2tDb25maWcgPSByZXF1aXJlKCcuL2NvbXBpbGVyQ29uZmlndXJhdGlvbi9yZXF1aXJlSG9va0NvbmZpZy5qcycpXG5cbm1vZHVsZS5leHBvcnRzID0geyBnZXRCYWJlbENvbmZpZywgZ2V0Q29tcGlsZXJDb25maWcsIGRlZmF1bHRSZXF1aXJlSG9va0NvbmZpZzogZGVmYXVsdFJlcXVpcmVIb29rQ29uZmlnKCkgfVxuIl19

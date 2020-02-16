@@ -1,24 +1,18 @@
-const path = require('path')
-const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../transformPlugin.babel.js')
-const babelPresetMinifyConfig = require('./babelPresetMinifyModuleConfig.preset.js')
+"use strict";const path = require('path');
+const { transformNamedModuleToPath, minifyHtmlTemplateLiterals } = require('../transformPlugin.babel.js');
+const babelPresetMinifyConfig = require('./babelPresetMinifyModuleConfig.preset.js');
 
-// TODO: use `https://www.npmjs.com/package/minify-html-literals` to minify javascript template literals e.g. let x = html`<tag>  </tag>`
+
 module.exports = {
   babelConfig: {
     presets: [babelPresetMinifyConfig],
     plugins: [
-      /* Syntax */
-      require.resolve(`@babel/plugin-syntax-dynamic-import`),
-      require.resolve(`@babel/plugin-syntax-import-meta`),
-      // require.resolve(`@babel/plugin-syntax-decorators`),
-      /* Transform */
-      [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }], // https://github.com/babel/babel/issues/7786
-      [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }],
-      transformNamedModuleToPath,
-      // minifyHtmlTemplateLiterals // TODO: transform tagged template literals in js files (minify).
 
-      // test transforming commonjs clientside library to native es modules (adding exports and removing encapsulating scope.)
-      // require.resolve(`babel-plugin-transform-commonjs-es2015-modules`),
-    ],
-  },
-}
+    require.resolve(`@babel/plugin-syntax-dynamic-import`),
+    require.resolve(`@babel/plugin-syntax-import-meta`),
+
+
+    [require.resolve(`@babel/plugin-proposal-decorators`), { legacy: true }],
+    [require.resolve(`@babel/plugin-proposal-class-properties`), { loose: true }],
+    transformNamedModuleToPath] } };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb21waWxlckNvbmZpZ3VyYXRpb24vbmF0aXZlQ2xpZW50U2lkZUJ1aWxkLkJhYmVsQ29uZmlnLmpzIl0sIm5hbWVzIjpbInBhdGgiLCJyZXF1aXJlIiwidHJhbnNmb3JtTmFtZWRNb2R1bGVUb1BhdGgiLCJtaW5pZnlIdG1sVGVtcGxhdGVMaXRlcmFscyIsImJhYmVsUHJlc2V0TWluaWZ5Q29uZmlnIiwibW9kdWxlIiwiZXhwb3J0cyIsImJhYmVsQ29uZmlnIiwicHJlc2V0cyIsInBsdWdpbnMiLCJyZXNvbHZlIiwibGVnYWN5IiwibG9vc2UiXSwibWFwcGluZ3MiOiJhQUFBLE1BQU1BLElBQUksR0FBR0MsT0FBTyxDQUFDLE1BQUQsQ0FBcEI7QUFDQSxNQUFNLEVBQUVDLDBCQUFGLEVBQThCQywwQkFBOUIsS0FBNkRGLE9BQU8sQ0FBQyw2QkFBRCxDQUExRTtBQUNBLE1BQU1HLHVCQUF1QixHQUFHSCxPQUFPLENBQUMsMkNBQUQsQ0FBdkM7OztBQUdBSSxNQUFNLENBQUNDLE9BQVAsR0FBaUI7QUFDZkMsRUFBQUEsV0FBVyxFQUFFO0FBQ1hDLElBQUFBLE9BQU8sRUFBRSxDQUFDSix1QkFBRCxDQURFO0FBRVhLLElBQUFBLE9BQU8sRUFBRTs7QUFFUFIsSUFBQUEsT0FBTyxDQUFDUyxPQUFSLENBQWlCLHFDQUFqQixDQUZPO0FBR1BULElBQUFBLE9BQU8sQ0FBQ1MsT0FBUixDQUFpQixrQ0FBakIsQ0FITzs7O0FBTVAsS0FBQ1QsT0FBTyxDQUFDUyxPQUFSLENBQWlCLG1DQUFqQixDQUFELEVBQXVELEVBQUVDLE1BQU0sRUFBRSxJQUFWLEVBQXZELENBTk87QUFPUCxLQUFDVixPQUFPLENBQUNTLE9BQVIsQ0FBaUIseUNBQWpCLENBQUQsRUFBNkQsRUFBRUUsS0FBSyxFQUFFLElBQVQsRUFBN0QsQ0FQTztBQVFQVixJQUFBQSwwQkFSTyxDQUZFLEVBREUsRUFBakIiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBwYXRoID0gcmVxdWlyZSgncGF0aCcpXG5jb25zdCB7IHRyYW5zZm9ybU5hbWVkTW9kdWxlVG9QYXRoLCBtaW5pZnlIdG1sVGVtcGxhdGVMaXRlcmFscyB9ID0gcmVxdWlyZSgnLi4vdHJhbnNmb3JtUGx1Z2luLmJhYmVsLmpzJylcbmNvbnN0IGJhYmVsUHJlc2V0TWluaWZ5Q29uZmlnID0gcmVxdWlyZSgnLi9iYWJlbFByZXNldE1pbmlmeU1vZHVsZUNvbmZpZy5wcmVzZXQuanMnKVxuXG4vLyBUT0RPOiB1c2UgYGh0dHBzOi8vd3d3Lm5wbWpzLmNvbS9wYWNrYWdlL21pbmlmeS1odG1sLWxpdGVyYWxzYCB0byBtaW5pZnkgamF2YXNjcmlwdCB0ZW1wbGF0ZSBsaXRlcmFscyBlLmcuIGxldCB4ID0gaHRtbGA8dGFnPiAgPC90YWc+YFxubW9kdWxlLmV4cG9ydHMgPSB7XG4gIGJhYmVsQ29uZmlnOiB7XG4gICAgcHJlc2V0czogW2JhYmVsUHJlc2V0TWluaWZ5Q29uZmlnXSxcbiAgICBwbHVnaW5zOiBbXG4gICAgICAvKiBTeW50YXggKi9cbiAgICAgIHJlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1zeW50YXgtZHluYW1pYy1pbXBvcnRgKSxcbiAgICAgIHJlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1zeW50YXgtaW1wb3J0LW1ldGFgKSxcbiAgICAgIC8vIHJlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1zeW50YXgtZGVjb3JhdG9yc2ApLFxuICAgICAgLyogVHJhbnNmb3JtICovXG4gICAgICBbcmVxdWlyZS5yZXNvbHZlKGBAYmFiZWwvcGx1Z2luLXByb3Bvc2FsLWRlY29yYXRvcnNgKSwgeyBsZWdhY3k6IHRydWUgfV0sIC8vIGh0dHBzOi8vZ2l0aHViLmNvbS9iYWJlbC9iYWJlbC9pc3N1ZXMvNzc4NlxuICAgICAgW3JlcXVpcmUucmVzb2x2ZShgQGJhYmVsL3BsdWdpbi1wcm9wb3NhbC1jbGFzcy1wcm9wZXJ0aWVzYCksIHsgbG9vc2U6IHRydWUgfV0sXG4gICAgICB0cmFuc2Zvcm1OYW1lZE1vZHVsZVRvUGF0aCxcbiAgICAgIC8vIG1pbmlmeUh0bWxUZW1wbGF0ZUxpdGVyYWxzIC8vIFRPRE86IHRyYW5zZm9ybSB0YWdnZWQgdGVtcGxhdGUgbGl0ZXJhbHMgaW4ganMgZmlsZXMgKG1pbmlmeSkuXG5cbiAgICAgIC8vIHRlc3QgdHJhbnNmb3JtaW5nIGNvbW1vbmpzIGNsaWVudHNpZGUgbGlicmFyeSB0byBuYXRpdmUgZXMgbW9kdWxlcyAoYWRkaW5nIGV4cG9ydHMgYW5kIHJlbW92aW5nIGVuY2Fwc3VsYXRpbmcgc2NvcGUuKVxuICAgICAgLy8gcmVxdWlyZS5yZXNvbHZlKGBiYWJlbC1wbHVnaW4tdHJhbnNmb3JtLWNvbW1vbmpzLWVzMjAxNS1tb2R1bGVzYCksXG4gICAgXSxcbiAgfSxcbn1cbiJdfQ==
