@@ -54,7 +54,7 @@ class Compiler extends EventEmitter {
     if (!this.config.plugins && !this.config.presets) {
       this.setTargetProject() // lookup project config
 
-      let transpilationConfig = this.targetProjectConfig.getTranspilation()
+      let transpilationConfig = this.targetProjectConfig.getTranspilation().babelConfig
       assert(transpilationConfig && transpilationConfig.babelConfig, `• Project (${this.targetProjectConfig.rootPath}) configuration must have 'transpilation' & nested 'babelConfig' entries.`)
       Object.assign(this.config, transpilationConfig.babelConfig)
     }
